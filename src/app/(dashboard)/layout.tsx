@@ -1,5 +1,5 @@
 import Logo from "@/components/Logo"
-import ThemeSwitcher from "@/components/ThemeSwitcher"
+import ThemeModeToggle from "@/components/ThemeModeToggle"
 import { UserButton } from "@clerk/nextjs"
 import { ReactNode } from "react"
 
@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: ReactNode }) {
             <nav className="h-16 px-4 py-2 outline flex justify-between items-center">
                 <Logo />
                 <div className="flex gap-5">
-                    <ThemeSwitcher />
+                    <ThemeModeToggle />
                     <UserButton />
                 </div>
             </nav>
