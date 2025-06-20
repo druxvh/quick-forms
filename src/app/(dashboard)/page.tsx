@@ -1,8 +1,14 @@
+import StatsCardsContainer from "@/components/StatsCardsContainer";
+import { getFormStats } from "../../../actions/form";
+import { Suspense } from "react";
 
-export default function Home() {
+export default async function Home() {
+  const stats = await getFormStats()
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <span>hey welcome</span>
+    <div className="w-full h-full px-4">
+      <Suspense fallback={<StatsCardsContainer loading />}>
+        <StatsCardsContainer loading={false} data={stats} />
+      </Suspense>
     </div>
   );
 }
