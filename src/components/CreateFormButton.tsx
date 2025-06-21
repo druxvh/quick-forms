@@ -9,6 +9,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
 import { LoaderCircle } from "lucide-react"
+import { createForm } from "../../actions/form"
+import { toast } from "sonner"
 
 
 export default function CreateFormButton() {
@@ -16,8 +18,20 @@ export default function CreateFormButton() {
         resolver: zodResolver(formSchema)
     })
 
-    function onSubmit(values: formSchemaType) {
-        console.log(values)
+    async function onSubmit(values: formSchemaType) {
+        try {
+            const formId = await createForm(values)
+            toast.success("Form created successfully!", {
+                position: "bottom-center",
+            })
+            console.log("FormId: ", formId)
+
+        } catch (error) {
+            console.log(error)
+            toast.error("Something went wrong, please try again later.", {
+                position: "bottom-center",
+            })
+        }
     }
 
     return (
@@ -41,7 +55,7 @@ export default function CreateFormButton() {
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input {...field} />
+                                        <Input {...field}/>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -63,7 +77,10 @@ export default function CreateFormButton() {
                     </form>
                 </Form>
                 <DialogFooter>
-                    <Button disabled={form.formState.isSubmitting} className="w-full mt-4">
+                    <Button
+                        onClick={form.handleSubmit(onSubmit)}
+                        disabled={form.formState.isSubmitting}
+                        className="w-full mt-4">
                         {form.formState.isSubmitting
                             ?
                             <LoaderCircle className="size-4 animate-spin" />
@@ -76,3 +93,4 @@ export default function CreateFormButton() {
         </Dialog>
     )
 }
+
