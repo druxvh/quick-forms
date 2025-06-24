@@ -15,7 +15,11 @@ import { toast } from "sonner"
 
 export default function CreateFormButton() {
     const form = useForm<formSchemaType>({
-        resolver: zodResolver(formSchema)
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            name: "",
+            description: ""
+        }
     })
 
     async function onSubmit(values: formSchemaType) {
@@ -55,7 +59,7 @@ export default function CreateFormButton() {
                                 <FormItem>
                                     <FormLabel>Name</FormLabel>
                                     <FormControl>
-                                        <Input {...field}/>
+                                        <Input placeholder="What you wanna name this form?" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -68,7 +72,7 @@ export default function CreateFormButton() {
                                 <FormItem>
                                     <FormLabel>Description</FormLabel>
                                     <FormControl>
-                                        <Textarea rows={5} {...field} />
+                                        <Textarea placeholder="Describe what the form is about?" rows={5} {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
