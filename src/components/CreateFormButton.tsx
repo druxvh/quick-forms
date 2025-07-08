@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
-import { LoaderCircle } from "lucide-react"
+import { File, LoaderCircle } from "lucide-react"
 import { createForm } from "../../actions/form"
 import { toast } from "sonner"
 
@@ -41,7 +41,14 @@ export default function CreateFormButton() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Create new form</Button>
+                <Button
+                    variant={"outline"}
+                    className="group h-48 flex flex-col items-center justify-center gap-3 border border-primary/20 border-dashed cursor-pointer">
+                    <File className="size-7 text-muted-foreground group-hover:text-primary" />
+                    <p className="text-base font-semibold text-muted-foreground group-hover:text-primary">
+                        Create new form
+                    </p>
+                </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
