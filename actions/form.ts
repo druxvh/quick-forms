@@ -11,6 +11,7 @@ class UserNotFoundErr extends Error {
     }
 }
 
+// gets form stats of the user
 export async function getFormStats(): Promise<{
     visits: number
     submissions: number
@@ -57,6 +58,7 @@ export async function getFormStats(): Promise<{
     }
 }
 
+// creates form for every unique user
 export async function createForm(data: formSchemaType) {
     const validation = formSchema.safeParse(data)
     if (!validation.success) throw new Error("form not valid")
@@ -66,14 +68,37 @@ export async function createForm(data: formSchemaType) {
 
     const { name, description } = data
 
-    const form = await prisma.form.create({
-        data: {
-            userId: user.id,
-            name,
-            description
-        }
-    })
-    if (!form) throw new Error("Something went wrong")
+    try {
+        const form = await prisma.form.create({
+            data: {
+                userId: user.id,
+                name,
+                description
+            }
+        })
+        if (!form) throw new Error("Something went wrong")
+        return form.id
+    } catch (error) {
+        console.error("Full error:", error);
+        throw error;
+    }
+}
 
-    return form.id
+// gets forms of the user
+export async function getForms() {
+
+    try {
+        const user = await currentUser()
+        if (!user) throw new UserNotFoundErr()
+
+        const forms = await prisma.form.findMany({
+            where: { userId: user.id },
+            orderBy: { createdAt: "desc" },
+        });
+
+        return forms
+    } catch (error) {
+        console.error("Error while fetching the forms...", error);
+        throw error;
+    }
 }
