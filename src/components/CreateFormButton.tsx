@@ -11,9 +11,11 @@ import { Textarea } from "./ui/textarea"
 import { File, LoaderCircle } from "lucide-react"
 import { createForm } from "../../actions/form"
 import { toast } from "sonner"
-
+import { useRouter } from "next/navigation"
 
 export default function CreateFormButton() {
+
+    const router = useRouter()
     const form = useForm<formSchemaType>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -29,6 +31,7 @@ export default function CreateFormButton() {
                 position: "bottom-center",
             })
             console.log("FormId: ", formId)
+            router.push(`/builder/${formId}`)
 
         } catch (error) {
             console.log(error)
