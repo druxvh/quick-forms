@@ -24,10 +24,13 @@ export default async function Home() {
       <Separator className="my-6" />
       <h2 className="text-2xl font-bold ">Your Forms</h2>
       <Separator className="my-6" />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <CreateFormButton />
         <Suspense
-          fallback={[1, 2, 3].map((el) => (<FormCardSkeleton key={el} />))}
+          fallback={[1, 2, 3].map((el) => (
+          <FormCardSkeleton key={el} />
+        )
+      )}
         >
           <FormCards />
         </Suspense>
