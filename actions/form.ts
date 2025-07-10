@@ -102,3 +102,21 @@ export async function getForms() {
         throw error;
     }
 }
+
+// gets form by id
+export async function getFormById(id: number) {
+    try {
+        const user = await currentUser()
+        if (!user) throw new UserNotFoundErr()
+
+        return await prisma.form.findUnique({
+            where: {
+                userId: user.id,
+                id: id
+            }
+        })
+    } catch (error) {
+        console.error("Error while fetching the form by id...", error);
+        throw error;
+    }
+}
