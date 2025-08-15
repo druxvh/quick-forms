@@ -38,7 +38,7 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
     const element = elementInstance as CustomInstance
     const { label, helperText, placeHolder, required } = element.extraAttributes
     return (
-        <div className="flex flex-col gap-2 w-full">
+        <div className="flex flex-col gap-4 w-full">
             <Label>
                 {label}
                 {required && "*"}
