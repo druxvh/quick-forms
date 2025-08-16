@@ -1,13 +1,17 @@
-"use client"
-
-import { FormElements } from "./FormElements"
-import { SidebarBtnElement } from "./SidebarBtnElement"
+import useDesigner from "@/hooks/useDesigner"
+import FormElementsSidebar from "./FormElementsSidebar"
+import FormPropertiesSidebar from "./FormPropertiesSidebar"
 
 export default function DesignerSidebar() {
+    const { selectedElement } = useDesigner()
     return (
         <aside className='w-md max-w-md flex flex-col flex-grow gap-2 border-l-2 border-muted p-4 bg-background overflow-y-auto h-full'>
-            Elements
-            <SidebarBtnElement formElement={FormElements.TextField} />
+            {selectedElement
+                ?
+                <FormPropertiesSidebar />
+                :
+                <FormElementsSidebar />
+            }
         </aside>
     )
 }

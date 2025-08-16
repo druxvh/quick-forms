@@ -11,14 +11,14 @@ import { Button } from "./ui/button"
 import { Trash } from "lucide-react"
 
 export default function Designer() {
-    const { elements, addElement } = useDesigner()
+    const { elements, addElement, selectedElement, setSelectedElement } = useDesigner()
     const droppable = useDroppable({
         id: "designer-drop-area",
         data: {
             isDesignerDropArea: true
         }
     })
-    console.log(elements)
+    // console.log(elements)
     useDndMonitor({
         onDragEnd: (event: DragEndEvent) => {
             const { active, over } = event
@@ -37,7 +37,12 @@ export default function Designer() {
 
     return (
         <div className="flex w-full h-full">
-            <div className="p-4 w-full">
+            <div
+                className="p-4 w-full"
+                onClick={() => {
+                    if (selectedElement) setSelectedElement(null)
+                }}
+            >
                 <div
                     ref={droppable.setNodeRef}
                     className={cn("bg-background outline max-w-3xl h-full m-auto rounded-md flex flex-col flex-grow items-center justify-start flex-1 overflow-y-auto",
@@ -46,7 +51,7 @@ export default function Designer() {
                     {!droppable.isOver && elements.length === 0 &&
                         <p className="text-2xl text-muted-foreground flex flex-grow items-center font-semibold">Drop here</p>
                     }
-                    {droppable.isOver &&
+                    {droppable.isOver && elements.length === 0 &&
                         <div className="p-4 w-full">
                             <div className="h-[120px] rounded-md bg-primary/70">
                             </div>
@@ -69,7 +74,7 @@ export default function Designer() {
 
 
 function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
-    const { removeElement } = useDesigner()
+    const { removeElement, selectedElement, setSelectedElement } = useDesigner()
     const [mouseIsOver, setMouseIsOver] = useState<boolean>(false)
 
     const topHalf = useDroppable({
@@ -98,27 +103,31 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
             isDesignerElement: true
         }
     })
+
+    if (draggable.isDragging) return null;
+
     const DesignerElement = FormElements[element.type].designerComponent
+    // console.log(selectedElement)
 
     return (
         <div
             ref={draggable.setNodeRef}
             {...draggable.listeners}
             {...draggable.attributes}
-            className="relative h-[120px] flex flex-col text-foreground  rounded-md ring-1 ring-accent ring-inset hover:cursor-pointer"
+            className="relative h-fit flex flex-col text-foreground  rounded-md ring-1 ring-accent ring-inset hover:cursor-pointer"
             onMouseEnter={() => setMouseIsOver(true)}
             onMouseLeave={() => setMouseIsOver(false)}
+            onClick={(e) => {
+                e.stopPropagation()
+                setSelectedElement(element)
+            }}
         >
             <div
                 ref={topHalf.setNodeRef}
-                className={cn("absolute w-full h-1/2 rounded-t-md",
-                    topHalf.isOver && "bg-green-500"
-                )}></div>
+                className="absolute w-full h-1/2 rounded-t-md"></div>
             <div
                 ref={bottomHalf.setNodeRef}
-                className={cn("absolute bottom-0 w-full h-1/2 rounded-b-md",
-                    bottomHalf.isOver && "bg-red-600"
-                )}></div>
+                className="absolute bottom-0 w-full h-1/2 rounded-b-md"></div>
 
             {mouseIsOver && (
                 <>
@@ -126,7 +135,10 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
                         <Button
                             className="flex justify-center h-full border rounded-md rounded-l-none text-primary/90 bg-red-500 hover:bg-red-600 cursor-pointer"
                             // variant={"outline"}
-                            onClick={() => { removeElement(element.id) }}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                removeElement(element.id)
+                            }}
                         >
                             <Trash className="size-5" />
                         </Button>
@@ -136,9 +148,15 @@ function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
                     </div>
                 </>
             )}
+            {topHalf.isOver && (
+                <div className="absolute top-0 w-full rounded-md bg-primary rounded-b-none h-[3px]" />
+            )}
+            {bottomHalf.isOver && (
+                <div className="absolute bottom-0 w-full rounded-md bg-primary rounded-t-none h-[3px]" />
+            )}
 
             <div className={cn("flex w-full h-fit items-center rounded-md bg-accent/40 p-4 pointer-events-none",
-                mouseIsOver && "opacity-50 blur-xl"
+                mouseIsOver && "opacity-30"
             )}>
                 <DesignerElement elementInstance={element} />
             </div>
