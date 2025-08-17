@@ -11,26 +11,93 @@ import { Button } from "./ui/button"
 import { Trash } from "lucide-react"
 
 export default function Designer() {
-    const { elements, addElement, selectedElement, setSelectedElement } = useDesigner()
+    const { elements, addElement, removeElement, selectedElement, setSelectedElement } = useDesigner()
     const droppable = useDroppable({
         id: "designer-drop-area",
         data: {
             isDesignerDropArea: true
         }
     })
-    // console.log(elements)
     useDndMonitor({
         onDragEnd: (event: DragEndEvent) => {
+
             const { active, over } = event
             if (!active || !over) return;
 
             const isDesignerBtnElement = active.data?.current?.isDesignerBtnElement
 
-            if (isDesignerBtnElement) {
+            // dropping a sidebar btn element over the designer drop area
+            const isDroppingOverDesignerDropArea = over.data?.current?.isDesignerDropArea
+
+            if (isDesignerBtnElement && isDroppingOverDesignerDropArea) {
                 const type = active.data?.current?.type
                 const newElement = FormElements[type as ElementsType].construct(idGenerator())
-                // console.log(newElement)
-                addElement(0, newElement)
+
+                // add elements in a natural top to bottom flow
+                addElement(elements.length, newElement)
+                return
+            }
+
+            // dropping a sidebar btn element over the designer element
+            const isDroppingOverDesignerElementTopHalf = over.data?.current?.isTopHalfDesignerElement
+            const isDroppingOverDesignerElementBottomHalf = over.data?.current?.isBottomHalfDesignerElement
+
+            const isDroppingOverDesignerElement = isDroppingOverDesignerElementTopHalf || isDroppingOverDesignerElementBottomHalf
+
+            if (isDroppingOverDesignerElement && isDesignerBtnElement) {
+                const type = active.data?.current?.type
+                const newElement = FormElements[type as ElementsType].construct(idGenerator())
+
+                const overId = over.data?.current?.elementId
+
+                const overElementIndex = elements.findIndex((el) => el.id === overId)
+                if (overElementIndex === -1) {
+                    throw new Error("Element Not Found!")
+                }
+
+                // assuming the element is on top
+                let indexForNewElement = overElementIndex
+
+                // if over element's bottom half
+                if (isDroppingOverDesignerElementBottomHalf) {
+                    indexForNewElement = overElementIndex + 1
+                }
+
+                // add element to the designated index
+                addElement(indexForNewElement, newElement)
+                return
+            }
+
+
+            // dragging designer element over other designer elements
+            const isDraggingDesignerElement = active.data?.current?.isDesignerElement
+
+            if (isDroppingOverDesignerElement && isDraggingDesignerElement) {
+                const activeId = active.data?.current?.elementId
+                const overId = over.data?.current?.elementId
+
+                if (activeId === overId) return;
+
+                const activeElementIndex = elements.findIndex((el) => el.id === activeId)
+                const overElementIndex = elements.findIndex((el) => el.id === overId)
+
+                if (activeElementIndex === -1 || overElementIndex === -1) {
+                    throw new Error("Element Not Found!")
+                }
+
+                // assuming the element is on top
+                let indexForNewElement = overElementIndex
+
+                // if over element's bottom half
+                if (isDroppingOverDesignerElementBottomHalf) {
+                    indexForNewElement = overElementIndex + 1
+                }
+
+                const activeElement = { ...elements[activeElementIndex] }
+                removeElement(activeId)
+                // add element to the designated index
+                addElement(indexForNewElement, activeElement)
+
             }
         }
     })
@@ -74,7 +141,7 @@ export default function Designer() {
 
 
 function DesignerElementWrapper({ element }: { element: FormElementInstance }) {
-    const { removeElement, selectedElement, setSelectedElement } = useDesigner()
+    const { removeElement, setSelectedElement } = useDesigner()
     const [mouseIsOver, setMouseIsOver] = useState<boolean>(false)
 
     const topHalf = useDroppable({
