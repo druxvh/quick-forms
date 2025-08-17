@@ -4,6 +4,7 @@ import useDesigner from "@/hooks/useDesigner"
 import { FormElements } from "./FormElements"
 import { Button } from "./ui/button"
 import { X } from "lucide-react"
+import { Separator } from "./ui/separator"
 
 export default function FormPropertiesSidebar() {
     const { selectedElement, setSelectedElement } = useDesigner()
@@ -22,6 +23,7 @@ export default function FormPropertiesSidebar() {
                     <X />
                 </Button>
             </div>
+            <Separator className="mb-4" />
             <FormProperties elementInstance={selectedElement} />
         </div>
     )

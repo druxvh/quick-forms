@@ -3,6 +3,7 @@
 import { SidebarBtnElement } from './SidebarBtnElement'
 import { FormElements } from './FormElements'
 import { Button } from './ui/button'
+import { Separator } from './ui/separator'
 
 export default function FormElementsSidebar() {
   return (
@@ -15,6 +16,7 @@ export default function FormElementsSidebar() {
         >
         </Button>
       </div>
+      <Separator className='mb-4'/>
       <SidebarBtnElement formElement={FormElements.TextField} />
     </div>
   )
