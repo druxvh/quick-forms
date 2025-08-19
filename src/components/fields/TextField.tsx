@@ -94,22 +94,25 @@ function FormPropertiesComponent({ elementInstance }: { elementInstance: FormEle
         form.reset(element.extraAttributes)
     }, [element, form])
 
-    // to live update element values
-    useEffect(() => {
-        const subscription = form.watch((values) => {
-            applyChanges(values as elementPropertiesSchemaType)
-        })
+    // // to live update element values
+    // useEffect(() => {
+    //     const subscription = form.watch((values) => {
+    //         // Only update if values are valid and different from current
+    //         if (form.formState.isDirty) {
+    //             applyChanges(values as elementPropertiesSchemaType)
+    //         }
+    //     })
 
-        return () => {
-            subscription.unsubscribe()
-        }
-    }, [form])
+    //     return () => {
+    //         subscription.unsubscribe()
+    //     }
+    // }, [form, element.id])
 
 
     return (
         <Form {...form}>
             <form
-                // onBlur={form.handleSubmit(applyChanges)}
+                onBlur={form.handleSubmit(applyChanges)}
                 className="space-y-6"
                 onSubmit={(e) => e.preventDefault()}
             >

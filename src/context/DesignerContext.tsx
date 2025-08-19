@@ -32,6 +32,7 @@ export default function DesignerContextProvider({
     }
     const removeElement = (id: string) => {
         setElements((prev) => prev.filter((el) => el.id !== id))
+        return
     }
 
     const updateElement = (id: string, element: FormElementInstance) => {
