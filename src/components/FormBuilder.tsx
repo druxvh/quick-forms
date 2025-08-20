@@ -7,8 +7,12 @@ import PublishFormBtn from "./PublishFormBtn"
 import Designer from "./Designer"
 import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core"
 import DragOverlayWrapper from "./DragOverlayWrapper"
+import useDesigner from "@/hooks/useDesigner"
+import { useEffect } from "react"
 
 export default function FormBuilder({ form }: { form: Form }) {
+    const { setElements } = useDesigner()
+
     // during drag, btn click does'nt work so to prevent it, add activation constraint to the elements 
     // activates element drag after 10px
     const mouseSensor = useSensor(MouseSensor, {
@@ -23,7 +27,14 @@ export default function FormBuilder({ form }: { form: Form }) {
             tolerance: 10,
         }
     })
+
     const sensors = useSensors(mouseSensor, touchSensor)
+
+    useEffect(() => {
+        const elements = JSON.parse(form.content)
+        setElements(elements)
+    }, [form, setElements])
+
     return (
         <DndContext sensors={sensors}>
             <main className="flex flex-col w-full">
@@ -36,7 +47,7 @@ export default function FormBuilder({ form }: { form: Form }) {
                         <PreviewDialogBtn />
                         {!form.published && (
                             <>
-                                <SaveFormBtn />
+                                <SaveFormBtn id={form.id} />
                                 <PublishFormBtn />
                             </>
                         )}

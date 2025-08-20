@@ -120,3 +120,24 @@ export async function getFormById(id: number) {
         throw error;
     }
 }
+
+// update form content by id
+export async function updateFormContentById(id: number, jsonContent: string) {
+    try {
+        const user = await currentUser()
+        if (!user) throw new UserNotFoundErr()
+
+        return await prisma.form.update({
+            where: {
+                userId: user.id,
+                id
+            },
+            data: {
+                content: jsonContent
+            }
+        })
+    } catch (error) {
+        console.error("Error while updating the form by id...", error);
+        throw error;
+    }
+}
