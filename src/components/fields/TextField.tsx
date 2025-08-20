@@ -32,8 +32,8 @@ export const TextFieldFormElement: FormElement = {
         label: "Text Field"
     },
     designerComponent: DesignerComponent,
-    formComponent: () => { return <div>hahh</div> },
-    propertiesComponent: FormPropertiesComponent,
+    formComponent: FormComponent,
+    propertiesComponent: PropertiesComponent,
     formElement: undefined
 }
 
@@ -58,7 +58,26 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
     )
 }
 
-function FormPropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+
+function FormComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+    const element = elementInstance as CustomInstance
+    const { label, helperText, placeHolder, required } = element.extraAttributes
+    return (
+        <div className="flex flex-col gap-4 w-full">
+            <Label>
+                {label}
+                {required && "*"}
+            </Label>
+            <Input placeholder={placeHolder} />
+            {helperText &&
+                <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
+            }
+        </div>
+    )
+}
+
+
+function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as CustomInstance
     const { updateElement } = useDesigner()
     const { label, helperText, placeHolder, required } = element.extraAttributes
