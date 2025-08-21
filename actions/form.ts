@@ -141,3 +141,24 @@ export async function updateFormContentById(id: number, jsonContent: string) {
         throw error;
     }
 }
+
+// publish form by id
+export async function publishFormById(id: number) {
+    try {
+        const user = await currentUser()
+        if (!user) throw new UserNotFoundErr()
+
+        return await prisma.form.update({
+            where: {
+                userId: user.id,
+                id
+            },
+            data: {
+                published: true
+            }
+        })
+    } catch (error) {
+        console.error("Error while publishing the form...", error);
+        throw error;
+    }
+}
