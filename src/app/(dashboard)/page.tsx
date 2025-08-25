@@ -28,9 +28,9 @@ export default async function Home() {
         <CreateFormButton />
         <Suspense
           fallback={[1, 2, 3].map((el) => (
-          <FormCardSkeleton key={el} />
-        )
-      )}
+            <FormCardSkeleton key={el} />
+          )
+          )}
         >
           <FormCards />
         </Suspense>
