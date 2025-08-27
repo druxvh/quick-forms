@@ -162,3 +162,53 @@ export async function publishFormById(id: number) {
         throw error;
     }
 }
+
+// gets and returns form content by form url 
+export async function getFormContentByUrl(formUrl: string) {
+    return await prisma.form.update({
+        select: {
+            content: true
+        },
+        data: {
+            visits: { increment: 1 }
+        },
+        where: {
+            shareURL: formUrl
+        }
+    })
+}
+
+// submits form
+export async function submitForm(formUrl: string, content: string) {
+    return await prisma.form.update({
+        data: {
+            submissions: {
+                increment: 1
+            },
+            FormSubmission: {
+                create: {
+                    content
+                }
+            }
+        },
+        where: {
+            shareURL: formUrl,
+            published: true
+        }
+    })
+}
+
+// gets form submissions
+export async function getFormSubmissions(id: number) {
+    const user = await currentUser()
+    if (!user) {
+        throw new UserNotFoundErr()
+    }
+    return await prisma.form.findUnique({
+        where: { id },
+        include: {
+            FormSubmission: true
+        }
+    })
+
+}
