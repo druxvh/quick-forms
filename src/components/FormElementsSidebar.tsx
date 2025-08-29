@@ -16,8 +16,11 @@ export default function FormElementsSidebar() {
         >
         </Button>
       </div>
-      <Separator className='mb-4'/>
-      <SidebarBtnElement formElement={FormElements.TextField} />
+      <Separator className='mb-4' />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center">
+        <SidebarBtnElement formElement={FormElements.TextField} />
+        <SidebarBtnElement formElement={FormElements.TitleField} />
+      </div>
     </div>
   )
 }

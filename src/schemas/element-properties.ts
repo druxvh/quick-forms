@@ -8,3 +8,10 @@ export const elementPropertiesSchema = z.object({
 })
 
 export type elementPropertiesSchemaType = z.infer<typeof elementPropertiesSchema>
+
+
+export const titlePropsSchema = z.object({
+    title: z.string()
+})
+
+export type titlePropsSchemaType = z.infer<typeof titlePropsSchema>

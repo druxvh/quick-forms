@@ -36,8 +36,6 @@ export default function FormSubmitComponent({
         return Object.keys(newErrors).length === 0
     }, [content, formData]);
 
-    console.log("f errro ", formErrors)
-
     function submitValue(key: string, value: string) {
         setFormData(prev => {
             const newData = { ...prev, [key]: value }
@@ -65,7 +63,6 @@ export default function FormSubmitComponent({
             }
 
             toast.success("Form submitted successfully!")
-            console.log("✅ Form Values:", formData)
 
             const jsonContent = JSON.stringify(formData)
             await submitForm(formUrl, jsonContent)

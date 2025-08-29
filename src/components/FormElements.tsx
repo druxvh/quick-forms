@@ -1,6 +1,9 @@
 import { TextFieldFormElement } from "./fields/TextField";
+import { TitleFieldFormElement } from "./fields/TitleField";
 
-export type ElementsType = "TextField"
+export type ElementsType = "TextField" | "TitleField"
+
+export type SubmitFunction = (key: string, value: string) => void
 
 export type FormElement = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -18,11 +21,16 @@ export type FormElement = {
         elementInstance: FormElementInstance
     }>;
     formComponent: React.FC<{
-        elementInstance: FormElementInstance
+        elementInstance: FormElementInstance;
+        submitValue?: (key: string, value: string) => void
+        isInvalid?: boolean
+        defaultValue?: string
     }>;
     propertiesComponent: React.FC<{
         elementInstance: FormElementInstance
     }>;
+
+    validate: (formElement: FormElementInstance, value: string) => boolean
 }
 
 export type FormElementInstance = {
@@ -37,5 +45,6 @@ type FormElementsType = {
 }
 
 export const FormElements: FormElementsType = {
-    TextField: TextFieldFormElement
+    TextField: TextFieldFormElement,
+    TitleField: TitleFieldFormElement
 }
