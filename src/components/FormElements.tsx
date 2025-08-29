@@ -1,3 +1,4 @@
+import { NumberField } from "./fields/NumberField";
 import { ParagraphField } from "./fields/ParagraphField";
 import { SeparatorField } from "./fields/Separator";
 import { SpacerField } from "./fields/SpacerField";
@@ -7,6 +8,7 @@ import { TitleFieldFormElement } from "./fields/TitleField";
 
 export type ElementsType = "TextField"
     | "TitleField"
+    | "NumberField"
     | "SubTitleField"
     | "ParagraphField"
     | "SeparatorField"
@@ -57,5 +59,6 @@ export const FormElements: FormElementsType = {
     SubTitleField: SubTitleFieldFormElement,
     ParagraphField: ParagraphField,
     SeparatorField: SeparatorField,
-    SpacerField: SpacerField
+    SpacerField: SpacerField,
+    NumberField: NumberField
 }

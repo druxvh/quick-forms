@@ -24,6 +24,7 @@ export default function FormElementsSidebar() {
         <SidebarBtnElement formElement={FormElements.ParagraphField} />
         <SidebarBtnElement formElement={FormElements.SeparatorField} />
         <SidebarBtnElement formElement={FormElements.SpacerField} />
+        <SidebarBtnElement formElement={FormElements.NumberField} />
       </div>
     </div>
   )
