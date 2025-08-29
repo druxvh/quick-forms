@@ -1,16 +1,17 @@
 "use client"
 
 import { Text } from "lucide-react"
-import { ElementsType, FormElement, FormElementInstance } from "../FormElements"
+import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "../FormElements"
 import { Label } from "../ui/label"
 import { Input } from "../ui/input"
 import { useForm } from "react-hook-form"
 import { elementPropertiesSchema, elementPropertiesSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import useDesigner from "@/hooks/useDesigner"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
 import { Switch } from "../ui/switch"
+import { cn } from "@/lib/utils"
 
 const type: ElementsType = "TextField"
 const extraAttributes = {
@@ -34,7 +35,20 @@ export const TextFieldFormElement: FormElement = {
     designerComponent: DesignerComponent,
     formComponent: FormComponent,
     propertiesComponent: PropertiesComponent,
-    formElement: undefined
+    formElement: undefined,
+
+
+    validate: (formElement: FormElementInstance, value: string): boolean => {
+        const element = formElement as CustomInstance
+
+        const { required } = element.extraAttributes
+
+        if (required) {
+            return value.trim().length > 0
+        }
+
+        return true
+    }
 }
 
 type CustomInstance = FormElementInstance & {
@@ -59,18 +73,44 @@ function DesignerComponent({ elementInstance }: { elementInstance: FormElementIn
 }
 
 
-function FormComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }:
+    {
+        elementInstance: FormElementInstance
+        submitValue?: SubmitFunction
+        isInvalid?: boolean
+        defaultValue?: string
+    }) {
     const element = elementInstance as CustomInstance
+    const [value, setValue] = useState(defaultValue || "")
+    // const [error, setError] = useState(false)
+
+    useEffect(() => {
+        setValue(defaultValue || "")
+    }, [defaultValue])
+
     const { label, helperText, placeHolder, required } = element.extraAttributes
     return (
         <div className="flex flex-col gap-4 w-full">
-            <Label>
+            <Label
+                className={cn(isInvalid && "text-red-500")}
+            >
                 {label}
                 {required && "*"}
             </Label>
-            <Input placeholder={placeHolder} />
+            <Input
+                className={cn(isInvalid && "text-red-500")}
+                placeholder={placeHolder}
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                onBlur={(e) => {
+                    if (!submitValue) return
+                    submitValue(element.id, e.target.value)
+                }}
+            />
             {helperText &&
-                <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
+                <p className={cn("text-muted-foreground text-[0.8rem]",
+                    isInvalid && "text-red-500"
+                )}>{helperText}</p>
             }
         </div>
     )
