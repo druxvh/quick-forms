@@ -30,11 +30,10 @@ export default function CreateFormButton() {
             toast.success("Form created successfully!", {
                 position: "bottom-center",
             })
-            console.log("FormId: ", formId)
             router.push(`/builder/${formId}`)
 
         } catch (error) {
-            console.log(error)
+            console.error(error)
             toast.error("Something went wrong, please try again later.", {
                 position: "bottom-center",
             })

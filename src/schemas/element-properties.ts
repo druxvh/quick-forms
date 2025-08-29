@@ -15,3 +15,9 @@ export const titlePropsSchema = z.object({
 })
 
 export type titlePropsSchemaType = z.infer<typeof titlePropsSchema>
+
+export const subTitlePropsSchema = z.object({
+    subTitle: z.string()
+})
+
+export type subTitlePropsSchemaType = z.infer<typeof subTitlePropsSchema>

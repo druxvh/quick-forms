@@ -1,13 +1,12 @@
+import { SubTitleFieldFormElement } from "./fields/SubtitleField";
 import { TextFieldFormElement } from "./fields/TextField";
 import { TitleFieldFormElement } from "./fields/TitleField";
 
-export type ElementsType = "TextField" | "TitleField"
+export type ElementsType = "TextField" | "TitleField" | "SubTitleField"
 
 export type SubmitFunction = (key: string, value: string) => void
 
 export type FormElement = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    formElement: any;
     type: ElementsType;
 
     construct: (id: string) => FormElementInstance;
@@ -46,5 +45,6 @@ type FormElementsType = {
 
 export const FormElements: FormElementsType = {
     TextField: TextFieldFormElement,
-    TitleField: TitleFieldFormElement
+    TitleField: TitleFieldFormElement,
+    SubTitleField: SubTitleFieldFormElement
 }

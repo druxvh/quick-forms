@@ -35,8 +35,6 @@ export const TextFieldFormElement: FormElement = {
     designerComponent: DesignerComponent,
     formComponent: FormComponent,
     propertiesComponent: PropertiesComponent,
-    formElement: undefined,
-
 
     validate: (formElement: FormElementInstance, value: string): boolean => {
         const element = formElement as CustomInstance
