@@ -21,3 +21,9 @@ export const subTitlePropsSchema = z.object({
 })
 
 export type subTitlePropsSchemaType = z.infer<typeof subTitlePropsSchema>
+
+export const paragraphPropsSchema = z.object({
+    text: z.string()
+})
+
+export type paragraphPropsSchemaType = z.infer<typeof paragraphPropsSchema>
