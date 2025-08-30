@@ -36,3 +36,13 @@ export const spacerPropsSchema = z.object({
 })
 
 export type spacerPropsSchemaType = z.infer<typeof spacerPropsSchema>
+
+export const textAreaPropsSchema = z.object({
+    label: z.string().min(2).max(50),
+    helperText: z.string().max(200),
+    required: z.boolean(),
+    placeHolder: z.string().max(50),
+    rows: z.number().min(1).max(10)
+})
+
+export type textAreaPropsSchemaType = z.infer<typeof textAreaPropsSchema>
