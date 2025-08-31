@@ -46,3 +46,11 @@ export const textAreaPropsSchema = z.object({
 })
 
 export type textAreaPropsSchemaType = z.infer<typeof textAreaPropsSchema>
+
+export const dateFieldPropsSchema = z.object({
+    label: z.string().min(2).max(50),
+    helperText: z.string().max(200),
+    required: z.boolean(),
+})
+
+export type dateFieldPropsSchemaType = z.infer<typeof dateFieldPropsSchema>
