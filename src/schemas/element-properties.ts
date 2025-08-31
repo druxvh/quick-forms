@@ -66,3 +66,13 @@ export const selectFieldPropsSchema = z.object({
 })
 
 export type selectFieldPropsSchemaType = z.infer<typeof selectFieldPropsSchema>
+
+
+
+export const checkboxPropsSchema = z.object({
+    label: z.string().min(2).max(50),
+    helperText: z.string().max(200),
+    required: z.boolean(),
+})
+
+export type checkboxPropsSchemaType = z.infer<typeof checkboxPropsSchema>
