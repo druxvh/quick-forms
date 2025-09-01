@@ -10,13 +10,13 @@ import { Button } from "./ui/button"
 import Link from "next/link"
 
 export function FormCardSkeleton() {
-    return <Skeleton className="border-2 border-primary/20 h-48 w-full" />
+    return <Skeleton className="border-2 border-primary/20 h-52 w-full rounded-md" />
 }
 
 export function FormCard({ form }: { form: Form }) {
     const { id, name, published, createdAt, visits, description } = form
     return (
-        <Card className="relative">
+        <Card className="relative h-52 rounded-md">
             <CardHeader>
                 <CardTitle className="flex items-center justify-between gap-2">
                     <span className="truncate font-semibold">
@@ -36,8 +36,6 @@ export function FormCard({ form }: { form: Form }) {
                             <span className="flex items-center gap-2">
                                 <Eye className="size-4 text-muted-foreground" />
                                 <span>{visits.toLocaleString()}</span>
-                                {/* <Eye className="size-4 text-muted-foreground" />
-                                <span>{submissions.toLocaleString()}</span> */}
                             </span>
                         )
                     }

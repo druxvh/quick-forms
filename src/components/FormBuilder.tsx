@@ -17,7 +17,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react"
 import Confetti from 'react-confetti'
 
 export default function FormBuilder({ form }: { form: Form }) {
-    const { setElements } = useDesigner()
+    const { setElements, setSelectedElement } = useDesigner()
 
     // during drag, btn click does'nt work so to prevent it, add activation constraint to the elements 
     // activates element drag after 10px
@@ -39,7 +39,8 @@ export default function FormBuilder({ form }: { form: Form }) {
     useEffect(() => {
         const elements = JSON.parse(form.content)
         setElements(elements)
-    }, [form, setElements])
+        setSelectedElement(null)
+    }, [form, setElements, setSelectedElement])
 
 
     const shareUrl = `${window.location.origin}/submit/${form.shareURL}`

@@ -1,9 +1,9 @@
-import StatsCardsContainer from "@/components/StatsCardsContainer";
 import { getForms, getFormStats } from "../../../actions/form";
 import { Suspense } from "react";
 import { Separator } from "@/components/ui/separator";
 import CreateFormButton from "../../components/CreateFormButton";
 import { FormCard, FormCardSkeleton } from "@/components/FormCard";
+import { StatsCardsContainer } from "@/components/StatsCard";
 
 export async function FormCards() {
   const forms = await getForms()

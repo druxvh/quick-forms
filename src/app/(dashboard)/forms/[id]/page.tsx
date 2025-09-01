@@ -2,7 +2,7 @@
 import VisitBtn from "@/components/VisitBtn"
 import { getFormById } from "../../../../../actions/form"
 import FormLinkShare from "@/components/FormLinkShare"
-import StatsCard from "@/components/StatsCard"
+import { StatsCard } from "@/components/StatsCard"
 import { ChartNoAxesCombined, Eye, FileText, MousePointerClick } from "lucide-react"
 import SubmissionsTable from "@/components/SubmissionsTable"
 
