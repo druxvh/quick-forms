@@ -13,7 +13,7 @@ export async function FormCards() {
   ))
 }
 
-export default async function Home() {
+export default async function Dashboard() {
   const stats = await getFormStats()
 
   return (
