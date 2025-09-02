@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                     <UserButton />
                 </div>
             </nav>
-            <main className="flex w-full flex-grow">{children}</main>
+            <main className="flex mx-auto w-full max-w-7xl grow">{children}</main>
         </div>
     )
 }
