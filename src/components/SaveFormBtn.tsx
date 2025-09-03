@@ -1,9 +1,9 @@
 import useDesigner from "@/hooks/useDesigner"
 import { Button } from "./ui/button"
-import { updateFormContentById } from "../../actions/form"
 import { toast } from "sonner"
 import { useTransition } from "react"
 import { LoaderCircle } from "lucide-react"
+import { updateFormContentById } from "@/actions/form"
 
 export default function SaveFormBtn({ id }: { id: number }) {
     const { elements } = useDesigner()

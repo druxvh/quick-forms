@@ -5,8 +5,8 @@ import { Button } from "./ui/button"
 import { useTransition } from "react"
 import { AlertDialogHeader, AlertDialogContent, AlertDialogTitle, AlertDialogTrigger, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction, AlertDialog } from "./ui/alert-dialog"
 import { toast } from "sonner"
-import { publishFormById } from "../../actions/form"
 import { useRouter } from "next/navigation"
+import { publishFormById } from "@/actions/form"
 
 export default function PublishFormBtn({ id }: { id: number }) {
     const [isPending, startTransition] = useTransition()

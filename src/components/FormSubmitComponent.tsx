@@ -5,7 +5,7 @@ import { FormElementInstance, FormElements } from './FormElements'
 import { Button } from './ui/button'
 import { toast } from 'sonner'
 import { LoaderCircle } from 'lucide-react'
-import { submitForm } from '../../actions/form'
+import { submitForm } from '@/actions/form'
 
 export default function FormSubmitComponent({
     formUrl,

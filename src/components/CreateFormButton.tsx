@@ -9,9 +9,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
 import { File, LoaderCircle } from "lucide-react"
-import { createForm } from "../../actions/form"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
+import { createForm } from "@/actions/form"
 
 export default function CreateFormButton() {
 

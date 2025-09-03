@@ -1,10 +1,10 @@
 import { format, formatDistance } from "date-fns"
-import { getFormSubmissions } from "../../actions/form"
 import { ElementsType, FormElementInstance } from "./FormElements"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
 import { ReactNode } from "react"
 import { Badge } from "./ui/badge"
 import { Checkbox } from "./ui/checkbox"
+import { getFormSubmissions } from "@/actions/form"
 
 
 type Row = Record<string, string> & {

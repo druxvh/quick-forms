@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Skeleton } from "./ui/skeleton"
 import { cn } from "@/lib/utils"
 import { ChartNoAxesCombined, Eye, FileText, MousePointerClick } from "lucide-react"
-import { getFormStats } from "../../actions/form"
+import { getFormStats } from "@/actions/form"
 
 interface StatsCardProps {
     title: string
