@@ -11,14 +11,22 @@ export default function SaveFormBtn({ id }: { id: number }) {
 
     const updateFormContent = async () => {
         try {
+            if (!elements || elements.length === 0) {
+                toast.error("Cannot save empty form", {
+                    description: "Add at least one field before saving.",
+                })
+                return
+            }
             const jsonElements = JSON.stringify(elements)
             await updateFormContentById(id, jsonElements)
-            toast.success("Success", {
-                description: "Your form has been saved",
+
+
+            toast.success("Saved", {
+                description: "Your form has been saved successfully.",
             })
         } catch (error) {
             toast.error("Error", {
-                description: "Something went wrong",
+                description: "Something went wrong while saving",
             })
             console.error(error)
         }
@@ -26,17 +34,16 @@ export default function SaveFormBtn({ id }: { id: number }) {
 
     return (
         <Button
-            disabled={isPending}
+            disabled={isPending || elements.length === 0}
             onClick={() => {
                 startTransition(updateFormContent)
             }}
         >
-            {isPending
-                ?
+            {isPending ? (
                 <LoaderCircle className="size-4 animate-spin" />
-                :
+            ) : (
                 <span>Save</span>
-            }
+            )}
         </Button>
     )
 }

@@ -148,6 +148,18 @@ export async function publishFormById(id: number) {
         const user = await currentUser()
         if (!user) throw new UserNotFoundErr()
 
+        // finds form and throw err if doesn't exist
+        const form = await prisma.form.findUnique({ where: { id } })
+
+        if (!form) throw new Error("Form not found")
+
+        // if empty array then throw error
+        const elements = JSON.parse(form.content ?? "[]")
+
+        if (!Array.isArray(elements) || elements.length === 0) {
+            throw new Error("Cannot publish empty form")
+        }
+
         return await prisma.form.update({
             where: {
                 userId: user.id,

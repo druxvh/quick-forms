@@ -7,21 +7,31 @@ import { AlertDialogHeader, AlertDialogContent, AlertDialogTitle, AlertDialogTri
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { publishFormById } from "@/actions/form"
+import useDesigner from "@/hooks/useDesigner"
 
 export default function PublishFormBtn({ id }: { id: number }) {
+    const { elements } = useDesigner()
     const [isPending, startTransition] = useTransition()
     const { refresh } = useRouter()
 
+    const isFormEmpty = !elements || elements.length === 0
+
     async function publishForm() {
         try {
+            if (isFormEmpty) {
+                toast.error("Cannot publish empty form", {
+                    description: "Add at least one field and save it before publishing.",
+                })
+                return
+            }
             await publishFormById(id)
-            toast.success("Success", {
-                description: "Your form is now available to the public"
+            toast.success("Published!", {
+                description: "Your form is now available to the public.",
             })
             refresh()
         } catch (error) {
-            toast.error("Error", {
-                description: "Something went wrong"
+            toast.error("Publish failed", {
+                description: "Something went wrong while publishing.",
             })
             console.error("Publish form btn Err: ", error)
         }
@@ -30,8 +40,12 @@ export default function PublishFormBtn({ id }: { id: number }) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button>
-                    Publish
+                <Button disabled={isPending || isFormEmpty}>
+                    {isPending ? (
+                        <LoaderCircle className="size-4 animate-spin" />
+                    ) : (
+                        "Publish"
+                    )}
                 </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -49,7 +63,7 @@ export default function PublishFormBtn({ id }: { id: number }) {
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
-                        disabled={isPending}
+                        disabled={isPending || isFormEmpty}
                         onClick={(e) => {
                             e.preventDefault()
                             startTransition(publishForm)
@@ -59,7 +73,7 @@ export default function PublishFormBtn({ id }: { id: number }) {
                             ?
                             <LoaderCircle className="size-4 animate-spin" />
                             :
-                            <span>Proceed</span>
+                            <span>Publish Now</span>
                         }
                     </AlertDialogAction>
                 </AlertDialogFooter>

@@ -10,7 +10,9 @@ export default function PreviewDialogBtn() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant={"outline"}>Preview</Button>
+                <Button
+                    disabled={elements.length === 0}
+                    variant={"outline"}>Preview</Button>
             </DialogTrigger>
             <DialogContent className="min-w-screen h-screen max-h-screen max-w-full flex flex-col grow p-0 gap-0">
                 <DialogTitle asChild>
