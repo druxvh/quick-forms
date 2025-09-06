@@ -1,73 +1,23 @@
-"use client"
+'use client'
 
-import { Heading1 } from "lucide-react"
-import { ElementsType, FormElement, FormElementInstance } from "../FormElements"
-import { Label } from "../ui/label"
-import { Input } from "../ui/input"
-import { useForm } from "react-hook-form"
+import { FormElementInstance } from "@/components/FormElements"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import useDesigner from "@/hooks/useDesigner"
 import { titlePropsSchema, titlePropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
-import useDesigner from "@/hooks/useDesigner"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
+import { useForm } from "react-hook-form"
 
-const type: ElementsType = "TitleField"
-
-const extraAttributes = {
+export const extraAttributes = {
     title: "Title Field",
-}
-
-export const TitleFieldFormElement: FormElement = {
-    type,
-    construct: (id: string) => ({
-        id,
-        type,
-        extraAttributes,
-    }),
-    designerBtnElement: {
-        icon: Heading1,
-        label: "Title Field"
-    },
-    designerComponent: DesignerComponent,
-    formComponent: FormComponent,
-    propertiesComponent: PropertiesComponent,
-
-    validate: () => true
 }
 
 type CustomInstance = FormElementInstance & {
     extraAttributes: typeof extraAttributes
 }
 
-function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
-    const { title } = element.extraAttributes
-    return (
-        <div className="flex flex-col gap-4 w-full">
-            <Label className="text-muted-foreground">
-                Title field
-            </Label>
-            <p className="text-xl">{title}</p>
-        </div>
-    )
-}
-
-
-function FormComponent({
-    elementInstance
-}: {
-    elementInstance: FormElementInstance
-}) {
-
-    const element = elementInstance as CustomInstance
-    const { title } = element.extraAttributes
-    return (
-        <p className="text-xl">{title}</p>
-    )
-}
-
-
-function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as CustomInstance
     const { updateElement } = useDesigner()
     // const { title } = element.extraAttributes

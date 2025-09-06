@@ -1,0 +1,35 @@
+"use client"
+
+import { Type } from "lucide-react"
+import { ElementsType, FormElement, FormElementInstance } from "../../FormElements"
+import DesignerComponent from "./DesignerComponent"
+import FormComponent from "./FormComponent"
+import PropertiesComponent from "./PropertiesComponent"
+
+const type: ElementsType = "ParagraphField"
+
+export const extraAttributes = {
+    text: "Paragraph Field",
+}
+
+export type CustomInstance = FormElementInstance & {
+    extraAttributes: typeof extraAttributes
+}
+
+export const ParagraphField: FormElement = {
+    type,
+    construct: (id: string) => ({
+        id,
+        type,
+        extraAttributes,
+    }),
+    designerBtnElement: {
+        icon: Type,
+        label: "Paragraph Field"
+    },
+    designerComponent: DesignerComponent,
+    formComponent: FormComponent,
+    propertiesComponent: PropertiesComponent,
+
+    validate: () => true
+}

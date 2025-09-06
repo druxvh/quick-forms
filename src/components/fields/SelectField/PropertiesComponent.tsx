@@ -1,24 +1,20 @@
-"use client"
+'use client'
 
-import { List, Plus, X } from "lucide-react"
-import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "../FormElements"
-import { Label } from "../ui/label"
-import { Input } from "../ui/input"
-import { useForm } from "react-hook-form"
+import { FormElementInstance } from "@/components/FormElements"
+import { Button } from "@/components/ui/button"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
+import { Switch } from "@/components/ui/switch"
+import useDesigner from "@/hooks/useDesigner"
 import { selectFieldPropsSchema, selectFieldPropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect, useState } from "react"
-import useDesigner from "@/hooks/useDesigner"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { Switch } from "../ui/switch"
-import { cn } from "@/lib/utils"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { Separator } from "../ui/separator"
-import { Button } from "../ui/button"
+import { Plus, X } from "lucide-react"
+import { useEffect } from "react"
+import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-const type: ElementsType = "SelectField"
-const extraAttributes = {
+export const extraAttributes = {
     label: "Select Field",
     helperText: "Helper Text",
     required: false,
@@ -26,115 +22,11 @@ const extraAttributes = {
     options: [] as string[]
 }
 
-export const SelectField: FormElement = {
-    type,
-    construct: (id: string) => ({
-        id,
-        type,
-        extraAttributes,
-    }),
-    designerBtnElement: {
-        icon: List,
-        label: "Select Field"
-    },
-    designerComponent: DesignerComponent,
-    formComponent: FormComponent,
-    propertiesComponent: PropertiesComponent,
-
-    validate: (formElement: FormElementInstance, value: string): boolean => {
-        const element = formElement as CustomInstance
-
-        const { required } = element.extraAttributes
-
-        if (required) {
-            return value.trim().length > 0
-        }
-
-        return true
-    }
-}
-
 type CustomInstance = FormElementInstance & {
     extraAttributes: typeof extraAttributes
 }
 
-function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
-    const { label, helperText, placeHolder, required } = element.extraAttributes
-    return (
-        <div className="flex flex-col gap-4 w-full">
-            <Label>
-                {label}
-                {required && "*"}
-            </Label>
-            <Select>
-                <SelectTrigger className="w-full">
-                    <SelectValue placeholder={placeHolder} />
-                </SelectTrigger>
-            </Select>
-            {helperText &&
-                <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
-            }
-        </div>
-    )
-}
-
-
-function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }:
-    {
-        elementInstance: FormElementInstance
-        submitValue?: SubmitFunction
-        isInvalid?: boolean
-        defaultValue?: string
-    }) {
-    const element = elementInstance as CustomInstance
-    const [value, setValue] = useState(defaultValue || "")
-
-    useEffect(() => {
-        setValue(defaultValue || "")
-    }, [defaultValue])
-
-    const { label, helperText, placeHolder, required, options } = element.extraAttributes
-    return (
-        <div className="flex flex-col gap-4 w-full">
-            <Label
-                className={cn(isInvalid && "text-red-500")}
-            >
-                {label}
-                {required && "*"}
-            </Label>
-            <Select
-                defaultValue={value}
-                onValueChange={(value) => {
-                    setValue(value)
-                    if (!submitValue) return
-                    submitValue(element.id, value)
-                }}
-            >
-                <SelectTrigger className={cn("w-full",
-                    isInvalid && "text-red-500"
-                )}>
-                    <SelectValue placeholder={placeHolder} />
-                </SelectTrigger>
-                <SelectContent>
-                    {options.map(option => (
-                        <SelectItem key={option} value={option}>
-                            {option}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-            {helperText &&
-                <p className={cn("text-muted-foreground text-[0.8rem]",
-                    isInvalid && "text-red-500"
-                )}>{helperText}</p>
-            }
-        </div>
-    )
-}
-
-
-function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as CustomInstance
     const { updateElement, setSelectedElement } = useDesigner()
     const { label, helperText, placeHolder, required, options } = element.extraAttributes

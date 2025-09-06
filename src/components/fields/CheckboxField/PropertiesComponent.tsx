@@ -1,128 +1,27 @@
-"use client"
+'use client'
 
-import { SquareCheckBig } from "lucide-react"
-import { ElementsType, FormElement, FormElementInstance, SubmitFunction } from "../FormElements"
-import { Label } from "../ui/label"
-import { Input } from "../ui/input"
-import { useForm } from "react-hook-form"
+import { FormElementInstance } from "@/components/FormElements"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Switch } from "@/components/ui/switch"
+import useDesigner from "@/hooks/useDesigner"
 import { checkboxPropsSchema, checkboxPropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect, useState } from "react"
-import useDesigner from "@/hooks/useDesigner"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { Switch } from "../ui/switch"
-import { cn } from "@/lib/utils"
-import { Checkbox } from "../ui/checkbox"
+import { useEffect } from "react"
+import { useForm } from "react-hook-form"
 
-const type: ElementsType = "CheckboxField"
-const extraAttributes = {
+
+export const extraAttributes = {
     label: "Checkbox Field",
     helperText: "Helper Text",
     required: false,
-}
-
-export const CheckboxField: FormElement = {
-    type,
-    construct: (id: string) => ({
-        id,
-        type,
-        extraAttributes,
-    }),
-    designerBtnElement: {
-        icon: SquareCheckBig,
-        label: "Checkbox Field"
-    },
-    designerComponent: DesignerComponent,
-    formComponent: FormComponent,
-    propertiesComponent: PropertiesComponent,
-
-    validate: (formElement: FormElementInstance, value: string): boolean => {
-        const element = formElement as CustomInstance
-
-        const { required } = element.extraAttributes
-
-        if (required) {
-            // return value.trim().length > 0
-            return value === "true"
-        }
-
-        return true
-    }
 }
 
 type CustomInstance = FormElementInstance & {
     extraAttributes: typeof extraAttributes
 }
 
-function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
-    const { label, helperText, required } = element.extraAttributes
-    const id = `checkbox-${element.id}`
-    return (
-        <div className="flex items-start space-x-2">
-            <Checkbox id={id} />
-            <div className="grid gap-2 leading-none">
-
-                <Label htmlFor={id}>
-                    {label}
-                    {required && "*"}
-                </Label>
-
-                {helperText &&
-                    <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
-                }
-            </div>
-        </div>
-    )
-}
-
-
-function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }:
-    {
-        elementInstance: FormElementInstance
-        submitValue?: SubmitFunction
-        isInvalid?: boolean
-        defaultValue?: string
-    }) {
-    const element = elementInstance as CustomInstance
-    const [value, setValue] = useState<boolean>(defaultValue === "true" ? true : false)
-
-    const { label, helperText, required } = element.extraAttributes
-    const id = `checkbox-${element.id}`
-
-    return (
-        <div className="flex items-start space-x-2">
-
-            <Checkbox
-                id={id}
-                className={cn(isInvalid && "text-red-500")}
-                checked={value}
-                onCheckedChange={(checked) => {
-                    let value = false
-                    if (checked === true) value = true
-                    setValue(value)
-                    const stringVal = value ? "true" : "false"
-                    if (!submitValue) return
-                    submitValue(element.id, stringVal)
-                }}
-            />
-            <div className="grid gap-2 leading-none">
-
-                <Label htmlFor={id} className={cn(isInvalid && "text-red-500")}>
-                    {label}
-                    {required && "*"}
-                </Label>
-
-                {helperText &&
-                    <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
-                }
-            </div>
-        </div>
-    )
-}
-
-
-function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as CustomInstance
     const { updateElement } = useDesigner()
     const { label, helperText, required } = element.extraAttributes

@@ -1,73 +1,23 @@
-"use client"
+'use client'
 
-import { Type } from "lucide-react"
-import { ElementsType, FormElement, FormElementInstance } from "../FormElements"
-import { Label } from "../ui/label"
-import { useForm } from "react-hook-form"
+import { FormElementInstance } from "@/components/FormElements"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Textarea } from "@/components/ui/textarea"
+import useDesigner from "@/hooks/useDesigner"
 import { paragraphPropsSchema, paragraphPropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
-import useDesigner from "@/hooks/useDesigner"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { Textarea } from "../ui/textarea"
+import { useForm } from "react-hook-form"
 
-const type: ElementsType = "ParagraphField"
-
-const extraAttributes = {
+export const extraAttributes = {
     text: "Paragraph Field",
-}
-
-export const ParagraphField: FormElement = {
-    type,
-    construct: (id: string) => ({
-        id,
-        type,
-        extraAttributes,
-    }),
-    designerBtnElement: {
-        icon: Type,
-        label: "Paragraph Field"
-    },
-    designerComponent: DesignerComponent,
-    formComponent: FormComponent,
-    propertiesComponent: PropertiesComponent,
-
-    validate: () => true
 }
 
 type CustomInstance = FormElementInstance & {
     extraAttributes: typeof extraAttributes
 }
 
-function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
-    const { text } = element.extraAttributes
-    return (
-        <div className="flex flex-col gap-4 w-full">
-            <Label className="text-muted-foreground">
-                Paragraph field
-            </Label>
-            <p>{text}</p>
-        </div>
-    )
-}
-
-
-function FormComponent({
-    elementInstance
-}: {
-    elementInstance: FormElementInstance
-}) {
-
-    const element = elementInstance as CustomInstance
-    const { text } = element.extraAttributes
-    return (
-        <p>{text}</p>
-    )
-}
-
-
-function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as CustomInstance
     const { updateElement } = useDesigner()
 
@@ -119,7 +69,6 @@ function PropertiesComponent({ elementInstance }: { elementInstance: FormElement
                                     }}
                                 />
                             </FormControl>
-
                             <FormMessage />
                         </FormItem>
                     )}

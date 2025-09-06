@@ -1,71 +1,22 @@
-"use client"
+'use client'
 
-import { SeparatorHorizontal } from "lucide-react"
-import { ElementsType, FormElement, FormElementInstance } from "../FormElements"
-import { Label } from "../ui/label"
-import { useForm } from "react-hook-form"
+import { FormElementInstance } from "@/components/FormElements"
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Slider } from "@/components/ui/slider"
+import useDesigner from "@/hooks/useDesigner"
 import { spacerPropsSchema, spacerPropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
-import useDesigner from "@/hooks/useDesigner"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form"
-import { Slider } from "../ui/slider"
+import { useForm } from "react-hook-form"
 
-const type: ElementsType = "SpacerField"
-const extraAttributes = {
+export const extraAttributes = {
     height: 20 //px
 }
-
-export const SpacerField: FormElement = {
-    type,
-    construct: (id: string) => ({
-        id,
-        type,
-        extraAttributes,
-    }),
-    designerBtnElement: {
-        icon: SeparatorHorizontal,
-        label: "Spacer Field"
-    },
-    designerComponent: DesignerComponent,
-    formComponent: FormComponent,
-    propertiesComponent: PropertiesComponent,
-
-    validate: () => true
-}
-
 type CustomInstance = FormElementInstance & {
     extraAttributes: typeof extraAttributes
 }
 
-function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
-    const { height } = element.extraAttributes
-    return (
-        <div className="flex flex-col gap-4 w-full items-center">
-            <Label>
-                Spacer field: {height}px
-            </Label>
-            <SeparatorHorizontal className="size-8" />
-        </div>
-    )
-}
-
-function FormComponent({ elementInstance }:
-    {
-        elementInstance: FormElementInstance
-    }) {
-    const element = elementInstance as CustomInstance
-
-    const { height } = element.extraAttributes
-    return (
-        <div style={{ height, width: "100%" }}>
-
-        </div>
-    )
-}
-
-function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as CustomInstance
     const { updateElement } = useDesigner()
 
