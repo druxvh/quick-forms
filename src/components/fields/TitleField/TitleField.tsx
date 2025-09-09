@@ -1,27 +1,19 @@
 "use client"
 
 import { Heading1 } from "lucide-react"
-import { ElementsType, FormElement, FormElementInstance } from "../../FormElements"
+import { ElementsType, FormElement, getDefaultAttributes } from "@/types/form"
 import DesignerComponent from "./DesignerComponent"
 import FormComponent from "./FormComponent"
 import PropertiesComponent from "./PropertiesComponent"
 
 const type: ElementsType = "TitleField"
 
-export const extraAttributes = {
-    title: "Title Field",
-}
-
-export type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
-
-export const TitleFieldFormElement: FormElement = {
+export const TitleField: FormElement = {
     type,
     construct: (id: string) => ({
         id,
         type,
-        extraAttributes,
+        extraAttributes: getDefaultAttributes(type),
     }),
     designerBtnElement: {
         icon: Heading1,

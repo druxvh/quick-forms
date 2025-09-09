@@ -1,18 +1,12 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Label } from "@/components/ui/label"
 import { SeparatorHorizontal } from "lucide-react"
 
-export const extraAttributes = {
-    height: 20 //px
-}
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 
 export default function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "SpacerField" }>
     const { height } = element.extraAttributes
     return (
         <div className="flex flex-col gap-4 w-full items-center">

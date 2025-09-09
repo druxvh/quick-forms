@@ -1,7 +1,7 @@
 "use client"
 
 import { useDraggable } from "@dnd-kit/core";
-import { FormElement } from "./FormElements"
+import { FormElement } from "@/types/form"
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 

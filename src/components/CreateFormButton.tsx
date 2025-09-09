@@ -3,7 +3,6 @@
 import { useForm } from "react-hook-form"
 import { Button } from "./ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
-import { formSchema, formSchemaType } from "@/schemas/form"
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form"
 import { Input } from "./ui/input"
@@ -12,19 +11,20 @@ import { File, LoaderCircle } from "lucide-react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { createForm } from "@/actions/form"
+import { createFormSchema, createFormSchemaT } from "@/schemas"
 
 export default function CreateFormButton() {
 
     const router = useRouter()
-    const form = useForm<formSchemaType>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<createFormSchemaT>({
+        resolver: zodResolver(createFormSchema),
         defaultValues: {
             name: "",
             description: ""
         }
     })
 
-    async function onSubmit(values: formSchemaType) {
+    async function onSubmit(values: createFormSchemaT) {
         try {
             const formId = await createForm(values)
             toast.success("Form created successfully!", {

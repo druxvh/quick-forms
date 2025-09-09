@@ -1,52 +1,42 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import useDesigner from "@/hooks/useDesigner"
-import { elementPropertiesSchema, elementPropertiesSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { numberFieldSchema, NumberFieldSchemaT } from "@/schemas"
 
-export const extraAttributes = {
-    label: "Number Field",
-    helperText: "Helper Text",
-    required: false,
-    placeHolder: "0"
-}
-
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "NumberField" }>
     const { updateElement } = useDesigner()
-    const { label, helperText, placeHolder, required } = element.extraAttributes
+    const { label, helperText, placeholder, required } = element.extraAttributes
 
-    const form = useForm<elementPropertiesSchemaType>({
-        resolver: zodResolver(elementPropertiesSchema),
+    const form = useForm({
+        resolver: zodResolver(numberFieldSchema),
         mode: "onBlur",
         defaultValues: {
             label,
             helperText,
             required,
-            placeHolder,
+            placeholder,
         }
     })
 
     // updates the changes
-    function applyChanges(values: elementPropertiesSchemaType) {
-        const { label, helperText, placeHolder, required } = values
+    function applyChanges(values: NumberFieldSchemaT) {
+        const { label, helperText, placeholder, required } = values
 
         updateElement(element.id, {
             ...element,
             extraAttributes: {
                 label,
                 helperText,
-                placeHolder,
+                placeholder,
                 required
             }
         })
@@ -88,7 +78,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 />
                 <FormField
                     control={form.control}
-                    name="placeHolder"
+                    name="placeholder"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Placeholder</FormLabel>

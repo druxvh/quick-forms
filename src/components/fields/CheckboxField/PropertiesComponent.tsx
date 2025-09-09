@@ -1,33 +1,22 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import useDesigner from "@/hooks/useDesigner"
-import { checkboxPropsSchema, checkboxPropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
-
-
-export const extraAttributes = {
-    label: "Checkbox Field",
-    helperText: "Helper Text",
-    required: false,
-}
-
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
+import { checkboxFieldSchema, CheckboxFieldSchemaT } from "@/schemas"
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
     const { updateElement } = useDesigner()
+    const element = elementInstance as Extract<FormElementInstance, { type: "CheckboxField" }>
     const { label, helperText, required } = element.extraAttributes
 
-    const form = useForm<checkboxPropsSchemaType>({
-        resolver: zodResolver(checkboxPropsSchema),
+    const form = useForm({
+        resolver: zodResolver(checkboxFieldSchema),
         mode: "onBlur",
         defaultValues: {
             label,
@@ -37,8 +26,8 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
     })
 
     // updates the changes
-    function applyChanges(values: checkboxPropsSchemaType) {
-        const { label, helperText, required } = values
+    function applyChanges(values: CheckboxFieldSchemaT) {
+        const { label, required, helperText } = values
 
         updateElement(element.id, {
             ...element,
@@ -48,7 +37,6 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 required
             }
         })
-
     }
 
     useEffect(() => {

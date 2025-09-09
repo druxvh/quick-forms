@@ -1,5 +1,5 @@
 import { format, formatDistance } from "date-fns"
-import { ElementsType, FormElementInstance } from "./FormElements"
+import { ElementsType, FormElementInstance } from "@/types/form"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table"
 import { ReactNode } from "react"
 import { Badge } from "./ui/badge"

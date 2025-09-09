@@ -1,54 +1,45 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import useDesigner from "@/hooks/useDesigner"
-import { textAreaPropsSchema, textAreaPropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { textAreaFieldSchema, TextAreaFieldSchemaT } from "@/schemas"
 
-export const extraAttributes = {
-    label: "Text area",
-    helperText: "Helper Text",
-    required: false,
-    placeHolder: "Value here...",
-    rows: 3
-}
 
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
-    const { updateElement } = useDesigner()
-    const { label, helperText, placeHolder, required, rows } = element.extraAttributes
+    const element = elementInstance as Extract<FormElementInstance, { type: "TextAreaField" }>
 
-    const form = useForm<textAreaPropsSchemaType>({
-        resolver: zodResolver(textAreaPropsSchema),
+    const { updateElement } = useDesigner()
+    const { label, helperText, placeholder, required, rows } = element.extraAttributes
+
+    const form = useForm({
+        resolver: zodResolver(textAreaFieldSchema),
         mode: "onBlur",
         defaultValues: {
             label,
             helperText,
             required,
-            placeHolder,
+            placeholder,
             rows
         }
     })
 
     // updates the changes
-    function applyChanges(values: textAreaPropsSchemaType) {
-        const { label, helperText, placeHolder, required, rows } = values
+    function applyChanges(values: TextAreaFieldSchemaT) {
+        const { label, helperText, placeholder, required, rows } = values
 
         updateElement(element.id, {
             ...element,
             extraAttributes: {
                 label,
                 helperText,
-                placeHolder,
+                placeholder,
                 required,
                 rows
             }
@@ -90,7 +81,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 />
                 <FormField
                     control={form.control}
-                    name="placeHolder"
+                    name="placeholder"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Placeholder</FormLabel>
@@ -137,9 +128,9 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                             <FormControl>
                                 <Slider
 
-                                    defaultValue={[field.value]}
+                                    defaultValue={[field.value ?? 3]}
                                     min={1}
-                                    max={10}
+                                    max={20}
                                     step={1}
                                     onValueChange={value => {
 

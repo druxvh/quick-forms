@@ -1,21 +1,11 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 
-export const extraAttributes = {
-    label: "Checkbox Field",
-    helperText: "Helper Text",
-    required: false,
-}
-
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
-
 export default function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "CheckboxField" }>
     const { label, helperText, required } = element.extraAttributes
     const id = `checkbox-${element.id}`
     return (

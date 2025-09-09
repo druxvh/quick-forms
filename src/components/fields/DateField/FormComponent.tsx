@@ -1,6 +1,6 @@
 'use client'
 
-import { FormElementInstance, SubmitFunction } from "@/components/FormElements"
+import { FormElementInstance, SubmitFunction } from "@/types/form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,14 +10,6 @@ import { format } from "date-fns"
 import { Calendar1 } from "lucide-react"
 import { useState } from "react"
 
-export const extraAttributes = {
-    label: "Date Field",
-    helperText: "Pick a date",
-    required: false,
-}
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 export default function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }:
     {
         elementInstance: FormElementInstance
@@ -25,10 +17,8 @@ export default function FormComponent({ elementInstance, submitValue, isInvalid,
         isInvalid?: boolean
         defaultValue?: string
     }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "DateField" }>
     const [date, setDate] = useState<string>(defaultValue || "")
-
-
 
     const { label, helperText, required } = element.extraAttributes
     return (

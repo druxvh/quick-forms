@@ -1,26 +1,19 @@
 "use client"
 
 import { SeparatorHorizontal } from "lucide-react"
-import { ElementsType, FormElement, FormElementInstance } from "../../FormElements"
+import { ElementsType, FormElement, getDefaultAttributes } from "@/types/form"
 import DesignerComponent from "./DesignerComponent"
 import FormComponent from "./FormComponent"
 import PropertiesComponent from "./PropertiesComponent"
 
 const type: ElementsType = "SpacerField"
 
-const extraAttributes = {
-    height: 20 //px
-}
-export type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
-
 export const SpacerField: FormElement = {
     type,
     construct: (id: string) => ({
         id,
         type,
-        extraAttributes,
+        extraAttributes: getDefaultAttributes(type),
     }),
     designerBtnElement: {
         icon: SeparatorHorizontal,

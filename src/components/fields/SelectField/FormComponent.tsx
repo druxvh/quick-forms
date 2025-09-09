@@ -1,22 +1,11 @@
 'use client'
 
-import { FormElementInstance, SubmitFunction } from "@/components/FormElements"
+import { FormElementInstance, SubmitFunction } from "@/types/form"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 
-export const extraAttributes = {
-    label: "Select Field",
-    helperText: "Helper Text",
-    required: false,
-    placeHolder: "Value here...",
-    options: [] as string[]
-}
-
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 
 export default function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }:
     {
@@ -25,14 +14,14 @@ export default function FormComponent({ elementInstance, submitValue, isInvalid,
         isInvalid?: boolean
         defaultValue?: string
     }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "SelectField" }>
     const [value, setValue] = useState(defaultValue || "")
 
     useEffect(() => {
         setValue(defaultValue || "")
     }, [defaultValue])
 
-    const { label, helperText, placeHolder, required, options } = element.extraAttributes
+    const { label, helperText, placeholder, required, options } = element.extraAttributes
     return (
         <div className="flex flex-col gap-4 w-full">
             <Label
@@ -52,7 +41,7 @@ export default function FormComponent({ elementInstance, submitValue, isInvalid,
                 <SelectTrigger className={cn("w-full",
                     isInvalid && "text-red-500"
                 )}>
-                    <SelectValue placeholder={placeHolder} />
+                    <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent>
                     {options.map(option => (

@@ -1,21 +1,10 @@
 "use client"
 
-import { FormElementInstance, SubmitFunction } from "@/components/FormElements"
+import { FormElementInstance, SubmitFunction } from "@/types/form"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
-
-
-export const extraAttributes = {
-    label: "Checkbox Field",
-    helperText: "Helper Text",
-    required: false,
-}
-
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 
 export default function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }:
     {
@@ -24,7 +13,7 @@ export default function FormComponent({ elementInstance, submitValue, isInvalid,
         isInvalid?: boolean
         defaultValue?: string
     }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "CheckboxField" }>
     const [value, setValue] = useState<boolean>(defaultValue === "true" ? true : false)
 
     const { label, helperText, required } = element.extraAttributes

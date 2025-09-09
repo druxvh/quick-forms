@@ -1,7 +1,7 @@
 "use client"
 
 import useDesigner from "@/hooks/useDesigner"
-import { FormElements } from "./FormElements"
+import { FormElements } from "@/types/form"
 import { Button } from "./ui/button"
 import { X } from "lucide-react"
 import { Separator } from "./ui/separator"

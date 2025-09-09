@@ -1,22 +1,12 @@
 'use client'
 
-import { FormElementInstance, SubmitFunction } from "@/components/FormElements"
+import { FormElementInstance, SubmitFunction } from "@/types/form"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
 
-export const extraAttributes = {
-    label: "Text area",
-    helperText: "Helper Text",
-    required: false,
-    placeHolder: "Value here...",
-    rows: 3
-}
 
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 export default function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }:
     {
         elementInstance: FormElementInstance
@@ -24,14 +14,14 @@ export default function FormComponent({ elementInstance, submitValue, isInvalid,
         isInvalid?: boolean
         defaultValue?: string
     }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "TextAreaField" }>
     const [value, setValue] = useState(defaultValue || "")
 
     useEffect(() => {
         setValue(defaultValue || "")
     }, [defaultValue])
 
-    const { label, helperText, placeHolder, required, rows } = element.extraAttributes
+    const { label, helperText, placeholder, required, rows } = element.extraAttributes
     return (
         <div className="flex flex-col gap-4 w-full">
             <Label
@@ -42,7 +32,7 @@ export default function FormComponent({ elementInstance, submitValue, isInvalid,
             </Label>
             <Textarea
                 className={cn(isInvalid && "text-red-500")}
-                placeholder={placeHolder}
+                placeholder={placeholder}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 onBlur={(e) => {

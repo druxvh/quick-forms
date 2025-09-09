@@ -1,27 +1,22 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Slider } from "@/components/ui/slider"
 import useDesigner from "@/hooks/useDesigner"
-import { spacerPropsSchema, spacerPropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { spacerFieldSchema, SpacerFieldSchemaT } from "@/schemas"
 
-export const extraAttributes = {
-    height: 20 //px
-}
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "SpacerField" }>
+
     const { updateElement } = useDesigner()
 
-    const form = useForm<spacerPropsSchemaType>({
-        resolver: zodResolver(spacerPropsSchema),
+    const form = useForm({
+        resolver: zodResolver(spacerFieldSchema),
         mode: "onBlur",
         defaultValues: {
             height: element.extraAttributes?.height
@@ -29,7 +24,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
     })
 
     // updates the changes
-    function applyChanges(values: spacerPropsSchemaType) {
+    function applyChanges(values: SpacerFieldSchemaT) {
         const { height } = values
 
         updateElement(element.id, {
@@ -38,7 +33,6 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 height
             }
         })
-
     }
 
     useEffect(() => {
@@ -61,7 +55,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                             <FormLabel>Height (px): {form.watch("height")}</FormLabel>
                             <FormControl className="p-2">
                                 <Slider
-                                    defaultValue={[field.value]}
+                                    defaultValue={[field.value ?? 20]}
                                     min={5}
                                     max={200}
                                     step={5}
@@ -75,7 +69,6 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                         </FormItem>
                     )}
                 />
-
             </form>
         </Form>
     )

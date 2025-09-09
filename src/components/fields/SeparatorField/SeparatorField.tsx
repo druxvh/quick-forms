@@ -1,7 +1,7 @@
 "use client"
 
 import { Minus } from "lucide-react"
-import { ElementsType, FormElement } from "../../FormElements"
+import { ElementsType, FormElement, getDefaultAttributes } from "@/types/form"
 import DesignerComponent from "./DesignerComponent"
 import FormComponent from "./FormComponent"
 import PropertiesComponent from "./PropertiesComponent"
@@ -13,6 +13,7 @@ export const SeparatorField: FormElement = {
     construct: (id: string) => ({
         id,
         type,
+        extraAttributes: getDefaultAttributes(type)
     }),
     designerBtnElement: {
         icon: Minus,

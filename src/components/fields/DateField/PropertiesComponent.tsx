@@ -1,30 +1,23 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import useDesigner from "@/hooks/useDesigner"
-import { dateFieldPropsSchema, dateFieldPropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { dateFieldSchema, DateFieldSchemaT } from "@/schemas"
 
-export const extraAttributes = {
-    label: "Date Field",
-    helperText: "Pick a date",
-    required: false,
-}
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
+
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "DateField" }>
     const { updateElement } = useDesigner()
     const { label, helperText, required } = element.extraAttributes
 
-    const form = useForm<dateFieldPropsSchemaType>({
-        resolver: zodResolver(dateFieldPropsSchema),
+    const form = useForm({
+        resolver: zodResolver(dateFieldSchema),
         mode: "onBlur",
         defaultValues: {
             label,
@@ -34,7 +27,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
     })
 
     // updates the changes
-    function applyChanges(values: dateFieldPropsSchemaType) {
+    function applyChanges(values: DateFieldSchemaT) {
         const { label, helperText, required } = values
 
         updateElement(element.id, {

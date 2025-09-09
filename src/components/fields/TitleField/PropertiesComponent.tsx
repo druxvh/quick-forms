@@ -1,37 +1,30 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import useDesigner from "@/hooks/useDesigner"
-import { titlePropsSchema, titlePropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { titleFieldSchema, TitleFieldSchemaT } from "@/schemas"
 
-export const extraAttributes = {
-    title: "Title Field",
-}
-
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
     const { updateElement } = useDesigner()
-    // const { title } = element.extraAttributes
+    const element = elementInstance as Extract<FormElementInstance, { type: "TitleField" }>
+    const { title } = element.extraAttributes
 
-    const form = useForm<titlePropsSchemaType>({
-        resolver: zodResolver(titlePropsSchema),
+    const form = useForm({
+        resolver: zodResolver(titleFieldSchema),
         mode: "onBlur",
         defaultValues: {
-            title: element.extraAttributes?.title
+            title
         }
     })
 
     // updates the changes
-    function applyChanges(values: titlePropsSchemaType) {
+    function applyChanges(values: TitleFieldSchemaT) {
         const { title } = values
 
         updateElement(element.id, {

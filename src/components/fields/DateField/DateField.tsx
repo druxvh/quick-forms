@@ -1,28 +1,19 @@
 "use client"
 
 import { CalendarDays } from "lucide-react"
-import { ElementsType, FormElement, FormElementInstance } from "../../FormElements"
+import { ElementsType, FormElement, FormElementInstance, getDefaultAttributes } from "@/types/form"
 import DesignerComponent from "./DesignerComponent"
 import FormComponent from "./FormComponent"
 import PropertiesComponent from "./PropertiesComponent"
 
 const type: ElementsType = "DateField"
 
-export const extraAttributes = {
-    label: "Date Field",
-    helperText: "Pick a date",
-    required: false,
-}
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
-
 export const DateField: FormElement = {
     type,
     construct: (id: string) => ({
         id,
         type,
-        extraAttributes,
+        extraAttributes: getDefaultAttributes(type),
     }),
     designerBtnElement: {
         icon: CalendarDays,
@@ -33,14 +24,11 @@ export const DateField: FormElement = {
     propertiesComponent: PropertiesComponent,
 
     validate: (formElement: FormElementInstance, value: string): boolean => {
-        const element = formElement as CustomInstance
-
+        const element = formElement as Extract<FormElementInstance, { type: "DateField" }>
         const { required } = element.extraAttributes
-
         if (required) {
             return value.trim().length > 0
         }
-
         return true
     }
 }

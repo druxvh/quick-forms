@@ -1,34 +1,30 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import useDesigner from "@/hooks/useDesigner"
-import { subTitlePropsSchema, subTitlePropsSchemaType } from "@/schemas/element-properties"
+import { subTitleFieldSchema, SubTitleFieldSchemaT } from "@/schemas"
+import { FormElementInstance } from "@/types/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 
-export const extraAttributes = {
-    subTitle: "SubTitle Field",
-}
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
-export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
-    const { updateElement } = useDesigner()
 
-    const form = useForm<subTitlePropsSchemaType>({
-        resolver: zodResolver(subTitlePropsSchema),
+export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
+    const element = elementInstance as Extract<FormElementInstance, { type: "SubTitleField" }>
+    const { updateElement } = useDesigner()
+    const { subTitle } = element.extraAttributes
+
+    const form = useForm({
+        resolver: zodResolver(subTitleFieldSchema),
         mode: "onBlur",
         defaultValues: {
-            subTitle: element.extraAttributes?.subTitle
+            subTitle
         }
     })
 
     // updates the changes
-    function applyChanges(values: subTitlePropsSchemaType) {
+    function applyChanges(values: SubTitleFieldSchemaT) {
         const { subTitle } = values
 
         updateElement(element.id, {

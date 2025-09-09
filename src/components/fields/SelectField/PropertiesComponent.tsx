@@ -1,58 +1,40 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
 import useDesigner from "@/hooks/useDesigner"
-import { selectFieldPropsSchema, selectFieldPropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, X } from "lucide-react"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-
-export const extraAttributes = {
-    label: "Select Field",
-    helperText: "Helper Text",
-    required: false,
-    placeHolder: "Value here...",
-    options: [] as string[]
-}
-
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
+import { selectFieldSchema, SelectFieldSchemaT } from "@/schemas"
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "SelectField" }>
     const { updateElement, setSelectedElement } = useDesigner()
-    const { label, helperText, placeHolder, required, options } = element.extraAttributes
+    const { label, helperText, placeholder, required, options } = element.extraAttributes
 
-    const form = useForm<selectFieldPropsSchemaType>({
-        resolver: zodResolver(selectFieldPropsSchema),
+    const form = useForm({
+        resolver: zodResolver(selectFieldSchema),
         mode: "onSubmit",
-        defaultValues: {
-            label,
-            helperText,
-            required,
-            placeHolder,
-            options
-        }
+        defaultValues: { label, helperText, placeholder, required, options }
     })
 
     // updates the changes
-    function applyChanges(values: selectFieldPropsSchemaType) {
-        const { label, helperText, placeHolder, required, options } = values
+    function applyChanges(values: SelectFieldSchemaT) {
+        const { label, helperText, placeholder, required, options } = values
 
         updateElement(element.id, {
             ...element,
             extraAttributes: {
                 label,
                 helperText,
-                placeHolder,
+                placeholder,
                 required,
                 options
             }
@@ -99,7 +81,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 />
                 <FormField
                     control={form.control}
-                    name="placeHolder"
+                    name="placeholder"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Placeholder</FormLabel>

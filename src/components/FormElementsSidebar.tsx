@@ -1,7 +1,7 @@
 "use client"
 
 import { SidebarBtnElement } from './SidebarBtnElement'
-import { FormElements } from './FormElements'
+import { FormElements } from "@/types/form"
 import { Button } from './ui/button'
 import { Separator } from './ui/separator'
 

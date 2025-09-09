@@ -1,20 +1,12 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Calendar1 } from "lucide-react"
 
-export const extraAttributes = {
-    label: "Date Field",
-    helperText: "Pick a date",
-    required: false,
-}
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 export default function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "DateField" }>
     const { label, helperText, required } = element.extraAttributes
     return (
         <div className="flex flex-col gap-4 w-full">

@@ -1,7 +1,7 @@
 "use server"
 
 import prisma from "@/lib/prisma"
-import { formSchema, formSchemaType } from "@/schemas/form"
+import { createFormSchema, createFormSchemaT } from "@/schemas"
 import { currentUser } from "@clerk/nextjs/server"
 
 class UserNotFoundErr extends Error {
@@ -59,8 +59,8 @@ export async function getFormStats(): Promise<{
 }
 
 // creates form for every unique user
-export async function createForm(data: formSchemaType) {
-    const validation = formSchema.safeParse(data)
+export async function createForm(data: createFormSchemaT) {
+    const validation = createFormSchema.safeParse(data)
     if (!validation.success) throw new Error("form not valid")
 
     const user = await currentUser()

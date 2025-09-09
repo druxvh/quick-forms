@@ -1,24 +1,13 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Label } from "@/components/ui/label"
 import { Select, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-export const extraAttributes = {
-    label: "Select Field",
-    helperText: "Helper Text",
-    required: false,
-    placeHolder: "Value here...",
-    options: [] as string[]
-}
-
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 
 export default function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
-    const { label, helperText, placeHolder, required } = element.extraAttributes
+    const element = elementInstance as Extract<FormElementInstance, { type: "SelectField" }>
+    const { label, helperText, placeholder, required } = element.extraAttributes
     return (
         <div className="flex flex-col gap-4 w-full">
             <Label>
@@ -27,7 +16,7 @@ export default function DesignerComponent({ elementInstance }: { elementInstance
             </Label>
             <Select>
                 <SelectTrigger className="w-full">
-                    <SelectValue placeholder={placeHolder} />
+                    <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
             </Select>
             {helperText &&

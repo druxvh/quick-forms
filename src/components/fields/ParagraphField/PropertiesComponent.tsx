@@ -1,36 +1,31 @@
 'use client'
 
-import { FormElementInstance } from "@/components/FormElements"
+import { FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
 import useDesigner from "@/hooks/useDesigner"
-import { paragraphPropsSchema, paragraphPropsSchemaType } from "@/schemas/element-properties"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
+import { paragraphFieldSchema, ParagraphFieldSchemaT } from "@/schemas"
 
-export const extraAttributes = {
-    text: "Paragraph Field",
-}
-
-type CustomInstance = FormElementInstance & {
-    extraAttributes: typeof extraAttributes
-}
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as CustomInstance
+    const element = elementInstance as Extract<FormElementInstance, { type: "ParagraphField" }>
     const { updateElement } = useDesigner()
 
-    const form = useForm<paragraphPropsSchemaType>({
-        resolver: zodResolver(paragraphPropsSchema),
+    const { text } = element.extraAttributes
+
+    const form = useForm({
+        resolver: zodResolver(paragraphFieldSchema),
         mode: "onBlur",
         defaultValues: {
-            text: element.extraAttributes?.text
+            text
         }
     })
 
     // updates the changes
-    function applyChanges(values: paragraphPropsSchemaType) {
+    function applyChanges(values: ParagraphFieldSchemaT) {
         const { text } = values
 
         updateElement(element.id, {

@@ -3,7 +3,7 @@
 import useDesigner from "@/hooks/useDesigner"
 import { Button } from "./ui/button"
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
-import { FormElements } from "./FormElements"
+import { FormElements } from "@/types/form"
 
 export default function PreviewDialogBtn() {
     const { elements } = useDesigner()
