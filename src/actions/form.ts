@@ -34,11 +34,16 @@ export async function getFormStats(): Promise<{
         const visits = stats._sum.visits ?? 0
         const submissions = stats._sum.submissions ?? 0
 
-        const submissionRate = visits > 0
-            ? Number(((submissions / visits) * 100).toFixed(2))
-            : 0
+        let submissionRate = 0;
+        if (visits > 0) {
+            submissionRate = Number(((submissions / visits) * 100).toFixed(2));
+            if (submissionRate > 100) submissionRate = 100;
+            if (submissionRate < 0) submissionRate = 0;
+        }
 
-        const bounceRate = 100 - submissionRate
+        const bounceRate = visits > 0 ?
+            Number((100 - submissionRate).toFixed(2))
+            : 0
 
         return {
             visits,

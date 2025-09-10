@@ -17,11 +17,16 @@ export default async function FormPage({ params }: {
 
     const { name, shareURL, visits, submissions } = form
 
-    const submissionRate = visits > 0
-        ? Number(((submissions / visits) * 100).toFixed(2))
-        : 0
+    let submissionRate = 0;
+    if (visits > 0) {
+        submissionRate = Number(((submissions / visits) * 100).toFixed(2));
+        if (submissionRate > 100) submissionRate = 100;
+        if (submissionRate < 0) submissionRate = 0;
+    }
 
-    const bounceRate = 100 - submissionRate
+    const bounceRate = visits > 0 ?
+        Number((100 - submissionRate).toFixed(2))
+        : 0
 
     return (
         <div className="w-full h-full px-4">
@@ -39,7 +44,7 @@ export default async function FormPage({ params }: {
             <div className="mx-auto max-w-7xl pt-8 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
                 <StatsCard
                     title="Total Visits"
-                    value={visits.toLocaleString() || "0"}
+                    value={visits.toLocaleString()}
                     icon={<Eye className="text-gray-700 dark:text-gray-300 size-4" />}
                     helperText="All Time Form Visits"
                     loading={false}
@@ -47,7 +52,7 @@ export default async function FormPage({ params }: {
                 />
                 <StatsCard
                     title="Total Submissions"
-                    value={submissions.toLocaleString() || "0"}
+                    value={submissions.toLocaleString()}
                     icon={<FileText className="text-gray-700 dark:text-gray-300 size-4" />}
                     helperText="All Time Submissions"
                     loading={false}
