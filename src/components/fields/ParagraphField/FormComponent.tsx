@@ -1,6 +1,6 @@
 'use client'
 
-import { FormElementInstance } from "@/types/form"
+import { FieldInstance, FormElementInstance } from "@/types/form"
 
 
 export default function FormComponent({

@@ -4,14 +4,14 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import useDesigner from "@/hooks/useDesigner"
 import { subTitleFieldSchema, SubTitleFieldSchemaT } from "@/schemas"
-import { FormElementInstance } from "@/types/form"
+import { FieldInstance, FormElementInstance } from "@/types/form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as Extract<FormElementInstance, { type: "SubTitleField" }>
+    const element = elementInstance as FieldInstance<"SubTitleField">
     const { updateElement } = useDesigner()
     const { subTitle } = element.extraAttributes
 

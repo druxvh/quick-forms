@@ -1,6 +1,6 @@
 'use client'
 
-import { FormElementInstance } from "@/types/form"
+import { FieldInstance, FormElementInstance } from "@/types/form"
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
@@ -15,7 +15,7 @@ import { toast } from "sonner"
 import { selectFieldSchema, SelectFieldSchemaT } from "@/schemas"
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as Extract<FormElementInstance, { type: "SelectField" }>
+    const element = elementInstance as FieldInstance<"SelectField">
     const { updateElement, setSelectedElement } = useDesigner()
     const { label, helperText, placeholder, required, options } = element.extraAttributes
 

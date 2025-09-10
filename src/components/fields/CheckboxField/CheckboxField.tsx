@@ -24,7 +24,7 @@ export const CheckboxField: FormElement = {
     propertiesComponent: PropertiesComponent,
 
     validate: (formElement: FormElementInstance, value: string): boolean => {
-        const element = formElement as Extract<FormElementInstance, { type: "CheckboxField" }>
+        const element = formElement as FieldInstance<"CheckboxField">
         const { required } = element.extraAttributes
         if (required) {
             return value === "true"

@@ -24,7 +24,7 @@ export const TextField: FormElement = {
     propertiesComponent: PropertiesComponent,
 
     validate: (formElement: FormElementInstance, value: string): boolean => {
-        const element = formElement as Extract<FormElementInstance, { type: "TextField" }>
+        const element = formElement as FieldInstance<"TextField">
         const { required } = element.extraAttributes
         if (required) {
             return value.trim().length > 0

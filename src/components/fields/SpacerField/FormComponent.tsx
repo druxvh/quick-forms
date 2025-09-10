@@ -1,13 +1,13 @@
 'use client'
 
-import { FormElementInstance } from "@/types/form"
+import { FieldInstance, FormElementInstance } from "@/types/form"
 
 
 export default function FormComponent({ elementInstance }:
     {
         elementInstance: FormElementInstance
     }) {
-    const element = elementInstance as Extract<FormElementInstance, { type: "SpacerField" }>
+    const element = elementInstance as FieldInstance<"SpacerField">
 
     const { height } = element.extraAttributes
     return (

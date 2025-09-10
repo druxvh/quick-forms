@@ -1,12 +1,12 @@
 'use client'
 
-import { FormElementInstance } from "@/types/form"
+import { FieldInstance, FormElementInstance } from "@/types/form"
 import { Label } from "@/components/ui/label"
 import { Select, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 
 export default function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as Extract<FormElementInstance, { type: "SelectField" }>
+    const element = elementInstance as FieldInstance<"SelectField">
     const { label, helperText, placeholder, required } = element.extraAttributes
     return (
         <div className="flex flex-col gap-4 w-full">

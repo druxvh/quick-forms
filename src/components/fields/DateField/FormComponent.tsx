@@ -17,7 +17,7 @@ export default function FormComponent({ elementInstance, submitValue, isInvalid,
         isInvalid?: boolean
         defaultValue?: string
     }) {
-    const element = elementInstance as Extract<FormElementInstance, { type: "DateField" }>
+    const element = elementInstance as FieldInstance<"DateField">
     const [date, setDate] = useState<string>(defaultValue || "")
 
     const { label, helperText, required } = element.extraAttributes

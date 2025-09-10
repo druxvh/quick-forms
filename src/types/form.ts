@@ -42,6 +42,9 @@ export type FormElementInstanceMap = {
 
 export type FormElementInstance = FormElementInstanceMap[ElementsType]
 
+/** Narrowed instance type for a specific field */
+export type FieldInstance<T extends ElementsType> = Extract<FormElementInstance, { type: T }>
+
 /**
  * Base FormElement
  */

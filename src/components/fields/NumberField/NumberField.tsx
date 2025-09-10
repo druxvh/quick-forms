@@ -25,7 +25,7 @@ export const NumberField: FormElement = {
     propertiesComponent: PropertiesComponent,
 
     validate: (formElement: FormElementInstance, value: string): boolean => {
-        const element = formElement as Extract<FormElementInstance, { type: "NumberField" }>
+        const element = formElement as FieldInstance<"NumberField">
         const { required } = element.extraAttributes
         if (required) {
             return value.trim().length > 0

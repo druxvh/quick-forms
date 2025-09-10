@@ -14,7 +14,7 @@ export default function FormComponent({ elementInstance, submitValue, isInvalid,
         isInvalid?: boolean
         defaultValue?: string
     }) {
-    const element = elementInstance as Extract<FormElementInstance, { type: "TextAreaField" }>
+    const element = elementInstance as FieldInstance<"TextAreaField">
     const [value, setValue] = useState(defaultValue || "")
 
     useEffect(() => {

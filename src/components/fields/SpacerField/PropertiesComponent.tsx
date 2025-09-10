@@ -1,6 +1,6 @@
 'use client'
 
-import { FormElementInstance } from "@/types/form"
+import { FieldInstance, FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Slider } from "@/components/ui/slider"
 import useDesigner from "@/hooks/useDesigner"
@@ -11,7 +11,7 @@ import { spacerFieldSchema, SpacerFieldSchemaT } from "@/schemas"
 
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as Extract<FormElementInstance, { type: "SpacerField" }>
+    const element = elementInstance as FieldInstance<"SpacerField">
 
     const { updateElement } = useDesigner()
 

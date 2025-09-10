@@ -13,7 +13,7 @@ export default function FormComponent({ elementInstance, submitValue, isInvalid,
         isInvalid?: boolean
         defaultValue?: string
     }) {
-    const element = elementInstance as Extract<FormElementInstance, { type: "CheckboxField" }>
+    const element = elementInstance as FieldInstance<"CheckboxField">
     const [value, setValue] = useState<boolean>(defaultValue === "true" ? true : false)
 
     const { label, helperText, required } = element.extraAttributes

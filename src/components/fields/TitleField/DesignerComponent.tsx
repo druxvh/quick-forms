@@ -1,12 +1,12 @@
 'use client'
 
-import { FormElementInstance } from "@/types/form"
+import { FieldInstance, FormElementInstance } from "@/types/form"
 import { Label } from "@/components/ui/label"
 
 
 export default function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
 
-    const element = elementInstance as Extract<FormElementInstance, { type: "TitleField" }>
+    const element = elementInstance as FieldInstance<"TitleField">
 
     const { title } = element.extraAttributes
     return (

@@ -1,6 +1,6 @@
 'use client'
 
-import { FormElementInstance } from "@/types/form"
+import { FieldInstance, FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
@@ -12,7 +12,7 @@ import { dateFieldSchema, DateFieldSchemaT } from "@/schemas"
 
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as Extract<FormElementInstance, { type: "DateField" }>
+    const element = elementInstance as FieldInstance<"DateField">
     const { updateElement } = useDesigner()
     const { label, helperText, required } = element.extraAttributes
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { FormElementInstance } from "@/types/form"
+import { FieldInstance, FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
@@ -12,7 +12,7 @@ import { checkboxFieldSchema, CheckboxFieldSchemaT } from "@/schemas"
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const { updateElement } = useDesigner()
-    const element = elementInstance as Extract<FormElementInstance, { type: "CheckboxField" }>
+    const element = elementInstance as FieldInstance<"CheckboxField">
     const { label, helperText, required } = element.extraAttributes
 
     const form = useForm({
