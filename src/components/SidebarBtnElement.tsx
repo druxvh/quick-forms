@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export function SidebarBtnElement({ formElement }: { formElement: FormElement }) {
     const { icon: Icon, label } = formElement.designerBtnElement;
-    const draggable = useDraggable({
+    const {setNodeRef, listeners, attributes, isDragging} = useDraggable({
         id: `designer-btn-${formElement.type}`,
         data: {
             type: formElement.type,
@@ -17,20 +17,21 @@ export function SidebarBtnElement({ formElement }: { formElement: FormElement })
     })
     return (
         <Button
-            ref={draggable.setNodeRef}
+            ref={setNodeRef}
+            {...listeners}
+            {...attributes}
             variant={"outline"}
             className={cn(
                 "flex flex-col gap-2 size-32 cursor-grab",
-                draggable.isDragging && "ring-2 ring-primary"
+                isDragging && "ring-2 ring-primary"
             )}
-            {...draggable.listeners}
-            {...draggable.attributes}
         >
             <Icon className="size-8 text-primary cursor-grab" />
             <p className="text-xs">{label}</p>
         </Button>
     )
 }
+
 export function SidebarBtnElementDragOverlay({ formElement }: { formElement: FormElement }) {
     const { icon: Icon, label } = formElement.designerBtnElement;
 
