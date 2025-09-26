@@ -5,15 +5,17 @@ import DesignerSidebar from "./DesignerSidebar"
 import { DragEndEvent, useDndMonitor, useDroppable } from "@dnd-kit/core"
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities';
-import useDesigner from "@/hooks/useDesigner"
 import { ElementsType, FormElementInstance, FormElements } from "@/types/form"
 import idGenerator from "@/lib/idGenerator"
 import { useState } from "react"
 import { Button } from "./ui/button"
 import { Trash } from "lucide-react"
+import { useDesignerActions, useDesignerElements, useDesignerSelectedElement } from "@/hooks/use-designer"
 
 export default function Designer() {
-    const { elements, setElements, addElement, selectedElement, setSelectedElement } = useDesigner()
+    const { setElements, addElement, setSelectedElement } = useDesignerActions()
+    const elements = useDesignerElements()
+    const selectedElement = useDesignerSelectedElement()
 
     const { setNodeRef, isOver } = useDroppable({
         id: "designer-drop-area",
@@ -144,7 +146,7 @@ export default function Designer() {
 
 // sortable designer element
 function SDesignerElement({ element }: { element: FormElementInstance }) {
-    const { removeElement, setSelectedElement } = useDesigner()
+    const { removeElement, setSelectedElement } = useDesignerActions()
     const [mouseIsOver, setMouseIsOver] = useState(false)
 
     const { attributes,

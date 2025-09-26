@@ -7,10 +7,10 @@ import { AlertDialogHeader, AlertDialogContent, AlertDialogTitle, AlertDialogTri
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { publishFormById } from "@/actions/form"
-import useDesigner from "@/hooks/useDesigner"
+import { useDesignerElements } from "@/hooks/use-designer"
 
 export default function PublishFormBtn({ id }: { id: number }) {
-    const { elements } = useDesigner()
+    const elements = useDesignerElements()
     const [isPending, startTransition] = useTransition()
     const { refresh } = useRouter()
 

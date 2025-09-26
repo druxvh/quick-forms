@@ -3,7 +3,7 @@
 import { FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
-import useDesigner from "@/hooks/useDesigner"
+import { useDesignerActions } from "@/hooks/use-designer"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
@@ -12,7 +12,7 @@ import { paragraphFieldSchema, ParagraphFieldSchemaT } from "@/schemas"
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as Extract<FormElementInstance, { type: "ParagraphField" }>
-    const { updateElement } = useDesigner()
+       const { updateElement } = useDesignerActions()
 
     const { text } = element.extraAttributes
 

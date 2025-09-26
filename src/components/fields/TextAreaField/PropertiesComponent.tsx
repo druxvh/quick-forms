@@ -5,7 +5,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
-import useDesigner from "@/hooks/useDesigner"
+import { useDesignerActions } from "@/hooks/use-designer"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
@@ -15,7 +15,7 @@ import { textAreaFieldSchema, TextAreaFieldSchemaT } from "@/schemas"
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as FieldInstance<"TextAreaField">
 
-    const { updateElement } = useDesigner()
+       const { updateElement } = useDesignerActions()
     const { label, helperText, placeholder, required, rows } = element.extraAttributes
 
     const form = useForm({

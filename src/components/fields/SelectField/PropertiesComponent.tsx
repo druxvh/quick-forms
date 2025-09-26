@@ -6,7 +6,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
-import useDesigner from "@/hooks/useDesigner"
+import { useDesignerActions } from "@/hooks/use-designer"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, X } from "lucide-react"
 import { useEffect } from "react"
@@ -16,7 +16,7 @@ import { selectFieldSchema, SelectFieldSchemaT } from "@/schemas"
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as FieldInstance<"SelectField">
-    const { updateElement, setSelectedElement } = useDesigner()
+    const { updateElement, setSelectedElement } = useDesignerActions()
     const { label, helperText, placeholder, required, options } = element.extraAttributes
 
     const form = useForm({

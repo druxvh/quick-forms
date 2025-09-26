@@ -1,13 +1,14 @@
 "use client"
 
-import useDesigner from "@/hooks/useDesigner"
 import { FormElements } from "@/types/form"
 import { Button } from "./ui/button"
 import { X } from "lucide-react"
 import { Separator } from "./ui/separator"
+import { useDesignerActions, useDesignerSelectedElement } from "@/hooks/use-designer"
 
 export default function FormPropertiesSidebar() {
-    const { selectedElement, setSelectedElement } = useDesigner()
+    const { setSelectedElement } = useDesignerActions()
+    const selectedElement = useDesignerSelectedElement()
     if (!selectedElement) return null
 
     const FormProperties = FormElements[selectedElement?.type].propertiesComponent

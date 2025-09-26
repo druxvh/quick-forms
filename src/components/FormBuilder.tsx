@@ -7,7 +7,6 @@ import PublishFormBtn from "./PublishFormBtn"
 import Designer from "./Designer"
 import { DndContext, KeyboardSensor, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core"
 import DragOverlayWrapper from "./DragOverlayWrapper"
-import useDesigner from "@/hooks/useDesigner"
 import { useEffect } from "react"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
@@ -16,9 +15,10 @@ import Link from "next/link"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import Confetti from 'react-confetti'
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable"
+import { useDesignerActions } from "@/hooks/use-designer"
 
 export default function FormBuilder({ form }: { form: Form }) {
-    const { setElements, setSelectedElement } = useDesigner()
+    const { setElements, setSelectedElement } = useDesignerActions()
 
     // during drag, btn click does'nt work so to prevent it, add activation constraint to the elements 
     // activates element drag after 10px
@@ -30,7 +30,7 @@ export default function FormBuilder({ form }: { form: Form }) {
     // for touch screens
     const touchSensor = useSensor(TouchSensor, {
         activationConstraint: {
-            delay: 100,
+            delay: 20,
             tolerance: 5,
         }
     })
@@ -48,9 +48,9 @@ export default function FormBuilder({ form }: { form: Form }) {
     }, [form, setElements, setSelectedElement])
 
 
-    const shareUrl = `${window.location.origin}/submit/${form.shareURL}`
-
     if (form.published) {
+        const shareUrl = `${window.location.origin}/submit/${form.shareURL}`
+
         return <>
             <Confetti
                 width={window.innerWidth}

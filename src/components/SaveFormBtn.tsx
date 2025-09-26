@@ -1,12 +1,12 @@
-import useDesigner from "@/hooks/useDesigner"
 import { Button } from "./ui/button"
 import { toast } from "sonner"
 import { useTransition } from "react"
 import { LoaderCircle } from "lucide-react"
 import { updateFormContentById } from "@/actions/form"
+import { useDesignerElements } from "@/hooks/use-designer"
 
 export default function SaveFormBtn({ id }: { id: number }) {
-    const { elements } = useDesigner()
+    const elements = useDesignerElements()
     const [isPending, startTransition] = useTransition()
 
     const updateFormContent = async () => {

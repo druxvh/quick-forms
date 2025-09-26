@@ -3,7 +3,7 @@
 import { FieldInstance, FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import useDesigner from "@/hooks/useDesigner"
+import { useDesignerActions } from "@/hooks/use-designer"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
@@ -11,7 +11,7 @@ import { titleFieldSchema, TitleFieldSchemaT } from "@/schemas"
 
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const { updateElement } = useDesigner()
+       const { updateElement } = useDesignerActions()
     const element = elementInstance as FieldInstance<"TitleField">
     const { title } = element.extraAttributes
 

@@ -3,10 +3,10 @@ import { restrictToWindowEdges } from "@dnd-kit/modifiers"
 import React, { useState } from 'react'
 import { SidebarBtnElementDragOverlay } from './SidebarBtnElement'
 import { ElementsType, FormElements } from "@/types/form"
-import useDesigner from '@/hooks/useDesigner'
+import { useDesignerElements } from '@/hooks/use-designer'
 
 export default function DragOverlayWrapper() {
-    const { elements } = useDesigner()
+    const elements = useDesignerElements()
     const [draggedItem, setDraggedItem] = useState<Active | null>(null)
 
     useDndMonitor({
@@ -26,7 +26,7 @@ export default function DragOverlayWrapper() {
     if (!draggedItem) return null;
 
     let node = <div>No Node in the DragOverlayWrapper</div>
-    
+
     const isSidebarBtnElement = draggedItem.data?.current?.isDesignerBtnElement
 
     if (isSidebarBtnElement) {

@@ -3,7 +3,7 @@
 import { FieldInstance, FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Slider } from "@/components/ui/slider"
-import useDesigner from "@/hooks/useDesigner"
+import { useDesignerActions } from "@/hooks/use-designer"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
@@ -13,7 +13,7 @@ import { spacerFieldSchema, SpacerFieldSchemaT } from "@/schemas"
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as FieldInstance<"SpacerField">
 
-    const { updateElement } = useDesigner()
+       const { updateElement } = useDesignerActions()
 
     const form = useForm({
         resolver: zodResolver(spacerFieldSchema),

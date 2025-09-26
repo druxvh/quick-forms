@@ -4,7 +4,7 @@ import { FieldInstance, FormElementInstance } from "@/types/form"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
-import useDesigner from "@/hooks/useDesigner"
+import { useDesignerActions } from "@/hooks/use-designer"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
@@ -13,7 +13,7 @@ import { dateFieldSchema, DateFieldSchemaT } from "@/schemas"
 
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as FieldInstance<"DateField">
-    const { updateElement } = useDesigner()
+       const { updateElement } = useDesignerActions()
     const { label, helperText, required } = element.extraAttributes
 
     const form = useForm({

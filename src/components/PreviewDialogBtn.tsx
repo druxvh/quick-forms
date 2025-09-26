@@ -1,12 +1,12 @@
 // "use client"
 
-import useDesigner from "@/hooks/useDesigner"
+import { useDesignerElements } from "@/hooks/use-designer"
 import { Button } from "./ui/button"
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { FormElements } from "@/types/form"
 
 export default function PreviewDialogBtn() {
-    const { elements } = useDesigner()
+    const elements = useDesignerElements()
     return (
         <Dialog>
             <DialogTrigger asChild>
