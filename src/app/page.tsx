@@ -1,23 +1,22 @@
-import { Button } from '@/components/ui/button'
-import { currentUser } from '@clerk/nextjs/server'
-import Link from 'next/link'
-import { redirect } from 'next/navigation'
+import CTA from '@/components/(landing-page)/CTA'
+import FAQ from '@/components/(landing-page)/FAQ'
+import Features from '@/components/(landing-page)/Features'
+import Footer from '@/components/(landing-page)/Footer'
+import FormFields from '@/components/(landing-page)/FormFields'
+import Hero from '@/components/(landing-page)/Hero'
+import Navbar from '@/components/(landing-page)/Navbar'
 import React from 'react'
 
 export default async function Home() {
-    const user = await currentUser()
-    if (user) {
-        redirect('/dashboard')
-    }
     return (
-        <div>
-            <h1>Main Page</h1>
-
-            <Link href={'/dashboard'}>
-                <Button>
-                    visit dashboard page
-                </Button>
-            </Link>
+        <div className='min-h-screen'>
+            <Navbar />
+            <Hero />
+            <Features />
+            <FormFields />
+            <FAQ />
+            <CTA />
+            <Footer />
         </div>
     )
 }

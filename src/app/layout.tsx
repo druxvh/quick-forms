@@ -22,15 +22,15 @@ export default function RootLayout({
         <body className="antialiased">
           <NextTopLoader color="#EF6461" showSpinner={false} />
           {/* <DesignerContextProvider> */}
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              {children}
-              <Toaster />
-            </ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+            <Toaster />
+          </ThemeProvider>
           {/* </DesignerContextProvider> */}
         </body>
       </html>
