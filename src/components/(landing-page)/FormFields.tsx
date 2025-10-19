@@ -24,7 +24,7 @@ const formFields = [
     { icon: Heading2, name: "Subtitle", description: "Section subtitle" },
     { icon: FileText, name: "Paragraph", description: "Multi-line text block" },
     { icon: Minus, name: "Separator", description: "Visual divider" },
-    { icon: Space, name: "Spacer", description: "Vertical spacing" },
+    { icon: Space, name: "Spacer", description: "Horizontal spacing" },
     { icon: CheckSquare, name: "Checkbox", description: "Multiple selection" },
     { icon: AlignLeft, name: "Text Area", description: "Large text input" },
     { icon: ChevronDown, name: "Select", description: "Dropdown menu" },
@@ -59,13 +59,13 @@ export default function FormFields() {
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.3, delay: index * 0.05 }}
+                            transition={{ duration: 0.2, delay: 0.03 }}
                             whileHover={{ y: -4, scale: 1.08 }}
                             className="p-6 rounded-lg border border-border/50 bg-card/50 backdrop-blur-sm hover:bg-accent hover:border-foreground/20 hover:shadow-lg transition-all duration-300 group cursor-pointer"
                         >
                             <motion.div
                                 whileHover={{ rotate: 5, scale: 1.1 }}
-                                transition={{ duration: 0.2 }}
+                                transition={{ duration: 0.15 }}
                             >
                                 <field.icon className="h-8 w-8 mb-3" />
                             </motion.div>

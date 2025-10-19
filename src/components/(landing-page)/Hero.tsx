@@ -5,6 +5,7 @@ import { Button } from '../ui/button'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
+import { Spotlight } from '../ui/spotlight-new';
 
 export default function Hero() {
 
@@ -13,7 +14,9 @@ export default function Hero() {
     return (
         <section className="relative min-h-screen flex items-center justify-center bg-background text-foreground overflow-hidden">
             {/* Subtle grid pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+
+            <Spotlight />
 
             <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
                 <div className="max-w-4xl mx-auto text-center">
@@ -48,8 +51,8 @@ export default function Hero() {
                         transition={{ duration: 0.5, delay: 0.3 }}
                         className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto"
                     >
-                        Create stunning, AI-powered forms in seconds — without code.
-                        Collect responses, share instantly, and stay focused on what matters.
+                        Create stunning, Modern forms in seconds — without code.
+                        Collect responses, share instantly.
                     </motion.p>
 
                     <motion.div
@@ -81,7 +84,11 @@ export default function Hero() {
                         transition={{ duration: 0.5, delay: 0.5 }}
                         className="text-sm text-muted-foreground mt-8"
                     >
-                        No credit card required · Instant form creation · Ready to share instantly
+                        <span className='hidden sm:inline'>No credit card required</span>
+                        {" · "}
+                        <span>Instant form creation</span>
+                        {" · "}
+                        <span>Ready to share instantly</span>
                     </motion.p>
                 </div>
             </div>

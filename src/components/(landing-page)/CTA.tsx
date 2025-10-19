@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
+import DottedGlowBackground from "../ui/dotted-glow-background";
 
 export default function CTA() {
 
@@ -14,7 +15,20 @@ export default function CTA() {
         <section className="py-24 bg-secondary/20 relative overflow-hidden border-t border-border/50">
             {/* Subtle pattern */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.01)_1px,transparent_1px)] bg-[size:3rem_3rem]" />
-
+            <DottedGlowBackground
+                className="pointer-events-none mask-radial-to-90% mask-radial-at-center opacity-20 dark:opacity-100"
+                opacity={1}
+                gap={10}
+                radius={1.6}
+                colorLightVar="--color-neutral-500"
+                glowColorLightVar="--color-neutral-600"
+                colorDarkVar="--color-neutral-500"
+                glowColorDarkVar="--color-sky-800"
+                backgroundOpacity={0}
+                speedMin={0.3}
+                speedMax={1.6}
+                speedScale={1}
+            />
             <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
