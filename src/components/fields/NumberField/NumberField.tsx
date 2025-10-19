@@ -1,7 +1,7 @@
 "use client"
 
 import { Hash } from "lucide-react"
-import { ElementsType, FormElement, FormElementInstance, getDefaultAttributes } from "@/types/form"
+import { ElementsType, FieldInstance, FormElement, FormElementInstance, getDefaultAttributes } from "@/types/form"
 
 import DesignerComponent from "./DesignerComponent"
 import FormComponent from "./FormComponent"
