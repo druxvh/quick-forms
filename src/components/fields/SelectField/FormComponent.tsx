@@ -1,6 +1,6 @@
 'use client'
 
-import { FormElementInstance, SubmitFunction } from "@/types/form"
+import { FieldInstance, FormElementInstance, SubmitFunction } from "@/types/form"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
