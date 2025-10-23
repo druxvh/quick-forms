@@ -51,11 +51,11 @@ export default function Navbar() {
                         <Logo />
                     </motion.div>
 
-                    <div className="hidden md:flex items-center gap-6">
-                        <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                    <div className="flex items-center gap-6">
+                        <a href="#features" className="hidden md:inline text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                             Features
                         </a>
-                        <a href="#fields" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                        <a href="#fields" className="hidden md:inline text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                             Fields
                         </a>
                         {!isLoaded && (
@@ -64,7 +64,11 @@ export default function Navbar() {
                         {!isSignedIn
                             ?
                             (
-                                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                <motion.div
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className='hidden md:inline'
+                                >
                                     <Button asChild size="sm" className="bg-primary text-primary-foreground hover:bg-primary/80 shadow-lg hover:shadow-xl transition-all duration-300">
                                         <Link href={"/sign-up"}>
                                             Get Started
