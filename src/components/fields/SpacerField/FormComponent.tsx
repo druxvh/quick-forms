@@ -11,8 +11,13 @@ export default function FormComponent({ elementInstance }:
 
     const { height } = element.extraAttributes
     return (
-        <div style={{ height, width: "100%" }}>
-
-        </div>
+        <div
+            className="w-full shrink-0"
+            style={{
+                height: height || "16px", // default 16px if none
+                minHeight: height || "16px",
+                display: "block",
+            }}
+        />
     )
 }
