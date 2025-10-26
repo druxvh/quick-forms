@@ -1,3 +1,5 @@
+"use client"
+
 import FormElementsSidebar from "./FormElementsSidebar"
 import FormPropertiesSidebar from "./FormPropertiesSidebar"
 import { useDesignerSelectedElement } from "@/hooks/use-designer"
@@ -5,7 +7,7 @@ import { useDesignerSelectedElement } from "@/hooks/use-designer"
 export default function DesignerSidebar() {
     const selectedElement = useDesignerSelectedElement()
     return (
-        <aside className='w-md max-w-md flex flex-col flex-grow gap-2 border-l-2 border-muted p-4 bg-background overflow-y-auto h-full'>
+        <aside className='h-fit sm:h-full sm:min-w-fit flex flex-col flex-grow gap-2 sm:border-l-2 border-muted p-2 sm:p-4 bg-background'>
             {selectedElement
                 ?
                 <FormPropertiesSidebar />

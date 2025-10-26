@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export function SidebarBtnElement({ formElement }: { formElement: FormElement }) {
     const { icon: Icon, label } = formElement.designerBtnElement;
-    const {setNodeRef, listeners, attributes, isDragging} = useDraggable({
+    const { setNodeRef, listeners, attributes, isDragging } = useDraggable({
         id: `designer-btn-${formElement.type}`,
         data: {
             type: formElement.type,
@@ -22,12 +22,12 @@ export function SidebarBtnElement({ formElement }: { formElement: FormElement })
             {...attributes}
             variant={"outline"}
             className={cn(
-                "flex flex-col gap-2 size-32 cursor-grab",
+                "flex flex-col gap-2 size-20 md:size-26 cursor-grab",
                 isDragging && "ring-2 ring-primary"
             )}
         >
-            <Icon className="size-8 text-primary cursor-grab" />
-            <p className="text-xs">{label}</p>
+            <Icon className="size-5 md:size-7 text-primary cursor-grab" />
+            <p className="text-[10px] text-wrap md:text-xs">{label}</p>
         </Button>
     )
 }
@@ -38,10 +38,10 @@ export function SidebarBtnElementDragOverlay({ formElement }: { formElement: For
     return (
         <Button
             variant={"outline"}
-            className="flex flex-col gap-2 size-32 cursor-grab"
+            className="flex flex-col gap-2 size-20 md:size-32 cursor-grab"
         >
-            <Icon className="size-8 text-primary cursor-grab" />
-            <p className="text-xs">{label}</p>
+            <Icon className="size-5 md:size-8 text-primary cursor-grab" />
+            <p className="text-[10px] text-wrap md:text-xs">{label}</p>
         </Button>
     )
 }

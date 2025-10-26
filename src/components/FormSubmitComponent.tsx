@@ -79,7 +79,7 @@ export default function FormSubmitComponent({
     if (submitted) {
         return (
             <div className="w-full h-full p-4 bg-background flex grow items-center justify-center">
-                <div className="max-w-2xl flex flex-col gap-5 grow p-4 overflow-y-auto border rounded-md">
+                <div className="max-w-2xl flex flex-col gap-5 grow p-4 overflow-y-auto rounded-md">
                     <h1 className='text-2xl font-semibold'>Form submitted</h1>
                     <p className='text-muted-foreground'>Thank you for submitting the form, you can now close this page now.</p>
                 </div>

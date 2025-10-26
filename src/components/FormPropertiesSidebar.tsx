@@ -13,7 +13,7 @@ export default function FormPropertiesSidebar() {
 
     const FormProperties = FormElements[selectedElement?.type].propertiesComponent
     return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 pb-20 sm:pb-0 sm:w-48 md:w-60 lg:w-72">
             <div className="flex justify-between items-center">
                 <p className="text-sm text-foreground/70">Element Properties</p>
                 <Button

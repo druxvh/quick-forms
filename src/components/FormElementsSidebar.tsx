@@ -7,7 +7,7 @@ import { Separator } from './ui/separator'
 
 export default function FormElementsSidebar() {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 w-full sm:w-48 md:w-60 lg:w-72 ">
       <div className="flex justify-between items-center">
         <p className="text-sm text-foreground/70">Elements</p>
         <Button
@@ -17,18 +17,10 @@ export default function FormElementsSidebar() {
         </Button>
       </div>
       <Separator className='mb-4' />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 place-items-center">
-        <SidebarBtnElement formElement={FormElements.TextField} />
-        <SidebarBtnElement formElement={FormElements.TitleField} />
-        <SidebarBtnElement formElement={FormElements.SubTitleField} />
-        <SidebarBtnElement formElement={FormElements.ParagraphField} />
-        <SidebarBtnElement formElement={FormElements.SeparatorField} />
-        <SidebarBtnElement formElement={FormElements.SpacerField} />
-        <SidebarBtnElement formElement={FormElements.NumberField} />
-        <SidebarBtnElement formElement={FormElements.TextAreaField} />
-        <SidebarBtnElement formElement={FormElements.DateField} />
-        <SidebarBtnElement formElement={FormElements.SelectField} />
-        <SidebarBtnElement formElement={FormElements.CheckboxField} />
+      <div className="h-full flex sm:grid grid-cols-2 md:grid-cols-2 gap-3 place-items-center overflow-x-auto sm:overflow-visible scroll-smooth pb-10 pt-2 sm:pb-0 sm:pt-0">
+        {Object.values(FormElements).map((el, idx) => (
+          <SidebarBtnElement key={idx} formElement={el} />
+        ))}
       </div>
     </div>
   )

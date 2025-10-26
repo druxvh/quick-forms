@@ -5,11 +5,13 @@ import { Skeleton } from "./ui/skeleton"
 import { cn, formatStat } from "@/lib/utils"
 import { ChartNoAxesCombined, Eye, FileText, MousePointerClick } from "lucide-react"
 import { getFormStats } from "@/actions/form"
+import React from "react"
 
 interface StatsCardProps {
     title: string
     value: string
-    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+    // Accept either a component (e.g. Eye) or an instantiated element (e.g. <Eye />)
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>> | React.ReactElement
     helperText: string
     loading?: boolean
     className?: string
@@ -40,12 +42,19 @@ export function StatsCard({
                 <CardTitle className="text-[11px] sm:text-xs font-medium text-muted-foreground leading-tight text-wrap truncate">
                     {title}
                 </CardTitle>
-                <Icon
-                    className={cn(
-                        "flex-shrink-0 text-gray-700 dark:text-gray-300",
-                        "size-4"
-                    )}
-                />
+                {/* Support both component and element icons. If an element was passed
+                    (e.g. icon={<Eye />}) render it directly. If a component was
+                    passed (e.g. icon={Eye}) instantiate it with the expected className. */}
+                {React.isValidElement(Icon) ? (
+                    Icon
+                ) : (
+                    <Icon
+                        className={cn(
+                            "flex-shrink-0 text-gray-700 dark:text-gray-300",
+                            "size-4"
+                        )}
+                    />
+                )}
             </CardHeader>
 
             <CardContent className="p-0">

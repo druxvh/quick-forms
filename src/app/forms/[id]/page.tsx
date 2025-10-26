@@ -30,9 +30,9 @@ export default async function FormPage({ params }: {
 
     return (
         <div className="w-full h-full px-4">
-            <div className="py-10 border-b border-muted">
-                <div className="flex justify-between mx-auto max-w-7xl">
-                    <h1 className="text-3xl font-semibold truncate">{name}</h1>
+            <div className="py-5 sm:py-10 border-b border-muted">
+                <div className="flex justify-between items-center mx-auto max-w-7xl">
+                    <h1 className="text-2xl sm:text-3xl font-semibold text-wrap truncate">{name}</h1>
                     <VisitBtn shareUrl={shareURL} />
                 </div>
             </div>
@@ -75,7 +75,7 @@ export default async function FormPage({ params }: {
                     className="shadow-md"
                 />
             </div>
-            <div className="mx-auto max-w-7xl pt-8">
+            <div className="mx-auto max-w-7xl pt-6">
                 <SubmissionsTable id={form.id} />
             </div>
         </div>

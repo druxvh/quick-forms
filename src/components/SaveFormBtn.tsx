@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "./ui/button"
 import { toast } from "sonner"
 import { useTransition } from "react"
@@ -38,6 +40,7 @@ export default function SaveFormBtn({ id }: { id: number }) {
             onClick={() => {
                 startTransition(updateFormContent)
             }}
+            className="text-xs sm:text-sm cursor-pointer"
         >
             {isPending ? (
                 <LoaderCircle className="size-4 animate-spin" />

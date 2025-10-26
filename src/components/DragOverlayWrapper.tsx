@@ -1,3 +1,5 @@
+"use client"
+
 import { Active, DragOverlay, DragStartEvent, useDndMonitor } from '@dnd-kit/core'
 import { restrictToWindowEdges } from "@dnd-kit/modifiers"
 import React, { useState } from 'react'

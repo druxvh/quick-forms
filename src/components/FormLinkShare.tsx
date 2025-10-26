@@ -22,7 +22,7 @@ export default function FormLinkShare({ shareUrl }: {
         <div className="flex grow gap-4 items-center">
             <Input value={shareLink} readOnly />
             <Button
-                className='w-[200px]'
+                className='w-30 sm:w-[200px]'
                 onClick={() => {
                     navigator.clipboard.writeText(shareLink)
                     toast.success("Link copied to your clipboard.")

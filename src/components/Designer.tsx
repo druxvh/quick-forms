@@ -98,9 +98,9 @@ export default function Designer() {
     })
 
     return (
-        <div className="flex w-full h-full">
+        <div className="flex flex-col sm:flex-row w-full h-full">
             <div
-                className="p-4 w-full "
+                className="w-full p-2 sm:p-4 h-full"
                 onClick={() => {
                     if (selectedElement) setSelectedElement(null)
                 }}
@@ -108,7 +108,7 @@ export default function Designer() {
                 {/* Droppable area */}
                 <div
                     ref={setNodeRef}
-                    className={cn("bg-background border border-border max-w-3xl h-full m-auto rounded-md flex flex-col grow items-center flex-1 overflow-y-auto transition-colors",
+                    className={cn("bg-background border border-border border-dashed max-w-3xl h-full m-auto rounded-sm flex flex-col items-center flex-1 overflow-y-auto transition-colors",
                         isOver && "ring-2 ring-primary/50",
                         elements.length > 6 && "pb-32"
                     )}>

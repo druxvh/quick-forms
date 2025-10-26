@@ -58,11 +58,11 @@ export default function FormBuilder({ form }: { form: Form }) {
                 recycle={false}
                 numberOfPieces={300}
             />
-            <div className="flex flex-col items-center justify-center h-full w-full">
+            <div className="flex flex-col items-center justify-center h-full w-full px-4">
                 <div className="max-w-md">
-                    <h1 className="text-center text-4xl font-bold text-primary border-b pb-2 mb-10">Form Published</h1>
-                    <h2 className="text-2xl">Share this form</h2>
-                    <h3 className="text-xl text-muted-foreground border-b pb-10">Anyone with the link can view and submit the form</h3>
+                    <h1 className="text-center text-2xl sm:text-3xl font-bold text-primary border-b pb-2 mb-5 sm:mb-10">Form Published</h1>
+                    <h2 className="text-lg sm:text-2xl">Share this form</h2>
+                    <h3 className="text-base sm:text-xl text-muted-foreground border-b pb-5 sm:pb-10">Anyone with the link can view and submit the form</h3>
                     <div className="my-4 flex flex-col gap-2 items-center w-full border-b pb-4">
                         <Input className="w-full" readOnly value={shareUrl} />
                         <Button
@@ -97,7 +97,7 @@ export default function FormBuilder({ form }: { form: Form }) {
 
     return (
         <main className="flex flex-col w-full">
-            <nav className="flex justify-between border-b-2 p-4 gap-3 items-center">
+            <nav className="flex flex-col sm:flex-row justify-between border-b-2 p-4 gap-4 items-center">
                 <h2 className="truncate font-medium">
                     <span className="text-muted-foreground mr-2">Form:</span>
                     {form.name}

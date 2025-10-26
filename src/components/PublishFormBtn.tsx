@@ -40,7 +40,10 @@ export default function PublishFormBtn({ id }: { id: number }) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <Button disabled={isPending || isFormEmpty}>
+                <Button
+                    disabled={isPending || isFormEmpty}
+                    className="text-xs sm:text-sm cursor-pointer"
+                >
                     {isPending ? (
                         <LoaderCircle className="size-4 animate-spin" />
                     ) : (
@@ -50,7 +53,7 @@ export default function PublishFormBtn({ id }: { id: number }) {
             </AlertDialogTrigger>
             <AlertDialogContent>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogTitle className="text-pretty">Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>
                         This action cannot be undone. After publishing you will not be able to edit this form.
                         <br />
