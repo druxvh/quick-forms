@@ -1,17 +1,18 @@
-import { ReactNode } from "react"
+'use client'
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Skeleton } from "./ui/skeleton"
-import { cn } from "@/lib/utils"
+import { cn, formatStat } from "@/lib/utils"
 import { ChartNoAxesCombined, Eye, FileText, MousePointerClick } from "lucide-react"
 import { getFormStats } from "@/actions/form"
 
 interface StatsCardProps {
     title: string
     value: string
-    icon: ReactNode
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
     helperText: string
-    loading: boolean
-    className: string
+    loading?: boolean
+    className?: string
 }
 
 interface StatsCardsContainerProps {
@@ -23,33 +24,39 @@ interface StatsCardsContainerProps {
 export function StatsCard({
     title,
     value,
-    icon,
+    icon: Icon,
     helperText,
-    loading,
-    className
+    loading = false,
+    className = ""
 }: StatsCardProps) {
     return (
-        <Card className={cn("gap-3 rounded-md", className)}>
-            <CardHeader className="flex items-center justify-between">
-                <CardTitle className="text-xs font-medium text-muted-foreground">{title}</CardTitle>
-                {icon}
+        <Card
+            className={cn(
+                "rounded-md shadow-sm flex flex-col justify-between transition hover:shadow-lg active:shadow-lg gap-1 sm:gap-4 p-2 sm:p-4",
+                className
+            )}
+        >
+            <CardHeader className="flex items-center p-0 justify-between gap-2">
+                <CardTitle className="text-[11px] sm:text-xs font-medium text-muted-foreground leading-tight text-wrap truncate">
+                    {title}
+                </CardTitle>
+                <Icon
+                    className={cn(
+                        "flex-shrink-0 text-gray-700 dark:text-gray-300",
+                        "size-4"
+                    )}
+                />
             </CardHeader>
-            <CardContent>
-                <div className="text-xl font-bold">
-                    {loading
-                        ?
-                        (
-                            <Skeleton>
-                                <span>0</span>
-                            </Skeleton>
-                        )
-                        :
-                        value
-                    }
-                </div>
 
+            <CardContent className="p-0">
+                {loading ? (
+                    <Skeleton className="h-6 w-12" />
+                ) : (
+                    <div className="text-lg sm:text-xl font-semibold tracking-tight">{value}</div>
+                )}
             </CardContent>
-            <CardFooter className="text-xs text-muted-foreground">
+
+            <CardFooter className="p-0 text-[11px] sm:text-xs text-muted-foreground leading-tight text-wrap truncate">
                 {helperText}
             </CardFooter>
         </Card>
@@ -57,42 +64,51 @@ export function StatsCard({
 }
 
 
-export function StatsCardsContainer(props: StatsCardsContainerProps) {
-    const { data, loading } = props
+export function StatsCardsContainer({ data, loading }: StatsCardsContainerProps) {
+
+    const statsConfig = [
+        {
+            title: "Total Visits",
+            key: "visits",
+            icon: Eye,
+            helperText: "All Time Form Visits",
+            suffix: "",
+        },
+        {
+            title: "Total Submissions",
+            key: "submissions",
+            icon: FileText,
+            helperText: "All Time Submissions",
+            suffix: "",
+        },
+        {
+            title: "Submission Rate",
+            key: "submissionRate",
+            icon: MousePointerClick,
+            helperText: "Form Submission Rate",
+            suffix: "%",
+        },
+        {
+            title: "Bounce Rate",
+            key: "bounceRate",
+            icon: ChartNoAxesCombined,
+            helperText: "Form Bounce Rate",
+            suffix: "%",
+        },
+    ] as const;
+
     return (
-        <div className="w-full pt-8 gap-4 grid grid-cols-2 lg:grid-cols-4">
-            <StatsCard
-                title="Total Visits"
-                value={data?.visits.toLocaleString() || ""}
-                icon={<Eye className="text-gray-700 dark:text-gray-300 size-4" />}
-                helperText="All Time Form Visits"
-                loading={loading}
-                className="shadow-md"
-            />
-            <StatsCard
-                title="Total Submissions"
-                value={data?.submissions.toLocaleString() || ""}
-                icon={<FileText className="text-gray-700 dark:text-gray-300 size-4" />}
-                helperText="All Time Submissions"
-                loading={loading}
-                className="shadow-md"
-            />
-            <StatsCard
-                title="Total Submission Rate"
-                value={data?.submissionRate.toLocaleString() + "%" || ""}
-                icon={<MousePointerClick className="text-gray-700 dark:text-gray-300 size-4" />}
-                helperText="All Time Submission Rate"
-                loading={loading}
-                className="shadow-md"
-            />
-            <StatsCard
-                title="Total Bounce Rate"
-                value={data?.bounceRate.toLocaleString() + "%" || ""}
-                icon={<ChartNoAxesCombined className="text-gray-700 dark:text-gray-300 size-4" />}
-                helperText="All Time Bounce Rate"
-                loading={loading}
-                className="shadow-md"
-            />
+        <div className="w-full mt-4 sm:mt-8 gap-2 sm:gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            {statsConfig.map((stat) => (
+                <StatsCard
+                    key={stat.key}
+                    title={stat.title}
+                    value={formatStat(data?.[stat.key as keyof typeof data], stat.suffix)}
+                    icon={stat.icon}
+                    helperText={stat.helperText}
+                    loading={loading}
+                />
+            ))}
         </div>
-    )
+    );
 }

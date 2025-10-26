@@ -18,7 +18,7 @@ export function FormCard({ form }: { form: Form }) {
     return (
         <Card className="relative h-52 rounded-md">
             <CardHeader>
-                <CardTitle className="flex items-center justify-between gap-2">
+                <CardTitle className="flex items-center justify-between gap-2 truncate">
                     <span className="truncate font-semibold">
                         {name}
                     </span>
