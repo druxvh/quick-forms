@@ -21,7 +21,7 @@ export default function Footer() {
                 </div>
 
                 <div className="mt-8 flex flex-col md:flex-row justify-between items-center border-t border-border/50 pt-6 text-sm text-muted-foreground">
-                    <p>© {new Date().getFullYear()} Quick Forms. All rights reserved.</p>
+                    <p>© {new Date().getFullYear()} QForms. All rights reserved.</p>
                     <div className="flex gap-4 mt-3 md:mt-0">
                         <Link href="/privacy" className="hover:text-foreground transition-colors">
                             Privacy

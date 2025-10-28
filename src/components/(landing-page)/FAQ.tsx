@@ -10,7 +10,7 @@ import {
 
 const faqs = [
     {
-        question: "Do I need any coding experience to use Quick Forms?",
+        question: "Do I need any coding experience to use QForms?",
         answer:
             "Nope! Quick Forms is designed for everyone. You can create and share fully functional forms just by adding fields and adjusting their order — no technical skills required.",
     },
@@ -45,14 +45,14 @@ const faqs = [
             "Currently, forms use a clean, default layout designed for clarity and ease of use. Visual customization options will be added in future updates.",
     },
     {
-        question: "Can I use Quick Forms for business or personal use?",
+        question: "Can I use QForms for business or personal use?",
         answer:
             "Yes! Whether you're collecting feedback, registrations, or simple contact details — Quick Forms works great for both personal and business needs.",
     },
     {
         question: "Are new features being added soon?",
         answer:
-            "Yes — we're actively improving Quick Forms! Future updates will include custom themes, AI form generation, integrations, and more advanced analytics.",
+            "Yes — we're actively improving QForms! Future updates will include custom themes, AI form generation, integrations, and more advanced analytics.",
     },
 ]
 
@@ -71,7 +71,7 @@ export default function FAQ() {
                         Frequently Asked Questions
                     </h2>
                     <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                        Everything you need to know about Quick Forms
+                        Everything you need to know about QForms
                     </p>
                 </motion.div>
 

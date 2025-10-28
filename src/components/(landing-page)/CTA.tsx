@@ -41,7 +41,7 @@ export default function CTA() {
                         Ready to build your first form?
                     </h2>
                     <p className="text-xl text-muted-foreground mb-10">
-                        Join the creators using Quick Forms to simplify their workflows.
+                        Join the creators using QForms to simplify their workflows.
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>

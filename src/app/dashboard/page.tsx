@@ -21,9 +21,9 @@ export default async function Dashboard() {
       <Suspense fallback={<StatsCardsContainer loading />}>
         <StatsCardsContainer loading={false} data={stats} />
       </Suspense>
-      <Separator className="my-6" />
-      <h2 className="text-2xl font-bold ">Your Forms</h2>
-      <Separator className="my-6" />
+      <Separator className="my-4 sm:my-6" />
+      <h2 className="text-xl sm:text-2xl font-bold ">Your Forms</h2>
+      <Separator className="my-4 sm:my-6" />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <CreateFormButton />
         <Suspense

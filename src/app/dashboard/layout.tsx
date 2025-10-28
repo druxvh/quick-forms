@@ -1,18 +1,13 @@
-import Logo from "@/components/Logo"
-import ThemeModeToggle from "@/components/ThemeModeToggle"
-import { UserButton } from "@clerk/nextjs"
+// import Logo from "@/components/Logo"
+import Navbar from "@/components/Navbar"
+// import ThemeModeToggle from "@/components/ThemeModeToggle"
+// import { UserButton } from "@clerk/nextjs"
 import { ReactNode } from "react"
 
 export default function Layout({ children }: { children: ReactNode }) {
     return (
         <div className="flex flex-col min-h-screen min-w-full bg-background max-h-screen">
-            <nav className="h-16 px-4 py-2 border-b flex justify-between items-center">
-                <Logo />
-                <div className="flex gap-5">
-                    <ThemeModeToggle />
-                    <UserButton />
-                </div>
-            </nav>
+            <Navbar />
             <main className="flex mx-auto w-full max-w-7xl grow">{children}</main>
         </div>
     )

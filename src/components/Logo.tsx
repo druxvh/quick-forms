@@ -1,9 +1,9 @@
+'use client'
+
 import Link from "next/link"
 
-function Logo() {
+export default function Logo() {
     return (
-        <Link href={'/'} className="text-lg font-mono font-semibold tracking-wider">quick-forms</Link>
+        <Link href={'/'} className="text-lg sm:text-xl font-mono font-semibold tracking-wider">qforms</Link>
     )
 }
-
-export default Logo
