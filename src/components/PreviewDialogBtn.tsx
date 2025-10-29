@@ -20,7 +20,7 @@ export default function PreviewDialogBtn() {
                     Preview
                 </Button>
             </DialogTrigger>
-            <DialogContent className="min-w-full h-screen max-h-screen flex flex-col gap-0 p-0 border-none">
+            <DialogContent className="min-w-full h-screen max-h-screen flex flex-col gap-0 p-0 border-none z-50">
                 <DialogHeader className="truncate">
                     <DialogTitle asChild>
                         <div className="px-4 py-2 border-b">

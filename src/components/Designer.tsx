@@ -7,10 +7,14 @@ import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } 
 import { CSS } from '@dnd-kit/utilities';
 import { ElementsType, FormElementInstance, FormElements } from "@/types/form"
 import idGenerator from "@/lib/idGenerator"
-import { useState } from "react"
-import { Button } from "./ui/button"
-import { Trash } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
 import { useDesignerActions, useDesignerElements, useDesignerSelectedElement } from "@/hooks/use-designer"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { AnimatePresence } from "framer-motion"
+import ElementToolbar from "./ElementToolbar"
+import MobileOverlay from "./MobileOverlay"
+
+let globalAutoHideTimer: NodeJS.Timeout | null = null;
 
 export default function Designer() {
     const { setElements, addElement, setSelectedElement } = useDesignerActions()
@@ -124,19 +128,19 @@ export default function Designer() {
                                 ))}
                             </div>
                         }
-                        {/* Empty state */}
-                        {!isOver && elements.length === 0 &&
-                            <p className="text-xl text-muted-foreground flex grow items-center font-medium">Drag fields here to start building your form
-                            </p>
-                        }
 
                         {isOver && elements.length === 0 &&
                             <div className="p-4 w-full">
                                 <div className="h-32 w-full rounded-md bg-primary/10 border-2 border-dashed border-primary/40" />
                             </div>
                         }
-
                     </SortableContext>
+
+                    {/* Empty state */}
+                    {!isOver && elements.length === 0 &&
+                        <p className="px-2 text-base sm:text-lg text-pretty text-center text-muted-foreground/90 flex items-center grow font-medium">Drag fields here from the elements to start building your form
+                        </p>
+                    }
                 </div>
             </div>
             <DesignerSidebar />
@@ -146,18 +150,8 @@ export default function Designer() {
 
 // sortable designer element
 function SDesignerElement({ element }: { element: FormElementInstance }) {
-    const { removeElement, setSelectedElement } = useDesignerActions()
-    const [mouseIsOver, setMouseIsOver] = useState(false)
-
-    const { attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-        isDragging,
-        isOver,
-
-    } = useSortable({
+    const { activeElementId, removeElement, setSelectedElement, setActiveElementId } = useDesignerActions()
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging, isOver } = useSortable({
         id: element.id,
         data: {
             type: element.type,
@@ -166,64 +160,152 @@ function SDesignerElement({ element }: { element: FormElementInstance }) {
         }
     })
 
+    const isMobile = useIsMobile()
+    const [isLongPressing, setIsLongPressing] = useState(false)
+
+    const longPressTimer = useRef<NodeJS.Timeout | null>(null);
+    const longPressTriggered = useRef(false);
+
+    const isSelected = activeElementId === element.id
+    const DesignerElement = FormElements[element.type].designerComponent
+
+    // Cleanup timers on unmount
+    useEffect(() => {
+        return () => {
+            if (longPressTimer.current) clearTimeout(longPressTimer.current);
+            if (globalAutoHideTimer) clearTimeout(globalAutoHideTimer);
+        };
+    }, []);
+
+    // reset if resizng betweeen mobile and desktop
+    useEffect(() => {
+        if (!isMobile) {
+            setIsLongPressing(false)
+            longPressTriggered.current = false
+        }
+    }, [isMobile])
+
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
     };
 
-
     if (isDragging) return null
-    // if (isDragging) {
-    //     return (
-    //         <div className="h-20 flex flex-col items-center justify-center gap-2 w-full rounded-md border-2 border-dashed border-primary/40 bg-primary/10 text-base text-muted-foreground">
-    //             <p>Current Dragging Field</p>
-    //             <span className="text-sm">If you&apos;ll drop it over the designer area, it&apos;ll append at the last field.</span>
-    //         </div>
-    //     )
-    // }
 
-    const DesignerElement = FormElements[element.type].designerComponent
+    const activateWithAutoHide = (id: string) => {
+        setActiveElementId(id);
+
+        if (!isMobile) {
+            if (globalAutoHideTimer) clearTimeout(globalAutoHideTimer);
+            globalAutoHideTimer = setTimeout(() => {
+                setActiveElementId(null);
+            }, 6000);
+        }
+    }
+
+    const handleDelete = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        handleOverlayClose()
+        removeElement(element.id)
+    }
+
+    const handleEdit = (e: React.MouseEvent) => {
+        e.stopPropagation()
+        handleOverlayClose()
+        setSelectedElement(element)
+
+    }
+
+    // Long press logic for mobile
+    const handleTouchStart = () => {
+        if (!isMobile) return
+        longPressTriggered.current = false;
+
+        longPressTimer.current = setTimeout(() => {
+            longPressTriggered.current = true;
+            setIsLongPressing(true)
+            activateWithAutoHide(element.id)
+        }, 600) // 600ms long press
+    }
+
+    const handleTouchMove = () => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current)
+        }
+    }
+
+    const handleTouchEnd = () => {
+        if (longPressTimer.current) {
+            clearTimeout(longPressTimer.current)
+        }
+
+        // if longPress triggered, prevent the following click from toggling unintentionally
+        // we keep the overlay/toolbar until the user taps outside or the auto-hide timer clears it
+        if (longPressTriggered.current) {
+            // prevent click handler effect (we set flag and stop)
+            // NOTE: the next onClick will still fire; we use the flag in onClick to ignore it.
+            setTimeout(() => {
+                // small timeout to reset the flag if needed later
+                longPressTriggered.current = false; // keep it true for this interaction; optional reset logic
+            }, 300);
+        }
+    }
+
+    const handleClick = (e: React.MouseEvent) => {
+        e.stopPropagation()
+
+        if (isMobile) return
+
+        if (longPressTriggered.current) {
+            longPressTriggered.current = false
+            return
+        }
+
+        activateWithAutoHide(element.id)
+    }
+
+    const handleOverlayClose = () => {
+        setIsLongPressing(false)
+        setActiveElementId(null);
+        longPressTriggered.current = false;
+    }
 
     return (
-        <div
-            ref={setNodeRef}
-            style={style}
-            {...listeners}
-            {...attributes}
-            className="relative h-fit flex flex-col text-foreground rounded-md hover:cursor-pointer"
-            // className="relative flex flex-col rounded-md  hover:cursor-pointer transition-all"
-            onMouseEnter={() => setMouseIsOver(true)}
-            onMouseLeave={() => setMouseIsOver(false)}
-            onClick={(e) => {
-                e.stopPropagation()
-                setSelectedElement(element)
-            }}
-        >
-            {/* highlight drop indicator */}
-            {isOver && (
-                <div className="h-3 my-4 w-full bg-primary/40 rounded-md transition-all" />
-            )}
+        <>
+            {/* Overlay (when long press active) */}
+            <MobileOverlay visible={isLongPressing} onClick={handleOverlayClose} />
 
-            {/* Delete Btn */}
-            {mouseIsOver && (
-                <Button
-                    size="icon"
-                    className="absolute top-2 right-2 rounded-full text-primary/90 bg-red-500 hover:bg-red-600 cursor-pointer opacity-90 hover:opacity-100"
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        removeElement(element.id)
-                    }}
-                >
-                    <Trash className="size-4" />
-                </Button>
-            )}
+            <div
+                ref={setNodeRef}
+                style={style}
+                {...listeners}
+                {...attributes}
+                className={cn(
+                    "relative h-fit flex flex-col text-foreground rounded-md hover:cursor-pointer select-none transition-all",
+                    isSelected ? "ring-2 ring-primary/50" : "hover:ring-1 hover:ring-border"
+                )}
+                onClick={handleClick}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+            >
+                {/* highlight drop indicator */}
+                {isOver && (
+                    <div className="h-3 my-4 w-full bg-primary/40 rounded-md transition-all" />
+                )}
 
-            {/* Rendered element */}
-            <div className={cn("flex w-full h-fit items-center rounded-md bg-accent/40 p-4 pointer-events-none",
-                mouseIsOver && "opacity-30"
-            )}>
-                <DesignerElement elementInstance={element} />
+                {/* Toolbar */}
+                <AnimatePresence>
+                    {isSelected && <ElementToolbar onEdit={handleEdit} onDelete={handleDelete} />}
+                </AnimatePresence>
+
+                {/* Rendered element */}
+                <div className={cn("flex w-full h-fit items-center rounded-md bg-accent/40 p-4 pointer-events-none",
+                    isSelected && "opacity-30"
+                )}>
+                    <DesignerElement elementInstance={element} />
+                </div>
             </div>
-        </div>
+        </ >
     )
 }

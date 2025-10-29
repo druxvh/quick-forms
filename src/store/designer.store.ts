@@ -4,6 +4,7 @@ import { create } from 'zustand'
 type DesignerState = {
     elements: FormElementInstance[]
     selectedElement: FormElementInstance | null
+    activeElementId: string | null
 }
 
 type DesignerActions = {
@@ -12,6 +13,7 @@ type DesignerActions = {
     updateElement: (id: string, element: FormElementInstance) => void
     setElements: (elements: FormElementInstance[]) => void
     setSelectedElement: (element: FormElementInstance | null) => void
+    setActiveElementId: (id: string | null) => void
 }
 
 type DesignerStore = DesignerState & DesignerActions
@@ -21,6 +23,7 @@ export const useDesignerStore = create<DesignerStore>()(
         //  Initial State
         elements: [],
         selectedElement: null,
+        activeElementId: null,
 
         // Actions
         setElements: (elements) => set({ elements }),
@@ -40,6 +43,7 @@ export const useDesignerStore = create<DesignerStore>()(
             elements: state.elements.map((el) => el.id === id ? element : el)
         })),
 
+        setSelectedElement: (selectedElement) => set({ selectedElement }),
 
-        setSelectedElement: (selectedElement) => set({ selectedElement })
+        setActiveElementId: (id) => set({ activeElementId: id })
     }),)
