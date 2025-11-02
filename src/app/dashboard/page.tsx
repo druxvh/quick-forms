@@ -1,38 +1,36 @@
 import { Suspense } from "react";
 import { Separator } from "@/components/ui/separator";
 import CreateFormButton from "../../components/CreateFormButton";
-import { FormCard, FormCardSkeleton } from "@/components/FormCard";
+import { FormCardSkeleton } from "@/components/FormCard";
 import { StatsCardsContainer } from "@/components/StatsCard";
-import { getForms, getFormStats } from "@/actions/form";
+import { StatsSection } from "./components/StatsSection";
+import { FormsGrid } from "./components/FormsGrid";
+import DashboardHeader from "./components/DashboardHeader";
 
-export async function FormCards() {
-  const forms = await getForms()
 
-  return forms.map((form) => (
-    <FormCard key={form.id} form={form} />
-  ))
-}
-
-export default async function Dashboard() {
-  const stats = await getFormStats()
+export default function Dashboard() {
 
   return (
     <div className="w-full h-full px-4">
+
+      {/* Stats Section */}
       <Suspense fallback={<StatsCardsContainer loading />}>
-        <StatsCardsContainer loading={false} data={stats} />
+        <StatsSection />
       </Suspense>
+
       <Separator className="my-4 sm:my-6" />
-      <h2 className="text-xl sm:text-2xl font-bold ">Your Forms</h2>
+      <DashboardHeader title="Your Forms" />
       <Separator className="my-4 sm:my-6" />
+
+      {/* Forms Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <CreateFormButton />
         <Suspense
-          fallback={[1, 2, 3].map((el) => (
+          fallback={[1, 2].map((el) => (
             <FormCardSkeleton key={el} />
-          )
-          )}
+          ))}
         >
-          <FormCards />
+          <FormsGrid />
         </Suspense>
       </div>
     </div>

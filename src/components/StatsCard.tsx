@@ -59,7 +59,7 @@ export function StatsCard({
 
             <CardContent className="p-0">
                 {loading ? (
-                    <Skeleton className="h-6 w-12" />
+                    <Skeleton className="h-6 w-2/3" />
                 ) : (
                     <div className="text-lg sm:text-xl font-semibold tracking-tight">{value}</div>
                 )}
@@ -121,3 +121,22 @@ export function StatsCardsContainer({ data, loading }: StatsCardsContainerProps)
         </div>
     );
 }
+
+// export function StatsCardSkeleton() {
+//     return (
+//         <Card className="rounded-md shadow-sm flex flex-col justify-between gap-4 p-4">
+//             <CardHeader className="flex items-center p-0 justify-between gap-2">
+//                 <Skeleton className="h-4 w-16" />
+//                 <Skeleton className="size-4" />
+//             </CardHeader>
+
+//             <CardContent className="p-0">
+//                 <Skeleton className="h-6 w-12" />
+//             </CardContent>
+
+//             <CardFooter className="p-0">
+//                 <Skeleton className="h-3 w-20" />
+//             </CardFooter>
+//         </Card>
+//     )
+// }
