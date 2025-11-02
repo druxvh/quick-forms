@@ -192,6 +192,7 @@ function SDesignerElement({ element }: { element: FormElementInstance }) {
 
     if (isDragging) return null
 
+    // activate element with auto-hide timer
     const activateWithAutoHide = (id: string) => {
         setActiveElementId(id);
 
@@ -203,12 +204,14 @@ function SDesignerElement({ element }: { element: FormElementInstance }) {
         }
     }
 
+    // remove element
     const handleDelete = (e: React.MouseEvent) => {
         e.stopPropagation()
         handleOverlayClose()
         removeElement(element.id)
     }
 
+    // edit element
     const handleEdit = (e: React.MouseEvent) => {
         e.stopPropagation()
         handleOverlayClose()
@@ -228,12 +231,14 @@ function SDesignerElement({ element }: { element: FormElementInstance }) {
         }, 600) // 600ms long press
     }
 
+    // cancel long press if touch moves
     const handleTouchMove = () => {
         if (longPressTimer.current) {
             clearTimeout(longPressTimer.current)
         }
     }
 
+    // handle touch end
     const handleTouchEnd = () => {
         if (longPressTimer.current) {
             clearTimeout(longPressTimer.current)
@@ -251,6 +256,7 @@ function SDesignerElement({ element }: { element: FormElementInstance }) {
         }
     }
 
+    // handle click (desktop) or tap (mobile)
     const handleClick = (e: React.MouseEvent) => {
         e.stopPropagation()
 
@@ -264,6 +270,7 @@ function SDesignerElement({ element }: { element: FormElementInstance }) {
         activateWithAutoHide(element.id)
     }
 
+    // close overlay and toolbar
     const handleOverlayClose = () => {
         setIsLongPressing(false)
         setActiveElementId(null);
