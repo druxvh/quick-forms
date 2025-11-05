@@ -16,8 +16,8 @@ export default function FormElementsSidebar() {
         >
         </Button>
       </div>
-      <Separator className='mb-4' />
-      <div className="h-full flex sm:grid grid-cols-2 md:grid-cols-2 gap-3 place-items-center overflow-x-auto sm:overflow-visible scroll-smooth pb-10 pt-2 sm:pb-0 sm:pt-0">
+      <Separator className='sm:mb-4' />
+      <div className="h-full flex sm:grid grid-cols-2 gap-3 place-items-center overflow-x-auto sm:overflow-visible scroll-smooth py-8 sm:py-0">
         {Object.values(FormElements).map((el, idx) => (
           <SidebarBtnElement key={idx} formElement={el} />
         ))}

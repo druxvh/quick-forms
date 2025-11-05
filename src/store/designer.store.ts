@@ -1,4 +1,5 @@
 import { FormElementInstance } from '@/types/form'
+import { arrayMove } from '@dnd-kit/sortable'
 import { create } from 'zustand'
 
 type DesignerState = {
@@ -14,6 +15,11 @@ type DesignerActions = {
     setElements: (elements: FormElementInstance[]) => void
     setSelectedElement: (element: FormElementInstance | null) => void
     setActiveElementId: (id: string | null) => void
+
+    moveElementUp: (id: string) => void
+    moveElementDown: (id: string) => void
+    moveElementToTop: (id: string) => void
+    moveElementToBottom: (id: string) => void
 }
 
 type DesignerStore = DesignerState & DesignerActions
@@ -45,5 +51,35 @@ export const useDesignerStore = create<DesignerStore>()(
 
         setSelectedElement: (selectedElement) => set({ selectedElement }),
 
-        setActiveElementId: (id) => set({ activeElementId: id })
+        setActiveElementId: (id) => set({ activeElementId: id }),
+
+        // Move Elements
+        moveElementUp(id) {
+            set((state) => {
+                const index = state.elements.findIndex((el) => el.id === id)
+                if (index <= 0) return { elements: state.elements }
+                return { elements: arrayMove(state.elements, index, index - 1) }
+            })
+        },
+        moveElementDown(id) {
+            set((state) => {
+                const index = state.elements.findIndex((el) => el.id === id)
+                if (index === -1 || index === state.elements.length - 1) return { elements: state.elements }
+                return { elements: arrayMove(state.elements, index, index + 1) }
+            })
+        },
+        moveElementToTop(id) {
+            set((state) => {
+                const index = state.elements.findIndex((el) => el.id === id)
+                if (index <= 0) return { elements: state.elements }
+                return { elements: arrayMove(state.elements, index, 0) }
+            })
+        },
+        moveElementToBottom(id) {
+            set((state) => {
+                const index = state.elements.findIndex((el) => el.id === id)
+                if (index === -1 || index === state.elements.length - 1) return { elements: state.elements }
+                return { elements: arrayMove(state.elements, index, state.elements.length - 1) }
+            })
+        },
     }),)

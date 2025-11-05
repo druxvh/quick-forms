@@ -10,14 +10,14 @@ import idGenerator from "@/lib/idGenerator"
 import { useEffect, useRef, useState } from "react"
 import { useDesignerActions, useDesignerElements, useDesignerSelectedElement } from "@/hooks/use-designer"
 import { useIsMobile } from "@/hooks/use-mobile"
-import { AnimatePresence } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import ElementToolbar from "./ElementToolbar"
 import MobileOverlay from "./MobileOverlay"
 
 let globalAutoHideTimer: NodeJS.Timeout | null = null;
 
 export default function Designer() {
-    const { setElements, addElement, setSelectedElement } = useDesignerActions()
+    const { setElements, addElement, activeElementId, setSelectedElement, setActiveElementId } = useDesignerActions()
     const elements = useDesignerElements()
     const selectedElement = useDesignerSelectedElement()
 
@@ -103,16 +103,20 @@ export default function Designer() {
 
     return (
         <div className="flex flex-col sm:flex-row w-full h-full">
+
+            {/* Left/top(mobile) side - Builder Area */}
             <div
-                className="w-full p-2 sm:p-4 h-full"
+                // className="w-full p-2 sm:p-4 max-h-screen h-full"
+                className="h-full w-full p-2 sm:p-4 max-h-[calc(100vh-213px-110px-55px)] sm:max-h-[calc(100vh-130px)] overflow-hidden"
                 onClick={() => {
                     if (selectedElement) setSelectedElement(null)
+                    if (activeElementId) setActiveElementId(null)
                 }}
             >
                 {/* Droppable area */}
                 <div
                     ref={setNodeRef}
-                    className={cn("bg-background border border-border border-dashed max-w-3xl h-full m-auto rounded-sm flex flex-col items-center flex-1 overflow-y-auto transition-colors",
+                    className={cn("bg-background border border-border border-dashed max-w-4xl h-full m-auto rounded-sm flex flex-col items-center flex-1 overflow-y-auto scroll-smooth transition-colors",
                         isOver && "ring-2 ring-primary/50",
                         elements.length > 6 && "pb-32"
                     )}>
@@ -122,19 +126,24 @@ export default function Designer() {
                     >
                         {
                             elements.length > 0 &&
-                            <div className="flex flex-col w-full gap-2 p-4">
+                            <motion.div
+                                layout
+                                transition={{ duration: 0.25, ease: "easeInOut" }}
+                                className="flex flex-col w-full gap-2 p-4">
                                 {elements.map(el => (
-                                    <SDesignerElement key={el.id} element={el} />
+                                    <motion.div key={el.id} layout layoutId={el.id}>
+                                        <SDesignerElement element={el} />
+                                    </motion.div>
                                 ))}
-                            </div>
-                        }
-
-                        {isOver && elements.length === 0 &&
-                            <div className="p-4 w-full">
-                                <div className="h-32 w-full rounded-md bg-primary/10 border-2 border-dashed border-primary/40" />
-                            </div>
+                            </motion.div>
                         }
                     </SortableContext>
+
+                    {isOver && elements.length === 0 &&
+                        <div className="p-4 w-full">
+                            <div className="h-32 w-full rounded-md bg-primary/10 border-2 border-dashed border-primary/40" />
+                        </div>
+                    }
 
                     {/* Empty state */}
                     {!isOver && elements.length === 0 &&
@@ -143,6 +152,7 @@ export default function Designer() {
                     }
                 </div>
             </div>
+            {/* Right/bottom(mobile) side */}
             <DesignerSidebar />
         </div>
     )
@@ -228,7 +238,7 @@ function SDesignerElement({ element }: { element: FormElementInstance }) {
             longPressTriggered.current = true;
             setIsLongPressing(true)
             activateWithAutoHide(element.id)
-        }, 600) // 600ms long press
+        }, 450) // ms long press
     }
 
     // cancel long press if touch moves
@@ -303,7 +313,7 @@ function SDesignerElement({ element }: { element: FormElementInstance }) {
 
                 {/* Toolbar */}
                 <AnimatePresence>
-                    {isSelected && <ElementToolbar onEdit={handleEdit} onDelete={handleDelete} />}
+                    {isSelected && <ElementToolbar elementId={activeElementId} onEdit={handleEdit} onDelete={handleDelete} />}
                 </AnimatePresence>
 
                 {/* Rendered element */}

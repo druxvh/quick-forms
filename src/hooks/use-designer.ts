@@ -17,3 +17,10 @@ export const useDesignerActions = () => useDesignerStore(useShallow((state) => (
     setSelectedElement: state.setSelectedElement,
     setActiveElementId: state.setActiveElementId,
 })))
+
+export const useDesignerMoveActions = () => useDesignerStore(useShallow((state) => ({
+    moveElementUp: state.moveElementUp,
+    moveElementDown: state.moveElementDown,
+    moveElementToTop: state.moveElementToTop,
+    moveElementToBottom: state.moveElementToBottom,
+})))

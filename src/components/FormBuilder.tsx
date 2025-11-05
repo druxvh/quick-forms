@@ -112,7 +112,7 @@ export default function FormBuilder({ form }: { form: Form }) {
                     )}
                 </div>
             </nav>
-            <DndContext sensors={sensors}>
+            <DndContext sensors={sensors} autoScroll>
                 <div className="flex w-full flex-grow items-center justify-center relative">
                     <Designer />
                 </div>
