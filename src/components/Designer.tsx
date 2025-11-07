@@ -20,6 +20,7 @@ export default function Designer() {
     const { setElements, addElement, activeElementId, setSelectedElement, setActiveElementId } = useDesignerActions()
     const elements = useDesignerElements()
     const selectedElement = useDesignerSelectedElement()
+    const isMobile = useIsMobile()
 
     const { setNodeRef, isOver } = useDroppable({
         id: "designer-drop-area",
@@ -118,7 +119,8 @@ export default function Designer() {
                     ref={setNodeRef}
                     className={cn("bg-background border border-border border-dashed max-w-4xl h-full m-auto rounded-sm flex flex-col items-center flex-1 overflow-y-auto scroll-smooth transition-colors",
                         isOver && "ring-2 ring-primary/50",
-                        elements.length > 6 && "pb-32"
+                        (!isMobile && elements.length > 6) && "pb-32",
+                        (isMobile && elements.length > 2) && "pb-32"
                     )}>
                     <SortableContext
                         items={elements.map((el) => el.id)}
@@ -132,7 +134,7 @@ export default function Designer() {
                                 className="flex flex-col w-full gap-2 p-4">
                                 {elements.map(el => (
                                     <motion.div key={el.id} layout layoutId={el.id}>
-                                        <SDesignerElement element={el} />
+                                        <SortableDesignerElement element={el} />
                                     </motion.div>
                                 ))}
                             </motion.div>
@@ -159,7 +161,7 @@ export default function Designer() {
 }
 
 // sortable designer element
-function SDesignerElement({ element }: { element: FormElementInstance }) {
+function SortableDesignerElement({ element }: { element: FormElementInstance }) {
     const { activeElementId, removeElement, setSelectedElement, setActiveElementId } = useDesignerActions()
     const { attributes, listeners, setNodeRef, transform, transition, isDragging, isOver } = useSortable({
         id: element.id,

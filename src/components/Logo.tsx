@@ -7,6 +7,6 @@ export default function Logo() {
     const { isSignedIn } = useUser()
 
     return (
-        <Link href={isSignedIn ? "/dashboard" : "/"} className="text-lg sm:text-xl font-mono font-semibold tracking-wider">qforms</Link>
+        <Link href={isSignedIn ? "/dashboard" : "/"} className="text-lg sm:text-xl font-sans font-semibold tracking-wider">qforms</Link>
     )
 }
