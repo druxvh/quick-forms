@@ -58,6 +58,9 @@ export default function Navbar() {
                         <a href="#fields" className="hidden md:inline text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                             Fields
                         </a>
+                        <a href="#pricing" className="hidden md:inline text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                            Pricing
+                        </a>
                         {!isLoaded && (
                             <span>...</span>
                         )}
