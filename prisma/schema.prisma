@@ -14,28 +14,111 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Plan {
+  FREE
+  PRO
+  CUSTOM
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  EXPIRED
+}
+
+model User {
+  id            String         @id // Clerk user id (string)
+  email         String?        @unique
+  name          String?
+  plan          Plan           @default(FREE)
+  planStartedAt DateTime?
+  planEndsAt    DateTime?
+  formLimit     Int?
+  isOnboarded   Boolean        @default(false)
+  forms         Form[]
+  payments      Payment[]
+  subscriptions Subscription[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([plan])
+  @@map("users")
+}
+
 model Form {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  userId      String
-  name        String
-  description String   @default("")
-  content     String   @default("[]")
-  published   Boolean  @default(false)
-
-  visits      Int @default(0)
-  submissions Int @default(0)
-
-  shareURL       String           @unique @default(uuid())
+  id             String           @id @unique @default(ulid())
+  userId         String
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name           String
+  description    String           @default("")
+  content        Json             @default("[]")
+  published      Boolean          @default(false)
+  visits         Int              @default(0)
+  submissions    Int              @default(0)
+  shareURL       String           @unique @default(nanoid())
   FormSubmission FormSubmission[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 
   @@unique([userId, name])
+  @@index([userId])
+  @@index([published])
+  @@index([createdAt])
+  @@map("forms")
 }
 
 model FormSubmission {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(ulid())
+  formId    String
+  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
+  content   Json
   createdAt DateTime @default(now())
-  formId    Int
-  form      Form     @relation(fields: [formId], references: [id])
-  content   String
+
+  @@index([formId])
+  @@map("form_submissions")
+}
+
+model Payment {
+  id                String        @id @default(ulid())
+  userId            String
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan              Plan
+  amount            Int
+  currency          String
+  razorpayOrderId   String?       @unique
+  razorpayPaymentId String?       @unique
+  razorpaySignature String?
+  status            PaymentStatus @default(PENDING)
+  verifiedAt        DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@map("payments")
+}
+
+model Subscription {
+  id                     String             @id @default(ulid())
+  userId                 String
+  user                   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan                   Plan
+  status                 SubscriptionStatus @default(ACTIVE)
+  startsAt               DateTime           @default(now())
+  endsAt                 DateTime?
+  active                 Boolean            @default(true)
+  razorpaySubscriptionId String?            @unique
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  @@index([userId])
+  @@index([plan])
+  @@map("subscriptions")
 }
