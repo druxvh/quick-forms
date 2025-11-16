@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 import { publishFormById } from "@/actions/form"
 import { useDesignerElements } from "@/hooks/use-designer"
 
-export default function PublishFormBtn({ id }: { id: number }) {
+export default function PublishFormBtn({ id }: { id: string }) {
     const elements = useDesignerElements()
     const [isPending, startTransition] = useTransition()
     const { refresh } = useRouter()

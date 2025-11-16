@@ -12,14 +12,15 @@ type Row = Record<string, string> & {
 }
 
 export default async function SubmissionsTable({ id }: {
-    id: number
+    id: string
 }) {
 
     const form = await getFormSubmissions(id)
     if (!form) {
         throw new Error("Form not found!")
     }
-    const formElements = JSON.parse(form.content) as FormElementInstance[]
+
+    const formElements = form.content as FormElementInstance[] ?? []
 
     const columns: {
         id: string
@@ -51,7 +52,11 @@ export default async function SubmissionsTable({ id }: {
     })
 
     form.FormSubmission.forEach((submission) => {
-        const content = JSON.parse(submission.content)
+        const content = typeof submission.content === "string"
+            ? JSON.parse(submission.content || "{}")
+            : (submission.content ?? {})
+        // const content = submission.content ?? {}
+
         rows.push({
             ...content,
             submittedAt: submission.createdAt

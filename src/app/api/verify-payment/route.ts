@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import crypto from "crypto";
+import { auth } from "@clerk/nextjs/server";
+import prisma from "@/lib/prisma";
+import { ensureUserInDb } from "@/lib/ensure-user";
 
 const generatedSignature = (razorpay_order_id: string, razorpay_payment_id: string) => {
     const keySecret = process.env.RAZORPAY_KEY_SECRET!;
@@ -18,31 +21,85 @@ export async function POST(req: Request) {
             razorpay_order_id,
             razorpay_payment_id,
             razorpay_signature,
-            //   planId,
-            //   userId,
         } = body;
+
+        const dbUser = await ensureUserInDb();
+        if (!dbUser) return new Response("Unauthorized", { status: 401 });
+
+        const { userId } = await auth()
+
+        if (!userId) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
 
         if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
             return NextResponse.json({ error: "Missing required params" }, { status: 400 });
         }
 
-        const signature = generatedSignature(razorpay_order_id, razorpay_payment_id);
+        const payment = await prisma.payment.findUnique({
+            where: { razorpayOrderId: razorpay_order_id }
+        })
 
-        if (signature !== razorpay_signature) {
-            console.warn("Invalid razorpay signature", { signature, received: razorpay_signature });
-            return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+        if (!payment) {
+            console.warn("No payment record found for order", razorpay_order_id);
+            return new NextResponse("Order not found", { status: 404 });
         }
 
-        // TODO: update DB to set user plan -> pro, save payment id, etc.
-        // e.g. await prisma.user.update({ where: { id: userId }, data: { plan: "pro", paymentId: razorpay_payment_id } });
+        // Optional: verify this payment belongs to the current user
+        if (payment.userId !== userId) {
+            return new NextResponse("Unauthorized order", { status: 403 });
+        }
 
-        return NextResponse.json(
-            {
-                success: true,
-                message: "Payment verified successfully",
-            },
-            { status: 200 }
-        );
+        const signature = generatedSignature(razorpay_order_id, razorpay_payment_id);
+
+
+        if (signature !== razorpay_signature) {
+            // Mark payment failed
+            await prisma.payment.update({
+                where: { id: payment.id },
+                data: { status: "FAILED", razorpayPaymentId: razorpay_payment_id, razorpaySignature: razorpay_signature },
+            });
+
+            return new NextResponse("Invalid signature", { status: 400 });
+        }
+
+        const now = new Date();
+        const endsAt = new Date(now);
+        endsAt.setMonth(endsAt.getMonth() + 1); // 1 month pro plan
+
+        await prisma.$transaction([
+            prisma.payment.update({
+                where: { id: payment.id },
+                data: {
+                    status: "SUCCESS",
+                    razorpayPaymentId: razorpay_payment_id,
+                    razorpaySignature: razorpay_signature,
+                    verifiedAt: now,
+                }
+            }),
+
+            prisma.subscription.create({
+                data: {
+                    userId,
+                    plan: payment.plan,
+                    startsAt: now,
+                    endsAt,
+                    active: true,
+                }
+            }),
+
+            prisma.user.update({
+                where: { id: userId },
+                data: {
+                    plan: payment.plan,
+                    planStartedAt: now,
+                    planEndsAt: endsAt,
+                    formLimit: payment.plan === "PRO" ? 10 : null
+                }
+            })
+        ])
+
+        return NextResponse.json({ success: true })
     } catch (err) {
         console.error("Razorpay verify-payment error:", err);
         return NextResponse.json({ success: false, message: "Payment verification failed" }, { status: 500 });

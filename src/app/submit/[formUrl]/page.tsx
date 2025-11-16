@@ -12,7 +12,14 @@ export default async function SubmitPage({ params }: {
     const form = await getFormContentByUrl(formUrl)
     if (!form) throw new Error("Form not found")
 
-    const content = JSON.parse(form.content) as FormElementInstance[]
+
+    const content = form.content as FormElementInstance[] ?? []
+
+    // const content = (Array.isArray(form.content)
+    //     ? form.content
+    //     : typeof form.content === "string"
+    //         ? JSON.parse(form.content || "[]")
+    //         : []) as FormElementInstance[]
 
     return (
         <FormSubmitComponent formUrl={formUrl} content={content} />

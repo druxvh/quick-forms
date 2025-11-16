@@ -8,7 +8,7 @@ export default async function BuilderPage({ params }: {
 }) {
 
     const { id } = await params
-    const form = await getFormById(Number(id))
+    const form = await getFormById(id)
     if (!form) throw new Error("Form not found")
     return <FormBuilder form={form} />
 }

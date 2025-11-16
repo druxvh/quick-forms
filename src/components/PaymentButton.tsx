@@ -26,6 +26,7 @@ export default function PaymentButton({
     const [isLoading, setIsLoading] = useState(false);
     const [scriptLoaded, setScriptLoaded] = useState(false);
 
+
     useEffect(() => {
         // optional: ensure env key exists
         if (!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID) {

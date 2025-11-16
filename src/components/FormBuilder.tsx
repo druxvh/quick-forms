@@ -16,6 +16,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react"
 import Confetti from 'react-confetti'
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable"
 import { useDesignerActions } from "@/hooks/use-designer"
+import { FormElementInstance } from "@/types/form"
 
 export default function FormBuilder({ form }: { form: Form }) {
     const { setElements, setSelectedElement } = useDesignerActions()
@@ -42,7 +43,13 @@ export default function FormBuilder({ form }: { form: Form }) {
     const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor)
 
     useEffect(() => {
-        const elements = JSON.parse(form.content)
+        // const elements = Array.isArray(form.content)
+        //     ? form.content
+        //     : typeof form.content === "string"
+        //         ? JSON.parse(form.content || "[]")
+        //         : []
+        const elements = form.content as FormElementInstance[] ?? []
+
         setElements(elements)
         setSelectedElement(null)
     }, [form, setElements, setSelectedElement])

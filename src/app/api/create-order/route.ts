@@ -1,3 +1,6 @@
+import { ensureUserInDb } from "@/lib/ensure-user";
+import prisma from "@/lib/prisma";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import Razorpay from "razorpay";
 
@@ -9,6 +12,14 @@ const razorpay = new Razorpay({
 export async function POST(req: Request) {
     try {
         const body = await req.json();
+
+        const dbUser = await ensureUserInDb();
+        if (!dbUser) return new Response("Unauthorized", { status: 401 });
+
+        const { userId } = await auth()
+
+        if (!userId) return new NextResponse("Unauthorized", { status: 401 });
+
         const { amount, currency = "INR", receipt, notes } = body;
 
         if (typeof amount !== "number" || isNaN(amount) || amount <= 0) {
@@ -27,6 +38,17 @@ export async function POST(req: Request) {
         };
 
         const order = await razorpay.orders.create(options);
+
+        await prisma.payment.create({
+            data: {
+                userId,
+                plan: "PRO",
+                amount: amountSmallest,
+                currency,
+                razorpayOrderId: order.id,
+                status: "PENDING"
+            }
+        })
 
         return NextResponse.json(
             {

@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma"
 import { createFormSchema, createFormSchemaT } from "@/schemas"
 import { currentUser } from "@clerk/nextjs/server"
+import { InputJsonValue } from "@prisma/client/runtime/library"
 
 class UserNotFoundErr extends Error {
     constructor() {
@@ -109,7 +110,7 @@ export async function getForms() {
 }
 
 // gets form by id
-export async function getFormById(id: number) {
+export async function getFormById(id: string) {
     try {
         const user = await currentUser()
         if (!user) throw new UserNotFoundErr()
@@ -127,7 +128,7 @@ export async function getFormById(id: number) {
 }
 
 // update form content by id
-export async function updateFormContentById(id: number, jsonContent: string) {
+export async function updateFormContentById(id: string, content: InputJsonValue) {
     try {
         const user = await currentUser()
         if (!user) throw new UserNotFoundErr()
@@ -138,7 +139,10 @@ export async function updateFormContentById(id: number, jsonContent: string) {
                 id
             },
             data: {
-                content: jsonContent
+                // ensure we persist a JS value for the Json column
+                content: typeof content === "string"
+                    ? JSON.parse(content || "[]")
+                    : (content ?? [])
             }
         })
     } catch (error) {
@@ -148,7 +152,7 @@ export async function updateFormContentById(id: number, jsonContent: string) {
 }
 
 // publish form by id
-export async function publishFormById(id: number) {
+export async function publishFormById(id: string) {
     try {
         const user = await currentUser()
         if (!user) throw new UserNotFoundErr()
@@ -159,7 +163,13 @@ export async function publishFormById(id: number) {
         if (!form) throw new Error("Form not found")
 
         // if empty array then throw error
-        const elements = JSON.parse(form.content ?? "[]")
+        // form.content is a Prisma Json field and may already be an object.
+        // Normalize to an array of elements for validation.
+        const elements = Array.isArray(form.content)
+            ? form.content
+            : typeof form.content === "string"
+                ? JSON.parse(form.content || "[]")
+                : []
 
         if (!Array.isArray(elements) || elements.length === 0) {
             throw new Error("Cannot publish empty form")
@@ -182,6 +192,7 @@ export async function publishFormById(id: number) {
 
 // gets and returns form content by form url 
 export async function getFormContentByUrl(formUrl: string) {
+
     return await prisma.form.update({
         select: {
             content: true
@@ -196,7 +207,7 @@ export async function getFormContentByUrl(formUrl: string) {
 }
 
 // submits form
-export async function submitForm(formUrl: string, content: string) {
+export async function submitForm(formUrl: string, content: InputJsonValue) {
     return await prisma.form.update({
         data: {
             submissions: {
@@ -204,7 +215,9 @@ export async function submitForm(formUrl: string, content: string) {
             },
             FormSubmission: {
                 create: {
-                    content
+                    content: typeof content === "string"
+                        ? JSON.parse(content || "[]")
+                        : (content ?? [])
                 }
             }
         },
@@ -216,7 +229,7 @@ export async function submitForm(formUrl: string, content: string) {
 }
 
 // gets form submissions
-export async function getFormSubmissions(id: number) {
+export async function getFormSubmissions(id: string) {
     const user = await currentUser()
     if (!user) {
         throw new UserNotFoundErr()

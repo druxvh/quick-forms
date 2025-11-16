@@ -53,7 +53,7 @@ model User {
 }
 
 model Form {
-  id             String           @id @unique @default(ulid())
+  id             String           @id @unique @default(uuid())
   userId         String
   user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   name           String
@@ -75,7 +75,7 @@ model Form {
 }
 
 model FormSubmission {
-  id        String   @id @default(ulid())
+  id        String   @id @default(uuid())
   formId    String
   form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
   content   Json
@@ -86,7 +86,7 @@ model FormSubmission {
 }
 
 model Payment {
-  id                String        @id @default(ulid())
+  id                String        @id @default(uuid())
   userId            String
   user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   plan              Plan
@@ -96,6 +96,7 @@ model Payment {
   razorpayPaymentId String?       @unique
   razorpaySignature String?
   status            PaymentStatus @default(PENDING)
+  meta              Json?
   verifiedAt        DateTime?
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
@@ -106,17 +107,17 @@ model Payment {
 }
 
 model Subscription {
-  id                     String             @id @default(ulid())
-  userId                 String
-  user                   User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plan                   Plan
-  status                 SubscriptionStatus @default(ACTIVE)
-  startsAt               DateTime           @default(now())
-  endsAt                 DateTime?
-  active                 Boolean            @default(true)
-  razorpaySubscriptionId String?            @unique
-  createdAt              DateTime           @default(now())
-  updatedAt              DateTime           @updatedAt
+  id          String             @id @default(uuid())
+  userId      String
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan        Plan
+  status      SubscriptionStatus @default(ACTIVE)
+  startsAt    DateTime           @default(now())
+  endsAt      DateTime?
+  active      Boolean            @default(true)
+  billingMeta Json?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
 
   @@index([userId])
   @@index([plan])

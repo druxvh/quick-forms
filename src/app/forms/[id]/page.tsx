@@ -12,7 +12,7 @@ export default async function FormPage({ params }: {
 }) {
 
     const { id } = await params
-    const form = await getFormById(Number(id))
+    const form = await getFormById(id)
     if (!form) throw new Error("Form not found")
 
     const { name, shareURL, visits, submissions } = form
