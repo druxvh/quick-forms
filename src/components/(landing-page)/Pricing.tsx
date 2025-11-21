@@ -128,7 +128,7 @@ export default function Pricing() {
                                     {isSupported ? (
                                         // Free plan: start free -> signup or create first form
                                         plan.id === "free" ? (
-                                            <Button asChild className="w-full" onClick={() => console.log("clicked")}>
+                                            <Button asChild className="w-full">
                                                 <Link href={isSignedIn ? "/dashboard" : "/sign-up"}>
                                                     {plan.cta}
                                                 </Link>

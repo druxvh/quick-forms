@@ -64,8 +64,10 @@ export default function FormSubmitComponent({
 
             toast.success("Form submitted successfully!")
 
-            const jsonContent = JSON.stringify(formData)
-            await submitForm(formUrl, jsonContent)
+            // const jsonContent = JSON.stringify(formData)
+            // await submitForm(formUrl, jsonContent)
+
+            await submitForm(formUrl, formData)
 
             setSubmitted(true)
 

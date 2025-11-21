@@ -11,6 +11,13 @@ type Row = Record<string, string> & {
     submittedAt: Date
 }
 
+type Column = {
+    id: string
+    label: string
+    required: boolean
+    type: ElementsType
+}
+
 export default async function SubmissionsTable({ id }: {
     id: string
 }) {
@@ -20,15 +27,9 @@ export default async function SubmissionsTable({ id }: {
         throw new Error("Form not found!")
     }
 
-    const formElements = form.content as FormElementInstance[] ?? []
+    const formElements = (form.content ?? []) as FormElementInstance[]
 
-    const columns: {
-        id: string
-        label: string
-        required: boolean
-        type: ElementsType
-    }[] = []
-
+    const columns: Column[] = []
     const rows: Row[] = []
 
     formElements.forEach((el) => {

@@ -2,7 +2,7 @@
 
 import Logo from './Logo'
 import ThemeModeToggle from './ThemeModeToggle'
-import { UserButton } from '@clerk/nextjs'
+import { SignedIn, UserButton } from '@clerk/nextjs'
 
 export default function Navbar({
     themeModeToggle = true,
@@ -16,7 +16,12 @@ export default function Navbar({
             <Logo />
             <div className="flex gap-4 sm:gap-5">
                 {themeModeToggle && <ThemeModeToggle />}
-                {userButton && <UserButton />}
+                {userButton &&
+                    (
+                        <SignedIn>
+                            <UserButton />
+                        </SignedIn>
+                    )}
             </div>
         </nav>
     )

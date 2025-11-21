@@ -56,3 +56,5 @@ export {
 } from './field-schemas'
 
 export { createFormSchema, type createFormSchemaT } from './create-form-schema';
+
+export { onboardFormSchema, type onboardFormSchemaT } from './onboarding-schema';

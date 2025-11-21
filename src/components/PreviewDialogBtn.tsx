@@ -13,7 +13,7 @@ export default function PreviewDialogBtn() {
         <Dialog>
             <DialogTrigger asChild>
                 <Button
-                    disabled={elements.length === 0}
+                    disabled={elements.length === 0 || !elements}
                     variant={"outline"}
                     className="text-xs sm:text-sm cursor-pointer"
                 >

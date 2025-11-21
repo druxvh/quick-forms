@@ -19,8 +19,10 @@ export default function SaveFormBtn({ id }: { id: string }) {
                 })
                 return
             }
-            const jsonElements = JSON.stringify(elements)
-            await updateFormContentById(id, jsonElements)
+            // const jsonElements = JSON.stringify(elements)
+            // await updateFormContentById(id, jsonElements)
+
+            await updateFormContentById(id, elements)
 
 
             toast.success("Saved", {
