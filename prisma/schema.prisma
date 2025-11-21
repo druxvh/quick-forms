@@ -5,13 +5,12 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
   output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum Plan {
@@ -33,15 +32,35 @@ enum SubscriptionStatus {
   EXPIRED
 }
 
+enum Role {
+  INDIVIDUAL
+  BUSINESS
+  FREELANCER
+  DEVELOPER
+}
+
+enum Goal {
+  LEAD_COLLECTION
+  EVENT_REGISTRATION
+  CONDUCT_SURVEYS
+  COLLECT_FEEDBACK
+  BUILD_WEBSITES
+  OTHER
+}
+
 model User {
-  id            String         @id // Clerk user id (string)
+  id            String         @id @default(uuid())
+  clerkId       String?        @unique
   email         String?        @unique
   name          String?
   plan          Plan           @default(FREE)
   planStartedAt DateTime?
   planEndsAt    DateTime?
+  imageUrl      String?
+  role          Role           @default(INDIVIDUAL)
+  goal          Goal?
   formLimit     Int?
-  isOnboarded   Boolean        @default(false)
+  hasOnboarded  Boolean        @default(false)
   forms         Form[]
   payments      Payment[]
   subscriptions Subscription[]
@@ -53,7 +72,7 @@ model User {
 }
 
 model Form {
-  id             String           @id @unique @default(uuid())
+  id             String           @id @default(uuid())
   userId         String
   user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   name           String
