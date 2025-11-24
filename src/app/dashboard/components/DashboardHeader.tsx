@@ -1,5 +1,4 @@
 
-
 export default function DashboardHeader({ title, subtitle }: { title: string, subtitle?: string }) {
     return (
         <header>

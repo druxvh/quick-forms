@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation"
 import { publishFormById } from "@/actions/form"
 import { useDesignerElements } from "@/hooks/use-designer"
 
-export default function PublishFormBtn({ id }: { id: string }) {
+export default function PublishFormBtn({ userId, id }: { userId: string; id: string }) {
     const elements = useDesignerElements()
     const [isPending, startTransition] = useTransition()
     const { refresh } = useRouter()
@@ -24,7 +24,7 @@ export default function PublishFormBtn({ id }: { id: string }) {
                 })
                 return
             }
-            await publishFormById(id)
+            await publishFormById(userId, id)
             toast.success("Published!", {
                 description: "Your form is now available to the public.",
             })

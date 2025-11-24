@@ -52,17 +52,18 @@ const itemVariants = {
 
 export default function OnboardingForm(
     {
+        userId,
         fullName,
         email,
         imageUrl
     }: {
+        userId: string;
         fullName: string;
         email: string;
         imageUrl: string;
     }) {
 
     const router = useRouter();
-
     const form = useForm<onboardFormSchemaT>({
         resolver: zodResolver(onboardFormSchema),
         defaultValues: {
@@ -94,7 +95,7 @@ export default function OnboardingForm(
     const handleSubmit = async (values: onboardFormSchemaT) => {
         setLoading(true);
         try {
-            await onboardUser(values)
+            await onboardUser(userId, values)
             toast.success("Welcome!", {
                 description: "You have successfully completed the onboarding.",
                 position: "bottom-center",

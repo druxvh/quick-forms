@@ -3,7 +3,6 @@
 import { Prisma } from "@/generated/prisma/client"
 import prisma from "@/lib/prisma"
 import { createFormSchema, createFormSchemaT } from "@/schemas"
-import { currentUser } from "@clerk/nextjs/server"
 
 class UserNotFoundErr extends Error {
     constructor() {
@@ -13,19 +12,17 @@ class UserNotFoundErr extends Error {
 }
 
 // gets form stats of the user
-export async function getFormStats(): Promise<{
+export async function getFormStats(userId: string): Promise<{
     visits: number
     submissions: number
     submissionRate: number
     bounceRate: number
 }> {
     try {
-        const user = await currentUser()
-        if (!user) throw new UserNotFoundErr()
+        if (!userId) throw new UserNotFoundErr()
 
-        const dbUser = await prisma.user.findUnique({ where: { clerkId: user.id } })
+        const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } })
         if (!dbUser) throw new Error("User not found")
-
 
         const stats = await prisma.form.aggregate({
             where: { userId: dbUser.id },
@@ -68,16 +65,14 @@ export async function getFormStats(): Promise<{
 }
 
 // creates form for every unique user
-export async function createForm(data: createFormSchemaT) {
+export async function createForm(userId: string, data: createFormSchemaT) {
+    if (!userId) throw new UserNotFoundErr()
+
     const validation = createFormSchema.safeParse(data)
     if (!validation.success) throw new Error("form not valid")
 
-    const user = await currentUser()
-    if (!user) throw new UserNotFoundErr()
-
-    const dbUser = await prisma.user.findUnique({ where: { clerkId: user.id } })
+    const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } })
     if (!dbUser) throw new Error("User not found")
-
 
     const { name, description } = data
 
@@ -98,13 +93,11 @@ export async function createForm(data: createFormSchemaT) {
 }
 
 // gets forms of the user
-export async function getForms() {
+export async function getForms(userId: string) {
 
+    if (!userId) throw new UserNotFoundErr()
     try {
-        const user = await currentUser()
-        if (!user) throw new UserNotFoundErr()
-
-        const dbUser = await prisma.user.findUnique({ where: { clerkId: user.id } })
+        const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } })
         if (!dbUser) throw new Error("User not found")
 
         const forms = await prisma.form.findMany({
@@ -120,18 +113,17 @@ export async function getForms() {
 }
 
 // gets form by id
-export async function getFormById(id: string) {
+export async function getFormById(userId: string, formId: string) {
     try {
-        const user = await currentUser()
-        if (!user) throw new UserNotFoundErr()
+        if (!userId) throw new UserNotFoundErr()
 
-        const dbUser = await prisma.user.findUnique({ where: { clerkId: user.id } })
+        const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } })
         if (!dbUser) throw new Error("User not found")
 
         return await prisma.form.findUnique({
             where: {
                 userId: dbUser.id,
-                id: id
+                id: formId
             }
         })
     } catch (error) {
@@ -141,24 +133,23 @@ export async function getFormById(id: string) {
 }
 
 // update form content by id
-export async function updateFormContentById(id: string, content: Prisma.JsonValue) {
+export async function updateFormContentById(userId: string, formId: string, content: Prisma.JsonValue) {
 
-    if (!content || !id) {
+    if (!content || !formId || !userId) {
         throw new Error("params cannot be empty")
     }
 
     try {
-        const user = await currentUser()
-        if (!user) throw new UserNotFoundErr()
+        if (!userId) throw new UserNotFoundErr()
 
-        const dbUser = await prisma.user.findUnique({ where: { clerkId: user.id } })
+        const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } })
         if (!dbUser) throw new Error("User not found")
 
 
         return await prisma.form.update({
             where: {
                 userId: dbUser.id,
-                id
+                id: formId
             },
             data: {
                 // ensure we persist a JS value for the Json column
@@ -175,16 +166,16 @@ export async function updateFormContentById(id: string, content: Prisma.JsonValu
 }
 
 // publish form by id
-export async function publishFormById(id: string) {
+export async function publishFormById(userId: string, formId: string) {
     try {
-        const user = await currentUser()
-        if (!user) throw new UserNotFoundErr()
+        if (!userId) throw new UserNotFoundErr()
+        if (!formId) throw new Error("Form id not found")
 
-        const dbUser = await prisma.user.findUnique({ where: { clerkId: user.id } })
+        const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } })
         if (!dbUser) throw new Error("User not found")
 
         // finds form and throw err if doesn't exist
-        const form = await prisma.form.findUnique({ where: { id } })
+        const form = await prisma.form.findUnique({ where: { id: formId } })
         if (!form) throw new Error("Form not found")
 
         // if empty array then throw error
@@ -204,7 +195,7 @@ export async function publishFormById(id: string) {
         return await prisma.form.update({
             where: {
                 userId: dbUser.id,
-                id
+                id: formId
             },
             data: {
                 published: true
@@ -261,14 +252,15 @@ export async function submitForm(formUrl: string, content: Prisma.JsonValue) {
 }
 
 // gets form submissions by form id
-export async function getFormSubmissions(id: string) {
-    const user = await currentUser()
-    if (!user) {
+export async function getFormSubmissions(userId: string, formId: string) {
+    if (!userId) {
         throw new UserNotFoundErr()
     }
+    const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } })
+    if (!dbUser) throw new Error("User not found")
 
     return await prisma.form.findUnique({
-        where: { id },
+        where: { id: formId },
         include: {
             FormSubmission: true
         }

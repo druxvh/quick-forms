@@ -1,4 +1,3 @@
-import { ensureUserInDb } from "@/lib/ensure-user";
 import prisma from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
@@ -13,12 +12,11 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
 
-        const dbUser = await ensureUserInDb();
-        if (!dbUser) return new Response("Unauthorized", { status: 401 });
-
         const { userId } = await auth()
+        if (!userId) return new Response("Clerk Unauthorized", { status: 401 });
 
-        if (!userId) return new NextResponse("Unauthorized", { status: 401 });
+        const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } })
+        if (!dbUser) return new Response("DB Unauthorized", { status: 401 });
 
         const { amount, currency = "INR", receipt, notes } = body;
 
@@ -41,7 +39,7 @@ export async function POST(req: Request) {
 
         await prisma.payment.create({
             data: {
-                userId,
+                userId: dbUser.id,
                 plan: "PRO",
                 amount: amountSmallest,
                 currency,

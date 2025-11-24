@@ -1,6 +1,5 @@
 "use client"
 
-import { Form } from "@/generated/prisma"
 import PreviewDialogBtn from "./PreviewDialogBtn"
 import SaveFormBtn from "./SaveFormBtn"
 import PublishFormBtn from "./PublishFormBtn"
@@ -17,8 +16,9 @@ import Confetti from 'react-confetti'
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable"
 import { useDesignerActions } from "@/hooks/use-designer"
 import { FormElementInstance } from "@/types/form"
+import { Form } from "@/generated/prisma/client"
 
-export default function FormBuilder({ form }: { form: Form }) {
+export default function FormBuilder({ userId, form }: { userId: string; form: Form }) {
     const { setElements, setSelectedElement } = useDesignerActions()
 
     // during drag, btn click does'nt work so to prevent it, add activation constraint to the elements 
@@ -84,7 +84,7 @@ export default function FormBuilder({ form }: { form: Form }) {
                     </div>
                     <div className="flex justify-between">
                         <Button variant={"link"} asChild>
-                            <Link href={"/"} className="gap-2">
+                            <Link href={"/dashboard"} className="gap-2">
                                 <ArrowLeft />
                                 Go back home
                             </Link>
@@ -113,8 +113,8 @@ export default function FormBuilder({ form }: { form: Form }) {
                     <PreviewDialogBtn />
                     {!form.published && (
                         <>
-                            <SaveFormBtn id={form.id} />
-                            <PublishFormBtn id={form.id} />
+                            <SaveFormBtn userId={userId} id={form.id} />
+                            <PublishFormBtn userId={userId} id={form.id} />
                         </>
                     )}
                 </div>

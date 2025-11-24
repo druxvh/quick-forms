@@ -4,15 +4,27 @@ import { StatsCard } from "@/components/StatsCard"
 import { ChartNoAxesCombined, Eye, FileText, MousePointerClick } from "lucide-react"
 import SubmissionsTable from "@/components/SubmissionsTable"
 import { getFormById } from "@/actions/form"
+import { auth } from "@clerk/nextjs/server"
+import { redirect } from "next/navigation"
+import prisma from "@/lib/prisma"
 
 export default async function FormPage({ params }: {
     params: {
         id: string
     }
 }) {
+    const { userId } = await auth();
+    if (!userId) redirect("/sign-in");
+
+    const user = await prisma.user.findUnique({
+        where: { clerkId: userId },
+        select: { hasOnboarded: true },
+    });
+
+    if (!user?.hasOnboarded) redirect("/onboarding");
 
     const { id } = await params
-    const form = await getFormById(id)
+    const form = await getFormById(userId, id)
     if (!form) throw new Error("Form not found")
 
     const { name, shareURL, visits, submissions } = form
@@ -76,7 +88,7 @@ export default async function FormPage({ params }: {
                 />
             </div>
             <div className="mx-auto max-w-7xl pt-6">
-                <SubmissionsTable id={form.id} />
+                <SubmissionsTable userId={userId} id={form.id} />
             </div>
         </div>
     )

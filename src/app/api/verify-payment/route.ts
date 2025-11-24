@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
-import { ensureUserInDb } from "@/lib/ensure-user";
 
 const generatedSignature = (razorpay_order_id: string, razorpay_payment_id: string) => {
     const keySecret = process.env.RAZORPAY_KEY_SECRET!;
@@ -23,14 +22,14 @@ export async function POST(req: Request) {
             razorpay_signature,
         } = body;
 
-        const dbUser = await ensureUserInDb();
-        if (!dbUser) return new Response("Unauthorized", { status: 401 });
-
         const { userId } = await auth()
 
         if (!userId) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+            return NextResponse.json({ error: "Clerk Unauthorized" }, { status: 401 });
         }
+
+        const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } })
+        if (!dbUser) return new Response("DB Unauthorized", { status: 401 });
 
         if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
             return NextResponse.json({ error: "Missing required params" }, { status: 400 });
@@ -46,7 +45,7 @@ export async function POST(req: Request) {
         }
 
         // Optional: verify this payment belongs to the current user
-        if (payment.userId !== userId) {
+        if (payment.userId !== dbUser.id) {
             return new NextResponse("Unauthorized order", { status: 403 });
         }
 
@@ -80,7 +79,7 @@ export async function POST(req: Request) {
 
             prisma.subscription.create({
                 data: {
-                    userId,
+                    userId: dbUser.id,
                     plan: payment.plan,
                     startsAt: now,
                     endsAt,
@@ -89,7 +88,7 @@ export async function POST(req: Request) {
             }),
 
             prisma.user.update({
-                where: { id: userId },
+                where: { id: dbUser.id },
                 data: {
                     plan: payment.plan,
                     planStartedAt: now,

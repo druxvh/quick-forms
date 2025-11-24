@@ -1,6 +1,4 @@
-// import Logo from "@/components/Logo"
 import Navbar from "@/components/Navbar"
-// import ThemeModeToggle from "@/components/ThemeModeToggle"
 import { ReactNode } from "react"
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -11,4 +9,3 @@ export default function Layout({ children }: { children: ReactNode }) {
         </div>
     )
 }
-
