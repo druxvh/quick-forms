@@ -3,7 +3,6 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-// import DesignerContextProvider from "@/context/DesignerContext";
 import NextTopLoader from "nextjs-toploader"
 
 export const metadata: Metadata = {
@@ -21,7 +20,6 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className="antialiased">
           <NextTopLoader color="#EF6461" showSpinner={false} />
-          {/* <DesignerContextProvider> */}
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -31,7 +29,6 @@ export default function RootLayout({
             {children}
             <Toaster />
           </ThemeProvider>
-          {/* </DesignerContextProvider> */}
         </body>
       </html>
     </ClerkProvider >

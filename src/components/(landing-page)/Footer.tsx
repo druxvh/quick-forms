@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-// import { FileText } from "lucide-react"
 import Logo from "../Logo"
 
 export default function Footer() {
@@ -11,8 +10,6 @@ export default function Footer() {
                 <div className="flex flex-col md:flex-row justify-between items-center gap-6">
                     {/* Brand + Description */}
                     <div className="flex items-center gap-2">
-                        {/* <FileText className="h-5 w-5 text-primary" />
-                        <span className="text-lg font-semibold tracking-tight">Quick Forms</span> */}
                         <Logo />
                     </div>
                     <p className="text-sm text-muted-foreground text-center md:text-left max-w-md">

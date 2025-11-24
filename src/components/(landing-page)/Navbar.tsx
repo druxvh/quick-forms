@@ -3,7 +3,6 @@
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button'
 import { motion } from 'framer-motion'
-// import { FileText } from 'lucide-react'
 import { useEffect, useState } from 'react';
 import { UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
@@ -46,8 +45,6 @@ export default function Navbar() {
                         whileHover={{ scale: 1.02 }}
                         transition={{ duration: 0.2 }}
                     >
-                        {/* <FileText className="h-5 w-5" />
-                        <Link href={'/'} className="text-lg font-semibold tracking-tight">Quick Forms</Link> */}
                         <Logo />
                     </motion.div>
 

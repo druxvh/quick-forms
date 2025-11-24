@@ -6,7 +6,6 @@ import { Button } from './ui/button'
 export default function VisitBtn({ shareUrl }: {
     shareUrl: string
 }) {
-
     const shareLink = `/submit/${shareUrl}`
 
     return (

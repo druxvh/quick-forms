@@ -11,7 +11,6 @@ export default function FormElementsSidebar() {
       <div className="flex justify-between items-center">
         <p className="text-sm text-foreground/70">Elements</p>
         <Button
-          // size={"icon"}
           variant={"ghost"}
         >
         </Button>

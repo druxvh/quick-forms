@@ -2,12 +2,12 @@
 
 import { Skeleton } from "./ui/skeleton"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
-import { Form } from "@/generated/prisma"
 import { Badge } from "./ui/badge"
 import { formatDistance } from "date-fns"
 import { ArrowUpRight, Eye, SquarePen } from "lucide-react"
 import { Button } from "./ui/button"
 import Link from "next/link"
+import { Form } from "@/generated/prisma/client"
 
 export function FormCardSkeleton() {
     return <Skeleton className="border-2 border-primary/20 h-52 w-full rounded-md" />
