@@ -18,7 +18,7 @@ export default async function OnboardingPage() {
     const userData = await currentUser();
 
     return (
-        <div className="min-h-screen outline flex items-center justify-center px-4">
+        <div className="min-h-screen flex items-center justify-center px-4">
             <OnboardingForm
                 userId={userId}
                 fullName={userData?.fullName || ""}
