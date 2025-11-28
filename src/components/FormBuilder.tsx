@@ -104,15 +104,17 @@ export default function FormBuilder({ userId, form }: { userId: string; form: Fo
 
     return (
         <main className="flex flex-col w-full">
-            <nav className="flex flex-col sm:flex-row justify-between border-b-2 p-4 gap-4 items-center">
+            <nav className="flex flex-col sm:flex-row justify-between border-b p-4 gap-4 items-center">
                 <h2 className="truncate font-medium">
                     <span className="text-muted-foreground mr-2">Form:</span>
                     {form.name}
                 </h2>
                 <div className="flex items-center gap-2">
-                    <PreviewDialogBtn />
                     {!form.published && (
                         <>
+                            <div className="lg:hidden">
+                                <PreviewDialogBtn />
+                            </div>
                             <SaveFormBtn userId={userId} id={form.id} />
                             <PublishFormBtn userId={userId} id={form.id} />
                         </>
@@ -120,9 +122,7 @@ export default function FormBuilder({ userId, form }: { userId: string; form: Fo
                 </div>
             </nav>
             <DndContext sensors={sensors} autoScroll>
-                <div className="flex w-full flex-grow items-center justify-center relative">
-                    <Designer />
-                </div>
+                <Designer />
                 <DragOverlayWrapper />
             </DndContext>
         </main>

@@ -13,6 +13,7 @@ import { useIsMobile } from "@/hooks/use-mobile"
 import { AnimatePresence, motion } from "framer-motion"
 import ElementToolbar from "./ElementToolbar"
 import MobileOverlay from "./MobileOverlay"
+import PreviewCard from "./PreviewCard"
 
 let globalAutoHideTimer: NodeJS.Timeout | null = null;
 
@@ -108,16 +109,17 @@ export default function Designer() {
             {/* Left/top(mobile) side - Builder Area */}
             <div
                 // className="w-full p-2 sm:p-4 max-h-screen h-full"
-                className="h-full w-full p-2 sm:p-4 max-h-[calc(100vh-213px-110px-55px)] sm:max-h-[calc(100vh-130px)] overflow-hidden"
+                className="flex gap-4 h-full w-full p-2 sm:p-4 max-h-[calc(100vh-213px-110px-55px)] sm:max-h-[calc(100vh-130px)] overflow-hidden"
                 onClick={() => {
                     if (selectedElement) setSelectedElement(null)
                     if (activeElementId) setActiveElementId(null)
                 }}
             >
+                <PreviewCard />
                 {/* Droppable area */}
                 <div
                     ref={setNodeRef}
-                    className={cn("bg-background border border-border border-dashed max-w-4xl h-full m-auto rounded-sm flex flex-col items-center flex-1 overflow-y-auto scroll-smooth transition-colors",
+                    className={cn("border border-border border-dashed h-full m-auto rounded-sm flex flex-col items-center flex-1 overflow-y-auto scroll-smooth transition-colors",
                         isOver && "ring-2 ring-primary/50",
                         (!isMobile && elements.length > 6) && "pb-32",
                         (isMobile && elements.length > 2) && "pb-32"

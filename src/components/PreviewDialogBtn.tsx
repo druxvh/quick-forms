@@ -31,19 +31,17 @@ export default function PreviewDialogBtn() {
                         </div>
                     </DialogTitle>
                 </DialogHeader>
-                <div className="bg-background flex flex-col grow items-center justify-center overflow-y-auto">
+                <div className="max-w-2xl flex flex-col gap-4 grow  h-full w-full px-4 py-8 overflow-y-auto mx-auto">
+                    {elements.map((element) => {
+                        const FormComponent = FormElements[element.type].formComponent
 
-                    <div className="max-w-2xl flex flex-col gap-4 grow  h-full w-full px-4 py-8 overflow-y-auto">
-                        {elements.map((element) => {
-                            const FormComponent = FormElements[element.type].formComponent
-
-                            return <FormComponent key={element.id} elementInstance={element} />
-                        })}
-                        <div className="cursor-not-allowed py-5">
-                            <Button disabled className="p-4 w-full">Submit</Button>
-                        </div>
+                        return <FormComponent key={element.id} elementInstance={element} />
+                    })}
+                    <div className="cursor-not-allowed py-5">
+                        <Button disabled className="p-4 w-full">Submit</Button>
                     </div>
                 </div>
+                {/* </div> */}
             </DialogContent>
         </Dialog>
     )
