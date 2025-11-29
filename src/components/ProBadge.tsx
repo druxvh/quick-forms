@@ -13,11 +13,11 @@ type ProBadgeProps = {
 export function ProBadge({ variant, className }: ProBadgeProps) {
 
     return (
-        <Link href="/pricing" className="inline-flex">
-            {variant === "cta" ? (
+        <Link href="/pricing" className="py-1">
+            {variant === "pro" ? (
                 <Badge
                     className={cn(
-                        "rounded-md bg-primary/95 text-primary-foreground",
+                        "h-full rounded-md bg-primary/95 text-primary-foreground",
                         "font-bold font-sans text-xs sm:text-sm px-2 sm:px-4 shadow-sm hover:bg-primary hover:shadow-2xl transition-all ",
                         className
                     )}
@@ -27,7 +27,7 @@ export function ProBadge({ variant, className }: ProBadgeProps) {
             ) : (
                 <span
                     className={cn(
-                        "group flex items-center gap-1.5 text-xs sm:text-sm",
+                        "group h-full flex items-center gap-1.5 text-xs sm:text-sm",
                         "bg-primary/95 text-primary-foreground",
                         "hover:bg-primary",
                         "rounded-md px-2 sm:px-3 text-xs font-bold",
