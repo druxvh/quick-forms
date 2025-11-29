@@ -14,7 +14,7 @@ export type CurrentUser = {
     imageUrl: string | null;
     plan: PlanTier;
     isPro: boolean;
-    formLimit: number | "unlimited";
+    formLimit: number;
     hasOnboarded: boolean
 };
 
@@ -89,10 +89,10 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
 
     const plan = (user.plan || "FREE") as PlanTier
     const cfg = PLAN_CONFIG[plan]
-    let effectiveFormLimit: number | "unlimited"
+    let effectiveFormLimit: number
 
     if (user.formLimit === -1) {
-        effectiveFormLimit = "unlimited"
+        effectiveFormLimit = -1
     } else if (typeof user.formLimit === "number") {
         effectiveFormLimit = user.formLimit
     } else {

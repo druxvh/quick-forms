@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function OnboardingLayout({ children }: { children: ReactNode }) {
     return (
         <main>{children}</main>
     )
