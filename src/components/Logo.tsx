@@ -1,19 +1,15 @@
 "use client"
 
 import Link from "next/link"
+import { Badge } from "./ui/badge"
 
-export default function Logo({ isAuthed, isPro }: { isAuthed: boolean, isPro: boolean }) {
-
+export default function Logo() {
     return (
         <Link
-            href={isAuthed ? "/dashboard" : "/"}
-            className="text-lg sm:text-xl font-sans font-semibold tracking-wider flex items-center gap-2">
-            qforms
-            {isPro && (
-                <span className="text-xs px-2 py-0.5 rounded-md bg-blue-600 text-white font-medium">
-                    PRO
-                </span>
-            )}
+            href={"/dashboard"}
+            className="text-lg sm:text-xl font-semibold font-sans tracking-wider flex items-center gap-1">
+            <Badge className="text-base shadow-2xl font-semibold rounded-md bg-gradient-to-br from-amber-300/60 to-amber-400 font-sans text-black">Q</Badge>
+            forms
         </Link>
     )
 }

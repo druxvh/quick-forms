@@ -7,27 +7,27 @@ import { StatsSection } from "./components/StatsSection";
 import { FormsGrid } from "./components/FormsGrid";
 import DashboardHeader from "./components/DashboardHeader";
 import { redirect } from "next/navigation";
-import prisma from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
+import UpgradeFormLimitCard from "@/components/UpgradeFormLimitCard";
+import { getCurrentUser } from "@/actions/user";
+import { getForms } from "@/actions/form";
 
 export default async function Dashboard() {
+  const user = await getCurrentUser()
 
-  const { userId } = await auth()
-  if (!userId) redirect("/sign-in")
+  if (!user) redirect("/sign-in")
+  if (!user.hasOnboarded) redirect("/onboarding")
 
-  const user = await prisma.user.findUnique({
-    where: { clerkId: userId },
-    select: { hasOnboarded: true },
-  })
+  const forms = await getForms()
+  const formCount = forms.length
 
-  if (!user?.hasOnboarded) redirect("/onboarding")
+  const canCreateMore = user.formLimit === -1 || formCount < user.formLimit
 
   return (
     <div className="w-full h-full px-4">
 
       {/* Stats Section */}
       <Suspense fallback={<StatsCardsContainer loading />}>
-        <StatsSection userId={userId} />
+        <StatsSection userId={user.id} />
       </Suspense>
 
       <Separator className="my-4 sm:my-6" />
@@ -35,14 +35,20 @@ export default async function Dashboard() {
       <Separator className="my-4 sm:my-6" />
 
       {/* Forms Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <CreateFormButton />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {/* form limit */}
+        {canCreateMore ? (
+          <CreateFormButton />
+        ) : (
+          <UpgradeFormLimitCard />
+        )}
+
         <Suspense
           fallback={[1, 2].map((el) => (
             <FormCardSkeleton key={el} />
           ))}
         >
-          <FormsGrid userId={userId} />
+          <FormsGrid userId={user.id} />
         </Suspense>
       </div>
     </div>

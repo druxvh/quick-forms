@@ -2,6 +2,7 @@ import { getCurrentUser } from '@/actions/user'
 import Logo from './Logo'
 import ThemeModeToggle from './ThemeModeToggle'
 import { SignedIn, UserButton } from '@clerk/nextjs'
+import { ProBadge } from './ProBadge'
 
 export default async function Navbar() {
 
@@ -11,8 +12,9 @@ export default async function Navbar() {
 
     return (
         <nav className="h-16 px-4 py-2 border-b flex justify-between items-center">
-            <Logo isAuthed={isAuthed} isPro={isPro} />
-            <div className="flex gap-4 sm:gap-5">
+            <Logo />
+            <div className="flex gap-2 sm:gap-4">
+                <ProBadge variant={isAuthed && isPro ? "pro" : "cta"} />
                 <ThemeModeToggle />
                 <SignedIn>
                     <UserButton />
