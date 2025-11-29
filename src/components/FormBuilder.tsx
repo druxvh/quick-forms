@@ -18,7 +18,7 @@ import { useDesignerActions } from "@/hooks/use-designer"
 import { FormElementInstance } from "@/types/form"
 import { Form } from "@/generated/prisma/client"
 
-export default function FormBuilder({ userId, form }: { userId: string; form: Form }) {
+export default function FormBuilder({ form }: { form: Form }) {
     const { setElements, setSelectedElement } = useDesignerActions()
 
     // during drag, btn click does'nt work so to prevent it, add activation constraint to the elements 
@@ -42,12 +42,8 @@ export default function FormBuilder({ userId, form }: { userId: string; form: Fo
 
     const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor)
 
+    // hydrate elements when form changes
     useEffect(() => {
-        // const elements = Array.isArray(form.content)
-        //     ? form.content
-        //     : typeof form.content === "string"
-        //         ? JSON.parse(form.content || "[]")
-        //         : []
         const elements = form.content as FormElementInstance[] ?? []
 
         setElements(elements)
@@ -115,8 +111,8 @@ export default function FormBuilder({ userId, form }: { userId: string; form: Fo
                             <div className="lg:hidden">
                                 <PreviewDialogBtn />
                             </div>
-                            <SaveFormBtn userId={userId} id={form.id} />
-                            <PublishFormBtn userId={userId} id={form.id} />
+                            <SaveFormBtn id={form.id} />
+                            <PublishFormBtn id={form.id} />
                         </>
                     )}
                 </div>

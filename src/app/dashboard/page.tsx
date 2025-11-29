@@ -36,7 +36,7 @@ export default async function Dashboard() {
 
       {/* Forms Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        <CreateFormButton userId={userId} />
+        <CreateFormButton />
         <Suspense
           fallback={[1, 2].map((el) => (
             <FormCardSkeleton key={el} />

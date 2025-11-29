@@ -1,20 +1,22 @@
 'use server'
 
+import { PLAN_CONFIG, PlanTier } from "@/lib/planConfig"
 import prisma from "@/lib/prisma"
 import { onboardFormSchema, onboardFormSchemaT } from "@/schemas"
-import { UserJSON } from "@clerk/nextjs/server"
+import { auth, UserJSON } from "@clerk/nextjs/server"
+import { cache } from "react"
 
-export async function getUserPlan(userId: string) {
-
-    if (!userId) return "FREE"
-
-    const user = await prisma.user.findUnique({
-        where: { clerkId: userId },
-        select: { plan: true },
-    })
-
-    return user?.plan || "FREE"
-}
+export type CurrentUser = {
+    id: string;
+    clerkId: string;
+    email: string;
+    name: string | null;
+    imageUrl: string | null;
+    plan: PlanTier;
+    isPro: boolean;
+    formLimit: number | "unlimited";
+    hasOnboarded: boolean
+};
 
 export async function onboardUser(userId: string, data: onboardFormSchemaT) {
     const validation = onboardFormSchema.safeParse(data)
@@ -65,3 +67,47 @@ export async function upsertUserFromClerk(payload: UserJSON) {
 
     return user
 }
+
+export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
+    const { userId: clerkId } = await auth()
+    if (!clerkId) return null
+
+    const user = await prisma.user.findUnique({
+        where: { clerkId },
+        select: {
+            id: true,
+            clerkId: true,
+            email: true,
+            name: true,
+            imageUrl: true,
+            plan: true,
+            formLimit: true,
+            hasOnboarded: true,
+        },
+    })
+    if (!user) return null
+
+    const plan = (user.plan || "FREE") as PlanTier
+    const cfg = PLAN_CONFIG[plan]
+    let effectiveFormLimit: number | "unlimited"
+
+    if (user.formLimit === -1) {
+        effectiveFormLimit = "unlimited"
+    } else if (typeof user.formLimit === "number") {
+        effectiveFormLimit = user.formLimit
+    } else {
+        effectiveFormLimit = cfg.formLimit
+    }
+
+    return {
+        id: user.id,
+        clerkId: user.clerkId!,
+        email: user.email!,
+        name: user.name,
+        imageUrl: user.imageUrl,
+        plan,
+        isPro: cfg.isPro,
+        formLimit: effectiveFormLimit,
+        hasOnboarded: user.hasOnboarded
+    }
+})

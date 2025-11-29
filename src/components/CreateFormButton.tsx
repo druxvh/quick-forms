@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation"
 import { createForm } from "@/actions/form"
 import { createFormSchema, createFormSchemaT } from "@/schemas"
 
-export default function CreateFormButton({ userId }: { userId: string }) {
+export default function CreateFormButton() {
 
     const router = useRouter()
     const form = useForm<createFormSchemaT>({
@@ -24,9 +24,9 @@ export default function CreateFormButton({ userId }: { userId: string }) {
         }
     })
 
-    async function onSubmit(values: createFormSchemaT) {
+    async function onSubmit(data: createFormSchemaT) {
         try {
-            const formId = await createForm(userId, values)
+            const formId = await createForm(data)
             toast.success("Form created successfully!", {
                 position: "bottom-center",
             })

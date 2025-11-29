@@ -7,7 +7,7 @@ import { LoaderCircle } from "lucide-react"
 import { updateFormContentById } from "@/actions/form"
 import { useDesignerElements } from "@/hooks/use-designer"
 
-export default function SaveFormBtn({ userId, id }: { userId: string; id: string }) {
+export default function SaveFormBtn({ id }: { id: string }) {
     const elements = useDesignerElements()
     const [isPending, startTransition] = useTransition()
 
@@ -22,7 +22,7 @@ export default function SaveFormBtn({ userId, id }: { userId: string; id: string
             // const jsonElements = JSON.stringify(elements)
             // await updateFormContentById(id, jsonElements)
 
-            await updateFormContentById(userId, id, elements)
+            await updateFormContentById(id, elements)
 
             toast.success("Saved", {
                 description: "Your form has been saved successfully.",

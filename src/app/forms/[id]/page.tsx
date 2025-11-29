@@ -24,7 +24,7 @@ export default async function FormPage({ params }: {
     if (!user?.hasOnboarded) redirect("/onboarding");
 
     const { id } = await params
-    const form = await getFormById(userId, id)
+    const form = await getFormById(id)
     if (!form) throw new Error("Form not found")
 
     const { name, shareURL, visits, submissions } = form
@@ -88,7 +88,7 @@ export default async function FormPage({ params }: {
                 />
             </div>
             <div className="mx-auto max-w-7xl pt-6">
-                <SubmissionsTable userId={userId} id={form.id} />
+                <SubmissionsTable id={form.id} />
             </div>
         </div>
     )

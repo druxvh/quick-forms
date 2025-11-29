@@ -18,12 +18,11 @@ type Column = {
     type: ElementsType
 }
 
-export default async function SubmissionsTable({ userId, id }: {
-    userId: string;
+export default async function SubmissionsTable({ id }: {
     id: string
 }) {
 
-    const form = await getFormSubmissions(userId, id)
+    const form = await getFormSubmissions(id)
     if (!form) {
         throw new Error("Form not found!")
     }

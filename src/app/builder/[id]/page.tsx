@@ -20,9 +20,9 @@ export default async function BuilderPage({ params }: {
     if (!user?.hasOnboarded) redirect("/onboarding");
 
     const { id } = await params
-    const form = await getFormById(userId, id)
+    const form = await getFormById(id)
 
     if (!form) throw new Error("Form not found")
 
-    return <FormBuilder userId={userId} form={form} />
+    return <FormBuilder form={form} />
 }
