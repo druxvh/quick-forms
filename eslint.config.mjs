@@ -21,6 +21,7 @@ const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, ...compat.config(
     ".next/**",
     "dist/**",
     "src/generated/**",
+    "src/components/ui",
     "**/*.wasm",
     "**/*.wasm.js",
   ],

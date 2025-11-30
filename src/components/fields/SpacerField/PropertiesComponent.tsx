@@ -13,7 +13,7 @@ import { spacerFieldSchema, SpacerFieldSchemaT } from "@/schemas"
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as FieldInstance<"SpacerField">
 
-       const { updateElement } = useDesignerActions()
+    const { updateElement } = useDesignerActions()
 
     const form = useForm({
         resolver: zodResolver(spacerFieldSchema),
@@ -52,7 +52,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                     name="height"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Height (px): {form.watch("height")}</FormLabel>
+                            <FormLabel>Height (px): {field.value ?? 20}</FormLabel>
                             <FormControl className="p-2">
                                 <Slider
                                     defaultValue={[field.value ?? 20]}

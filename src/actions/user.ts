@@ -4,7 +4,6 @@ import { PLAN_CONFIG, PlanTier } from "@/lib/planConfig"
 import prisma from "@/lib/prisma"
 import { onboardFormSchema, onboardFormSchemaT } from "@/schemas"
 import { auth, UserJSON } from "@clerk/nextjs/server"
-import { cache } from "react"
 
 export type CurrentUser = {
     id: string;
@@ -21,7 +20,6 @@ export type CurrentUser = {
 export async function onboardUser(userId: string, data: onboardFormSchemaT) {
     const validation = onboardFormSchema.safeParse(data)
     if (!validation.success) throw new Error("User data not valid")
-    // const clerkUser = await currentUser()
     if (!userId) throw new Error("User not found")
     try {
         const updatedUser = await prisma.user.update({
@@ -68,7 +66,7 @@ export async function upsertUserFromClerk(payload: UserJSON) {
     return user
 }
 
-export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
+export const getCurrentUser = async (): Promise<CurrentUser | null> => {
     const { userId: clerkId } = await auth()
     if (!clerkId) return null
 
@@ -85,6 +83,7 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
             hasOnboarded: true,
         },
     })
+
     if (!user) return null
 
     const plan = (user.plan || "FREE") as PlanTier
@@ -110,4 +109,4 @@ export const getCurrentUser = cache(async (): Promise<CurrentUser | null> => {
         formLimit: effectiveFormLimit,
         hasOnboarded: user.hasOnboarded
     }
-})
+}

@@ -15,7 +15,7 @@ import { textAreaFieldSchema, TextAreaFieldSchemaT } from "@/schemas"
 export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
     const element = elementInstance as FieldInstance<"TextAreaField">
 
-       const { updateElement } = useDesignerActions()
+    const { updateElement } = useDesignerActions()
     const { label, helperText, placeholder, required, rows } = element.extraAttributes
 
     const form = useForm({
@@ -124,7 +124,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                     name="rows"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Rows {form.watch("rows")}</FormLabel>
+                            <FormLabel>Rows {field.value ?? 3}</FormLabel>
                             <FormControl>
                                 <Slider
 

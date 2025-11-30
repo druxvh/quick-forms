@@ -4,7 +4,7 @@ import { FieldInstance, FormElementInstance, SubmitFunction } from "@/types/form
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 
 export default function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }:
@@ -15,14 +15,9 @@ export default function FormComponent({ elementInstance, submitValue, isInvalid,
         defaultValue?: string
     }) {
     const element = elementInstance as FieldInstance<"NumberField">
-    const [value, setValue] = useState(defaultValue || "")
-
-    useEffect(() => {
-
-        setValue(defaultValue || "")
-    }, [defaultValue])
-
+    const [value, setValue] = useState(() => defaultValue || "")
     const { label, helperText, placeholder, required } = element.extraAttributes
+
     return (
         <div className="flex flex-col gap-4 w-full">
             <Label

@@ -75,7 +75,7 @@ export async function createForm(data: createFormSchemaT) {
         where: { userId: user.id }
     })
 
-    if (user.formLimit !== "unlimited" && formCount >= user.formLimit) {
+    if (user.formLimit !== -1 && formCount >= user.formLimit) {
         throw new Error(`Form limit reached. Upgrade your plan to create more forms.`)
     }
     // validate form data

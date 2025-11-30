@@ -6,8 +6,8 @@ import { Badge } from "./ui/badge"
 import { Checkbox } from "./ui/checkbox"
 import { getFormSubmissions } from "@/actions/form"
 
-
 type Row = Record<string, string> & {
+    id: string
     submittedAt: Date
 }
 
@@ -60,6 +60,7 @@ export default async function SubmissionsTable({ id }: {
 
         rows.push({
             ...content,
+            id: submission.id,
             submittedAt: submission.createdAt
         })
     })
@@ -85,7 +86,7 @@ export default async function SubmissionsTable({ id }: {
                     <TableBody>
                         {
                             rows.map(row => (
-                                <TableRow key={Date.now()}>
+                                <TableRow key={row.id}>
                                     {
                                         columns.map(column => (
                                             <RowCell

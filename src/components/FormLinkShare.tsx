@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Share2 } from 'lucide-react'
@@ -9,14 +9,10 @@ import { toast } from 'sonner'
 export default function FormLinkShare({ shareUrl }: {
     shareUrl: string
 }) {
-    const [mounted, setMounted] = useState(false)
-
-    useEffect(() => {
-        setMounted(true)
-    }, [])
-    if (!mounted) return null
-
-    const shareLink = `${window.location.origin}/submit/${shareUrl}`
+    const shareLink = useMemo(() => {
+        if (typeof window === "undefined") return ""
+        return `${window.location.origin}/submit/${shareUrl}`
+    }, [shareUrl])
 
     return (
         <div className="flex grow gap-4 items-center">

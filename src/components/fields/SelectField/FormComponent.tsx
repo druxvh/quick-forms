@@ -4,7 +4,7 @@ import { FieldInstance, FormElementInstance, SubmitFunction } from "@/types/form
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 
 export default function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }:
@@ -15,11 +15,7 @@ export default function FormComponent({ elementInstance, submitValue, isInvalid,
         defaultValue?: string
     }) {
     const element = elementInstance as FieldInstance<"SelectField">
-    const [value, setValue] = useState(defaultValue || "")
-
-    useEffect(() => {
-        setValue(defaultValue || "")
-    }, [defaultValue])
+    const [value, setValue] = useState(() => defaultValue || "")
 
     const { label, helperText, placeholder, required, options } = element.extraAttributes
     return (

@@ -191,14 +191,6 @@ function SortableDesignerElement({ element }: { element: FormElementInstance }) 
         };
     }, []);
 
-    // reset if resizng betweeen mobile and desktop
-    useEffect(() => {
-        if (!isMobile) {
-            setIsLongPressing(false)
-            longPressTriggered.current = false
-        }
-    }, [isMobile])
-
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
@@ -294,7 +286,7 @@ function SortableDesignerElement({ element }: { element: FormElementInstance }) 
     return (
         <>
             {/* Overlay (when long press active) */}
-            <MobileOverlay visible={isLongPressing} onClick={handleOverlayClose} />
+            <MobileOverlay visible={isMobile && isLongPressing} onClick={handleOverlayClose} />
 
             <div
                 ref={setNodeRef}

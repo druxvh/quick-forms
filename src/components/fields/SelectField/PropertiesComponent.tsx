@@ -132,7 +132,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                                     className="gap-2"
                                     onClick={(e) => {
                                         e.preventDefault()
-                                        form.setValue("options", field.value.concat("New options"))
+                                        form.setValue("options", [...(field.value ?? []), "New option"])
                                     }}
                                 >
                                     <Plus />
@@ -140,14 +140,15 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                                 </Button>
                             </div>
                             <div className="flex flex-col gap-2">
-                                {form.watch("options").map((option, index) => (
+                                {(field.value ?? []).map((option, index) => (
                                     <div key={index} className="flex items-center justify-between gap-1">
                                         <Input
                                             placeholder=""
                                             value={option}
                                             onChange={(e) => {
-                                                field.value[index] = e.target.value
-                                                field.onChange(field.value)
+                                                const newOptions = [...(field.value ?? [])]
+                                                newOptions[index] = e.target.value
+                                                field.onChange(newOptions)
                                             }}
                                         />
                                         <Button
@@ -155,8 +156,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                                             size={"icon"}
                                             onClick={(e) => {
                                                 e.preventDefault()
-                                                const newOptions = [...field.value]
-                                                newOptions.splice(index, 1)
+                                                const newOptions = (field.value ?? []).filter((_, i) => i != index)
                                                 field.onChange(newOptions)
                                             }}
                                         >
