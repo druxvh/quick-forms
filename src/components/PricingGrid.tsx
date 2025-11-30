@@ -15,6 +15,7 @@ export default function PricingGrid({ userId }: { userId: string }) {
     const paymentDisable = userId ? false : true;
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setRegion(detectRegion());
     }, []);
 

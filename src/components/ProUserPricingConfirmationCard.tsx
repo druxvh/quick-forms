@@ -45,10 +45,10 @@ export default function ProUserPricingConfirmationCard() {
                     </CardHeader>
 
                     <CardContent className="flex-1 flex flex-col gap-2 py-2">
-                        <div className="text-3xl font-bold">
-                            ₹49
+                        {/* <div className="text-3xl font-bold">
+                            ₹{PRICING_PLANS[1].priceINR}
                             <span className="text-sm font-normal text-muted-foreground"> /month</span>
-                        </div>
+                        </div> */}
 
                         <ul className="text-sm mt-4 space-y-2 text-left">
                             {PRICING_PLANS[1].features.map((feature, idx) => (

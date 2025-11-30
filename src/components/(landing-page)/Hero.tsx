@@ -14,7 +14,7 @@ export default function Hero() {
     return (
         <section className="relative min-h-screen flex items-center justify-center bg-background text-foreground overflow-hidden">
             {/* Subtle grid pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
 
             <Spotlight />
 
@@ -27,7 +27,7 @@ export default function Hero() {
                         className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 relative group"
                     >
                         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-400 via-blue-100 to-green-400 blur-sm" />
-                        <div className="absolute inset-[1px] rounded-full bg-secondary" />
+                        <div className="absolute inset-px rounded-full bg-secondary" />
                         <div className="relative z-10 flex items-center gap-2">
                             <Sparkles className="h-4 w-4 text-foreground" />
                             <span className="text-sm font-medium text-foreground">Lightning-fast form creation</span>

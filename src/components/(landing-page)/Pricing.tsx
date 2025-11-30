@@ -14,26 +14,26 @@ import PaymentButton from "../PaymentButton";
 import { Plan, PRICING_PLANS } from "@/lib/shared/pricing";
 
 export default function Pricing() {
-    const [region, setRegion] = useState<"IN" | "US" | "SG" | "global">("global");
+    const [region, setRegion] = useState<"IN" | "US" | "global">("global");
     const { isSignedIn } = useUser()
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setRegion(detectRegion());
     }, []);
 
-    const isSupported = region === "IN" || region === "US" || region === "SG";
+    const isSupported = region === "IN" || region === "US";
 
     const priceForPlan = (plan: Plan) => {
         if (plan.id === "custom") return "Custom";
         if (region === "IN") return `₹${plan.priceINR ?? 0}`;
-        if (region === "US" || region === "SG") return `$${plan.priceUSD ?? 0}`;
+        if (region === "US") return `$${plan.priceUSD ?? 0}`;
         return "—";
     };
 
     const currencyForRegion = (r: typeof region) => {
         if (r === "IN") return "INR";
-        // treat SG as USD for now; change to "SGD" if you enable it later
-        if (r === "US" || r === "SG") return "USD";
+        if (r === "US") return "USD";
         return "INR";
     };
 

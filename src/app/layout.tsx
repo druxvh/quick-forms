@@ -7,8 +7,8 @@ import NextTopLoader from "nextjs-toploader"
 import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
-  title: "Quick Forms - Make Forms in Minutes!",
-  description: "Quick Forms is an online form making software being an alternative to Google Forms with better UI, Drag-n-Drop customizable form components!",
+  title: "QForms - Make Forms in Minutes!",
+  description: "QForms is an online form making software being an alternative to Google Forms with better UI, Drag-n-Drop customizable form components!",
 };
 
 export default function RootLayout({
@@ -17,13 +17,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+    <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className="antialiased">
           <NextTopLoader color="#EF6461" showSpinner={false} />
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >

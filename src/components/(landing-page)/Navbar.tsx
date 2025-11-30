@@ -45,7 +45,7 @@ export default function Navbar() {
                         whileHover={{ scale: 1.02 }}
                         transition={{ duration: 0.2 }}
                     >
-                        <Logo />
+                        <Logo isAuthed={!!isSignedIn} />
                     </motion.div>
 
                     <div className="flex items-center gap-6">
