@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
 export function detectRegion() {
-    if (typeof window === "undefined") return "global"
+    if (typeof window === 'undefined') return 'global';
 
-    const region = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const region = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    if (region.includes("Calcutta") || region.includes("Kolkata")) return "IN"
-    if (region.includes("America") || region.includes("US")) return "US"
-    return "global"
+    if (region.includes('Calcutta') || region.includes('Kolkata')) return 'IN';
+    if (region.includes('America') || region.includes('US')) return 'US';
+    return 'global';
 }

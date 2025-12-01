@@ -1,7 +1,7 @@
-import prisma from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
-import { NextResponse } from "next/server";
-import Razorpay from "razorpay";
+import prisma from '@/lib/prisma';
+import { auth } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
+import Razorpay from 'razorpay';
 
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID!,
@@ -12,16 +12,16 @@ export async function POST(req: Request) {
     try {
         const body = await req.json();
 
-        const { userId } = await auth()
-        if (!userId) return new Response("Clerk Unauthorized", { status: 401 });
+        const { userId } = await auth();
+        if (!userId) return new Response('Clerk Unauthorized', { status: 401 });
 
-        const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } })
-        if (!dbUser) return new Response("DB Unauthorized", { status: 401 });
+        const dbUser = await prisma.user.findUnique({ where: { clerkId: userId } });
+        if (!dbUser) return new Response('DB Unauthorized', { status: 401 });
 
-        const { amount, currency = "INR", receipt, notes } = body;
+        const { amount, currency = 'INR', receipt, notes } = body;
 
-        if (typeof amount !== "number" || isNaN(amount) || amount <= 0) {
-            return NextResponse.json({ error: "Invalid amount" }, { status: 400 });
+        if (typeof amount !== 'number' || isNaN(amount) || amount <= 0) {
+            return NextResponse.json({ error: 'Invalid amount' }, { status: 400 });
         }
 
         // Convert to smallest currency unit (paise / cents)
@@ -40,28 +40,30 @@ export async function POST(req: Request) {
         await prisma.payment.create({
             data: {
                 userId: dbUser.id,
-                plan: "PRO",
+                plan: 'PRO',
                 amount: amountSmallest,
                 currency,
                 razorpayOrderId: order.id,
-                status: "PENDING"
-            }
-        })
+                status: 'PENDING',
+            },
+        });
 
         return NextResponse.json(
             {
                 success: true,
-                message: "Order created successfully",
-                data: order
-            }, { status: 200 });
-
+                message: 'Order created successfully',
+                data: order,
+            },
+            { status: 200 },
+        );
     } catch (err) {
-        console.error("Razorpay create-order error:", err);
+        console.error('Razorpay create-order error:', err);
         return NextResponse.json(
             {
                 success: false,
-                message: "Paymnet Failed due to Server Error",
+                message: 'Paymnet Failed due to Server Error',
             },
-            { status: 500 });
+            { status: 500 },
+        );
     }
 }

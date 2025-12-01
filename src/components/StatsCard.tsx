@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
-import { Skeleton } from "./ui/skeleton"
-import { cn, formatStat } from "@/lib/utils"
-import { ChartNoAxesCombined, Eye, FileText, MousePointerClick } from "lucide-react"
-import { getFormStats } from "@/actions/form"
-import React from "react"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card';
+import { Skeleton } from './ui/skeleton';
+import { cn, formatStat } from '@/lib/utils';
+import { ChartNoAxesCombined, Eye, FileText, MousePointerClick } from 'lucide-react';
+import { getFormStats } from '@/actions/form';
+import React from 'react';
 
 interface StatsCardProps {
-    title: string
-    value: string
+    title: string;
+    value: string;
     // Accept either a component (e.g. Eye) or an instantiated element (e.g. <Eye />)
-    icon: React.ComponentType<React.SVGProps<SVGSVGElement>> | React.ReactElement
-    helperText: string
-    loading?: boolean
-    className?: string
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>> | React.ReactElement;
+    helperText: string;
+    loading?: boolean;
+    className?: string;
 }
 
 interface StatsCardsContainerProps {
@@ -22,24 +22,23 @@ interface StatsCardsContainerProps {
     data?: Awaited<ReturnType<typeof getFormStats>>;
 }
 
-
 export function StatsCard({
     title,
     value,
     icon: Icon,
     helperText,
     loading = false,
-    className = ""
+    className = '',
 }: StatsCardProps) {
     return (
         <Card
             className={cn(
-                "rounded-md shadow-sm flex flex-col justify-between transition hover:shadow-lg active:shadow-lg gap-1 sm:gap-4 p-2 sm:p-4",
-                className
+                'flex flex-col justify-between gap-1 rounded-md p-2 shadow-sm transition hover:shadow-lg active:shadow-lg sm:gap-4 sm:p-4',
+                className,
             )}
         >
-            <CardHeader className="flex items-center p-0 justify-between gap-2">
-                <CardTitle className="text-[11px] sm:text-xs font-medium text-muted-foreground leading-tight text-wrap truncate">
+            <CardHeader className="flex items-center justify-between gap-2 p-0">
+                <CardTitle className="text-muted-foreground truncate text-[11px] leading-tight font-medium text-wrap sm:text-xs">
                     {title}
                 </CardTitle>
                 {/* Support both component and element icons. If an element was passed
@@ -50,8 +49,8 @@ export function StatsCard({
                 ) : (
                     <Icon
                         className={cn(
-                            "flex-shrink-0 text-gray-700 dark:text-gray-300",
-                            "size-4"
+                            'flex-shrink-0 text-gray-700 dark:text-gray-300',
+                            'size-4',
                         )}
                     />
                 )}
@@ -61,53 +60,53 @@ export function StatsCard({
                 {loading ? (
                     <Skeleton className="h-6 w-2/3" />
                 ) : (
-                    <div className="text-lg sm:text-xl font-semibold tracking-tight">{value}</div>
+                    <div className="text-lg font-semibold tracking-tight sm:text-xl">
+                        {value}
+                    </div>
                 )}
             </CardContent>
 
-            <CardFooter className="p-0 text-[11px] sm:text-xs text-muted-foreground leading-tight text-wrap truncate">
+            <CardFooter className="text-muted-foreground truncate p-0 text-[11px] leading-tight text-wrap sm:text-xs">
                 {helperText}
             </CardFooter>
         </Card>
-    )
+    );
 }
 
-
 export function StatsCardsContainer({ data, loading }: StatsCardsContainerProps) {
-
     const statsConfig = [
         {
-            title: "Total Visits",
-            key: "visits",
+            title: 'Total Visits',
+            key: 'visits',
             icon: Eye,
-            helperText: "All Time Form Visits",
-            suffix: "",
+            helperText: 'All Time Form Visits',
+            suffix: '',
         },
         {
-            title: "Total Submissions",
-            key: "submissions",
+            title: 'Total Submissions',
+            key: 'submissions',
             icon: FileText,
-            helperText: "All Time Submissions",
-            suffix: "",
+            helperText: 'All Time Submissions',
+            suffix: '',
         },
         {
-            title: "Submission Rate",
-            key: "submissionRate",
+            title: 'Submission Rate',
+            key: 'submissionRate',
             icon: MousePointerClick,
-            helperText: "Form Submission Rate",
-            suffix: "%",
+            helperText: 'Form Submission Rate',
+            suffix: '%',
         },
         {
-            title: "Bounce Rate",
-            key: "bounceRate",
+            title: 'Bounce Rate',
+            key: 'bounceRate',
             icon: ChartNoAxesCombined,
-            helperText: "Form Bounce Rate",
-            suffix: "%",
+            helperText: 'Form Bounce Rate',
+            suffix: '%',
         },
     ] as const;
 
     return (
-        <div className="w-full mt-4 sm:mt-8 gap-2 sm:gap-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-4 grid w-full grid-cols-1 gap-2 sm:mt-8 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
             {statsConfig.map((stat) => (
                 <StatsCard
                     key={stat.key}

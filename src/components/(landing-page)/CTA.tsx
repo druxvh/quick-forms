@@ -1,18 +1,17 @@
-"use client"
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
-import { useUser } from "@clerk/nextjs";
-import Link from "next/link";
-import DottedGlowBackground from "../ui/dotted-glow-background";
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useUser } from '@clerk/nextjs';
+import Link from 'next/link';
+import DottedGlowBackground from '../ui/dotted-glow-background';
 
 export default function CTA() {
-
     const { isSignedIn } = useUser();
 
     return (
-        <section className="py-24 bg-secondary/20 relative overflow-hidden border-t border-border/50">
+        <section className="bg-secondary/20 border-border/50 relative overflow-hidden border-t py-24">
             {/* Subtle pattern */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.01)_1px,transparent_1px)] bg-size-[3rem_3rem]" />
             <DottedGlowBackground
@@ -29,38 +28,42 @@ export default function CTA() {
                 speedMax={1.6}
                 speedScale={1}
             />
-            <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
-                    className="max-w-3xl mx-auto text-center"
+                    className="mx-auto max-w-3xl text-center"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                    <h2 className="mb-6 text-4xl font-bold md:text-5xl">
                         Ready to build your first form?
                     </h2>
-                    <p className="text-xl text-muted-foreground mb-10">
+                    <p className="text-muted-foreground mb-10 text-xl">
                         Join the creators using QForms to simplify their workflows.
                     </p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-
+                    <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
                             <Button
                                 asChild
                                 size="lg"
-                                className="bg-primary text-primary-foreground hover:bg-primary/70 text-lg px-8 shadow-lg rounded-full"
+                                className="bg-primary text-primary-foreground hover:bg-primary/70 rounded-full px-8 text-lg shadow-lg"
                             >
-                                <Link href={isSignedIn ? "/dashboard" : "/sign-up"} >
+                                <Link href={isSignedIn ? '/dashboard' : '/sign-up'}>
                                     Start for Free
                                     <ArrowRight className="ml-2 h-5 w-5" />
                                 </Link>
                             </Button>
                         </motion.div>
-                        <span className="text-primary/80">— create your first form now.</span>
+                        <span className="text-primary/80">
+                            — create your first form now.
+                        </span>
                     </div>
                 </motion.div>
-            </div >
-        </section >
+            </div>
+        </section>
     );
-};
+}

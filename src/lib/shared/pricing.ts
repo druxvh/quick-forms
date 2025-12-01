@@ -1,12 +1,12 @@
 export type Plan = {
-    id: "free" | "pro" | "custom";
+    id: 'free' | 'pro' | 'custom';
     name: string;
     description: string;
     priceINR?: number;
     priceUSD?: number;
     features: string[];
-    formLimit: number | "unlimited";
-    support: "none" | "priority" | "email";
+    formLimit: number | 'unlimited';
+    support: 'none' | 'priority' | 'email';
     badge?: string;
     cta: string;
     highlight?: boolean;
@@ -14,56 +14,57 @@ export type Plan = {
 
 export const PRICING_PLANS: Plan[] = [
     {
-        id: "free",
-        name: "Free",
-        description: "Perfect for individuals trying out the form builder.",
+        id: 'free',
+        name: 'Free',
+        description: 'Perfect for individuals trying out the form builder.',
         formLimit: 5,
         priceINR: 0,
         priceUSD: 0,
         features: [
-            "Access to all field elements",
-            "Up to 5 active forms",
-            "Unlimited submissions",
-            "Dashboard and analytics access",
+            'Access to all field elements',
+            'Up to 5 active forms',
+            'Unlimited submissions',
+            'Dashboard and analytics access',
         ],
-        support: "none",
-        cta: "Start for Free",
-        badge: "Starter",
+        support: 'none',
+        cta: 'Start for Free',
+        badge: 'Starter',
     },
     {
-        id: "pro",
-        name: "Pro",
-        description: "For professionals and small businesses who need more forms and insights.",
+        id: 'pro',
+        name: 'Pro',
+        description:
+            'For professionals and small businesses who need more forms and insights.',
         formLimit: 20,
         priceINR: 149,
         priceUSD: 2.99,
         features: [
-            "All Free Plan features",
-            "Up to 20 active forms",
-            "Priority analytics dashboard",
-            "Pro badge on profile",
-            "Email support access",
-            "Early access to new features",
+            'All Free Plan features',
+            'Up to 20 active forms',
+            'Priority analytics dashboard',
+            'Pro badge on profile',
+            'Email support access',
+            'Early access to new features',
         ],
-        support: "email",
-        cta: "Upgrade to Pro",
-        badge: "Pro",
+        support: 'email',
+        cta: 'Upgrade to Pro',
+        badge: 'Pro',
         highlight: true,
     },
     {
-        id: "custom",
-        name: "Custom",
-        description: "Need more than 20 forms or custom enterprise setup?",
-        formLimit: "unlimited",
+        id: 'custom',
+        name: 'Custom',
+        description: 'Need more than 20 forms or custom enterprise setup?',
+        formLimit: 'unlimited',
         features: [
-            "All Pro Plan features",
-            "Unlimited active forms",
-            "Dedicated support channel",
-            "Custom analytics reports",
-            "Personal onboarding assistance",
+            'All Pro Plan features',
+            'Unlimited active forms',
+            'Dedicated support channel',
+            'Custom analytics reports',
+            'Personal onboarding assistance',
         ],
-        support: "priority",
-        cta: "Contact Us",
-        badge: "Enterprise",
+        support: 'priority',
+        cta: 'Contact Us',
+        badge: 'Enterprise',
     },
 ];

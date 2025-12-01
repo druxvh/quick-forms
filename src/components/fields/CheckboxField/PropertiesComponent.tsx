@@ -1,48 +1,59 @@
-'use client'
+'use client';
 
-import { FieldInstance, FormElementInstance } from "@/types/form"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Switch } from "@/components/ui/switch"
-import { useDesignerActions } from "@/hooks/use-designer"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect } from "react"
-import { useForm } from "react-hook-form"
-import { checkboxFieldSchema, CheckboxFieldSchemaT } from "@/schemas"
+import { FieldInstance, FormElementInstance } from '@/types/form';
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { useDesignerActions } from '@/hooks/use-designer';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { checkboxFieldSchema, CheckboxFieldSchemaT } from '@/schemas';
 
-export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-       const { updateElement } = useDesignerActions()
-    const element = elementInstance as FieldInstance<"CheckboxField">
-    const { label, helperText, required } = element.extraAttributes
+export default function PropertiesComponent({
+    elementInstance,
+}: {
+    elementInstance: FormElementInstance;
+}) {
+    const { updateElement } = useDesignerActions();
+    const element = elementInstance as FieldInstance<'CheckboxField'>;
+    const { label, helperText, required } = element.extraAttributes;
 
     const form = useForm({
         resolver: zodResolver(checkboxFieldSchema),
-        mode: "onBlur",
+        mode: 'onBlur',
         defaultValues: {
             label,
             helperText,
             required,
-        }
-    })
+        },
+    });
 
     // updates the changes
     function applyChanges(values: CheckboxFieldSchemaT) {
-        const { label, required, helperText } = values
+        const { label, required, helperText } = values;
 
         updateElement(element.id, {
             ...element,
             extraAttributes: {
                 label,
                 helperText,
-                required
-            }
-        })
+                required,
+            },
+        });
     }
 
     useEffect(() => {
-        form.reset(element.extraAttributes)
-    }, [element, form])
-
+        form.reset(element.extraAttributes);
+    }, [element, form]);
 
     return (
         <Form {...form}>
@@ -51,7 +62,6 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 className="space-y-6"
                 onSubmit={(e) => e.preventDefault()}
             >
-
                 <FormField
                     control={form.control}
                     name="label"
@@ -59,14 +69,16 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                         <FormItem>
                             <FormLabel>Label</FormLabel>
                             <FormControl>
-                                <Input {...field}
+                                <Input
+                                    {...field}
                                     onKeyDown={(e) => {
-                                        if (e.key === "Enter") e.currentTarget.blur()
+                                        if (e.key === 'Enter') e.currentTarget.blur();
                                     }}
                                 />
                             </FormControl>
                             <FormDescription>
-                                The label of the field. <br /> It will be displayed above the field
+                                The label of the field. <br /> It will be displayed above
+                                the field
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -80,14 +92,16 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                         <FormItem>
                             <FormLabel>Helper text</FormLabel>
                             <FormControl>
-                                <Input {...field}
+                                <Input
+                                    {...field}
                                     onKeyDown={(e) => {
-                                        if (e.key === "Enter") e.currentTarget.blur()
+                                        if (e.key === 'Enter') e.currentTarget.blur();
                                     }}
                                 />
                             </FormControl>
                             <FormDescription>
-                                The Helper text of the field. <br /> It will be displayed above the field
+                                The Helper text of the field. <br /> It will be displayed
+                                above the field
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -97,14 +111,10 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                     control={form.control}
                     name="required"
                     render={({ field }) => (
-                        <FormItem
-                            className="flex items-center justify-between rounded-lg border p-4 shadow-sm"
-                        >
+                        <FormItem className="flex items-center justify-between rounded-lg border p-4 shadow-sm">
                             <div className="space-y-1">
                                 <FormLabel>Required</FormLabel>
-                                <FormDescription>
-                                    Marks field as required
-                                </FormDescription>
+                                <FormDescription>Marks field as required</FormDescription>
                             </div>
                             <FormControl>
                                 <Switch
@@ -118,5 +128,5 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 />
             </form>
         </Form>
-    )
+    );
 }

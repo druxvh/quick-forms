@@ -9,8 +9,8 @@ import {
     subTitleFieldSchema,
     textAreaFieldSchema,
     textFieldSchema,
-    titleFieldSchema
-} from './field-schemas'
+    titleFieldSchema,
+} from './field-schemas';
 
 // Exports
 export type {
@@ -25,7 +25,7 @@ export type {
     ParagraphFieldSchemaT,
     SpacerFieldSchemaT,
     SeparatorFieldSchemaT,
-} from "./field-schemas"
+} from './field-schemas';
 
 export const fieldSchemas = {
     TextField: textFieldSchema,
@@ -52,8 +52,8 @@ export {
     subTitleFieldSchema,
     textAreaFieldSchema,
     textFieldSchema,
-    titleFieldSchema
-} from './field-schemas'
+    titleFieldSchema,
+} from './field-schemas';
 
 export { createFormSchema, type createFormSchemaT } from './create-form-schema';
 

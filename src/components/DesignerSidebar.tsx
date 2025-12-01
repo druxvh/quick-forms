@@ -1,19 +1,14 @@
-"use client"
+'use client';
 
-import FormElementsSidebar from "./FormElementsSidebar"
-import FormPropertiesSidebar from "./FormPropertiesSidebar"
-import { useDesignerSelectedElement } from "@/hooks/use-designer"
+import FormElementsSidebar from './FormElementsSidebar';
+import FormPropertiesSidebar from './FormPropertiesSidebar';
+import { useDesignerSelectedElement } from '@/hooks/use-designer';
 
 export default function DesignerSidebar() {
-    const selectedElement = useDesignerSelectedElement()
+    const selectedElement = useDesignerSelectedElement();
     return (
-        <aside className='h-fit sm:h-full sm:min-w-fit flex flex-col flex-grow gap-2 sm:border-l-1 border-border p-2 sm:p-4 bg-background'>
-            {selectedElement
-                ?
-                <FormPropertiesSidebar />
-                :
-                <FormElementsSidebar />
-            }
+        <aside className="border-border bg-background flex h-fit flex-grow flex-col gap-2 p-2 sm:h-full sm:min-w-fit sm:border-l-1 sm:p-4">
+            {selectedElement ? <FormPropertiesSidebar /> : <FormElementsSidebar />}
         </aside>
-    )
+    );
 }

@@ -1,27 +1,27 @@
-"use client"
+'use client';
 
-import { Minus } from "lucide-react"
-import { ElementsType, FormElement, getDefaultAttributes } from "@/types/form"
-import DesignerComponent from "./DesignerComponent"
-import FormComponent from "./FormComponent"
-import PropertiesComponent from "./PropertiesComponent"
+import { Minus } from 'lucide-react';
+import { ElementsType, FormElement, getDefaultAttributes } from '@/types/form';
+import DesignerComponent from './DesignerComponent';
+import FormComponent from './FormComponent';
+import PropertiesComponent from './PropertiesComponent';
 
-const type: ElementsType = "SeparatorField"
+const type: ElementsType = 'SeparatorField';
 
 export const SeparatorField: FormElement = {
     type,
     construct: (id: string) => ({
         id,
         type,
-        extraAttributes: getDefaultAttributes(type)
+        extraAttributes: getDefaultAttributes(type),
     }),
     designerBtnElement: {
         icon: Minus,
-        label: "Separator"
+        label: 'Separator',
     },
     designerComponent: DesignerComponent,
     formComponent: FormComponent,
     propertiesComponent: PropertiesComponent,
 
-    validate: () => true
-}
+    validate: () => true,
+};

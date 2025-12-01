@@ -1,12 +1,12 @@
-"use client"
+'use client';
 
-import { SeparatorHorizontal } from "lucide-react"
-import { ElementsType, FormElement, getDefaultAttributes } from "@/types/form"
-import DesignerComponent from "./DesignerComponent"
-import FormComponent from "./FormComponent"
-import PropertiesComponent from "./PropertiesComponent"
+import { SeparatorHorizontal } from 'lucide-react';
+import { ElementsType, FormElement, getDefaultAttributes } from '@/types/form';
+import DesignerComponent from './DesignerComponent';
+import FormComponent from './FormComponent';
+import PropertiesComponent from './PropertiesComponent';
 
-const type: ElementsType = "SpacerField"
+const type: ElementsType = 'SpacerField';
 
 export const SpacerField: FormElement = {
     type,
@@ -17,11 +17,11 @@ export const SpacerField: FormElement = {
     }),
     designerBtnElement: {
         icon: SeparatorHorizontal,
-        label: "Spacer Field"
+        label: 'Spacer Field',
     },
     designerComponent: DesignerComponent,
     formComponent: FormComponent,
     propertiesComponent: PropertiesComponent,
 
-    validate: () => true
-}
+    validate: () => true,
+};

@@ -1,11 +1,11 @@
-import Navbar from "@/components/Navbar"
-import { ReactNode } from "react"
+import Navbar from '@/components/Navbar';
+import { ReactNode } from 'react';
 
 export default function Layout({ children }: { children: ReactNode }) {
     return (
-        <div className="flex flex-col h-screen min-h-screen min-w-full bg-background max-h-screen">
+        <div className="bg-background flex h-screen max-h-screen min-h-screen min-w-full flex-col">
             <Navbar />
             <main className="flex w-full flex-grow">{children}</main>
         </div>
-    )
+    );
 }

@@ -1,38 +1,44 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import Logo from "../Logo"
-import { useUser } from "@clerk/nextjs";
+import Link from 'next/link';
+import Logo from '../Logo';
+import { useUser } from '@clerk/nextjs';
 
 export default function Footer() {
-
     const { isSignedIn } = useUser();
 
     return (
-        <footer className="border-t border-border/50 bg-background/50 backdrop-blur-sm">
-            <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">
-                <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+        <footer className="border-border/50 bg-background/50 border-t backdrop-blur-sm">
+            <div className="mx-auto max-w-7xl px-6 py-10 lg:px-8">
+                <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
                     {/* Brand + Description */}
                     <div className="flex items-center gap-2">
                         <Logo isAuthed={!!isSignedIn} />
                     </div>
-                    <p className="text-sm text-muted-foreground text-center md:text-left max-w-md">
-                        Create and share forms in minutes — a simple, fast, and distraction-free form builder built for everyone.
+                    <p className="text-muted-foreground max-w-md text-center text-sm md:text-left">
+                        Create and share forms in minutes — a simple, fast, and
+                        distraction-free form builder built for everyone.
                     </p>
                 </div>
 
-                <div className="mt-8 flex flex-col md:flex-row justify-between items-center border-t border-border/50 pt-6 text-sm text-muted-foreground">
+                <div className="border-border/50 text-muted-foreground mt-8 flex flex-col items-center justify-between border-t pt-6 text-sm md:flex-row">
                     <p>© {new Date().getFullYear()} QForms. All rights reserved.</p>
-                    <div className="flex gap-4 mt-3 md:mt-0">
-                        <Link href="/privacy" className="hover:text-foreground transition-colors">
+                    <div className="mt-3 flex gap-4 md:mt-0">
+                        <Link
+                            href="/privacy"
+                            className="hover:text-foreground transition-colors"
+                        >
                             Privacy
                         </Link>
-                        <Link href="/terms" className="hover:text-foreground transition-colors">
+                        <Link
+                            href="/terms"
+                            className="hover:text-foreground transition-colors"
+                        >
                             Terms
                         </Link>
                     </div>
                 </div>
             </div>
         </footer>
-    )
+    );
 }

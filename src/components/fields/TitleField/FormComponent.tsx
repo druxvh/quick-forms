@@ -1,17 +1,13 @@
-'use client'
+'use client';
 
-import { FieldInstance, FormElementInstance } from "@/types/form"
-
+import { FieldInstance, FormElementInstance } from '@/types/form';
 
 export default function FormComponent({
-    elementInstance
+    elementInstance,
 }: {
-    elementInstance: FormElementInstance
+    elementInstance: FormElementInstance;
 }) {
-
-    const element = elementInstance as FieldInstance<"TitleField">
-    const { title } = element.extraAttributes
-    return (
-        <p className="text-xl">{title}</p>
-    )
+    const element = elementInstance as FieldInstance<'TitleField'>;
+    const { title } = element.extraAttributes;
+    return <p className="text-xl">{title}</p>;
 }

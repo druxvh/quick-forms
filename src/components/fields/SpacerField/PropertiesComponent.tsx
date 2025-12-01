@@ -1,43 +1,53 @@
-'use client'
+'use client';
 
-import { FieldInstance, FormElementInstance } from "@/types/form"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Slider } from "@/components/ui/slider"
-import { useDesignerActions } from "@/hooks/use-designer"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect } from "react"
-import { useForm } from "react-hook-form"
-import { spacerFieldSchema, SpacerFieldSchemaT } from "@/schemas"
+import { FieldInstance, FormElementInstance } from '@/types/form';
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form';
+import { Slider } from '@/components/ui/slider';
+import { useDesignerActions } from '@/hooks/use-designer';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { spacerFieldSchema, SpacerFieldSchemaT } from '@/schemas';
 
+export default function PropertiesComponent({
+    elementInstance,
+}: {
+    elementInstance: FormElementInstance;
+}) {
+    const element = elementInstance as FieldInstance<'SpacerField'>;
 
-export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as FieldInstance<"SpacerField">
-
-    const { updateElement } = useDesignerActions()
+    const { updateElement } = useDesignerActions();
 
     const form = useForm({
         resolver: zodResolver(spacerFieldSchema),
-        mode: "onBlur",
+        mode: 'onBlur',
         defaultValues: {
-            height: element.extraAttributes?.height
-        }
-    })
+            height: element.extraAttributes?.height,
+        },
+    });
 
     // updates the changes
     function applyChanges(values: SpacerFieldSchemaT) {
-        const { height } = values
+        const { height } = values;
 
         updateElement(element.id, {
             ...element,
             extraAttributes: {
-                height
-            }
-        })
+                height,
+            },
+        });
     }
 
     useEffect(() => {
-        form.reset(element.extraAttributes)
-    }, [element, form])
+        form.reset(element.extraAttributes);
+    }, [element, form]);
 
     return (
         <Form {...form}>
@@ -46,7 +56,6 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 className="space-y-6"
                 onSubmit={(e) => e.preventDefault()}
             >
-
                 <FormField
                     control={form.control}
                     name="height"
@@ -60,7 +69,7 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                                     max={200}
                                     step={5}
                                     onValueChange={(value) => {
-                                        field.onChange(value[0])
+                                        field.onChange(value[0]);
                                     }}
                                 />
                             </FormControl>
@@ -71,5 +80,5 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 />
             </form>
         </Form>
-    )
+    );
 }

@@ -1,52 +1,58 @@
-'use client'
+'use client';
 
-import { FieldInstance, FormElementInstance, SubmitFunction } from "@/types/form"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { FieldInstance, FormElementInstance, SubmitFunction } from '@/types/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
-
-export default function FormComponent({ elementInstance, submitValue, isInvalid, defaultValue }:
-    {
-        elementInstance: FormElementInstance
-        submitValue?: SubmitFunction
-        isInvalid?: boolean
-        defaultValue?: string
-    }) {
-    const element = elementInstance as FieldInstance<"NumberField">
-    const [value, setValue] = useState(() => defaultValue || "")
-    const { label, helperText, placeholder, required } = element.extraAttributes
+export default function FormComponent({
+    elementInstance,
+    submitValue,
+    isInvalid,
+    defaultValue,
+}: {
+    elementInstance: FormElementInstance;
+    submitValue?: SubmitFunction;
+    isInvalid?: boolean;
+    defaultValue?: string;
+}) {
+    const element = elementInstance as FieldInstance<'NumberField'>;
+    const [value, setValue] = useState(() => defaultValue || '');
+    const { label, helperText, placeholder, required } = element.extraAttributes;
 
     return (
-        <div className="flex flex-col gap-4 w-full">
-            <Label
-                className={cn(isInvalid && "text-red-500")}
-            >
+        <div className="flex w-full flex-col gap-4">
+            <Label className={cn(isInvalid && 'text-red-500')}>
                 {label}
-                {required && "*"}
+                {required && '*'}
             </Label>
             <Input
-                className={cn(isInvalid && "text-red-500")}
+                className={cn(isInvalid && 'text-red-500')}
                 type="number"
                 placeholder={placeholder}
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
                 onBlur={(e) => {
-                    if (!submitValue) return
-                    submitValue(element.id, e.target.value)
+                    if (!submitValue) return;
+                    submitValue(element.id, e.target.value);
                 }}
                 onKeyDown={(e) => {
-                    if (["e", "E", "+", "-"].includes(e.key)) {
-                        e.preventDefault()
+                    if (['e', 'E', '+', '-'].includes(e.key)) {
+                        e.preventDefault();
                     }
                 }}
             />
-            {helperText &&
-                <p className={cn("text-muted-foreground text-[0.8rem]",
-                    isInvalid && "text-red-500"
-                )}>{helperText}</p>
-            }
+            {helperText && (
+                <p
+                    className={cn(
+                        'text-muted-foreground text-[0.8rem]',
+                        isInvalid && 'text-red-500',
+                    )}
+                >
+                    {helperText}
+                </p>
+            )}
         </div>
-    )
+    );
 }

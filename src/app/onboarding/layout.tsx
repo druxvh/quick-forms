@@ -1,7 +1,5 @@
-import { ReactNode } from "react"
+import { ReactNode } from 'react';
 
 export default function OnboardingLayout({ children }: { children: ReactNode }) {
-    return (
-        <main>{children}</main>
-    )
+    return <main>{children}</main>;
 }

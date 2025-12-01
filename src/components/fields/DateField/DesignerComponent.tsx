@@ -1,28 +1,33 @@
-'use client'
+'use client';
 
-import { FieldInstance, FormElementInstance } from "@/types/form"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { Calendar1 } from "lucide-react"
+import { FieldInstance, FormElementInstance } from '@/types/form';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Calendar1 } from 'lucide-react';
 
-export default function DesignerComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as FieldInstance<"DateField">
-    const { label, helperText, required } = element.extraAttributes
+export default function DesignerComponent({
+    elementInstance,
+}: {
+    elementInstance: FormElementInstance;
+}) {
+    const element = elementInstance as FieldInstance<'DateField'>;
+    const { label, helperText, required } = element.extraAttributes;
     return (
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex w-full flex-col gap-4">
             <Label>
                 {label}
-                {required && "*"}
+                {required && '*'}
             </Label>
             <Button
                 className="w-full justify-start text-left font-normal"
-                variant={"outline"}>
+                variant={'outline'}
+            >
                 <Calendar1 className="mr-2 size-4" />
                 <span>Pick a date</span>
             </Button>
-            {helperText &&
+            {helperText && (
                 <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
-            }
+            )}
         </div>
-    )
+    );
 }

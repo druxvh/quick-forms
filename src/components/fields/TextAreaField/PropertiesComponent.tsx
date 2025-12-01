@@ -1,38 +1,49 @@
-'use client'
+'use client';
 
-import { FieldInstance, FormElementInstance } from "@/types/form"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import { useDesignerActions } from "@/hooks/use-designer"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useEffect } from "react"
-import { useForm } from "react-hook-form"
-import { textAreaFieldSchema, TextAreaFieldSchemaT } from "@/schemas"
+import { FieldInstance, FormElementInstance } from '@/types/form';
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Slider } from '@/components/ui/slider';
+import { Switch } from '@/components/ui/switch';
+import { useDesignerActions } from '@/hooks/use-designer';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { textAreaFieldSchema, TextAreaFieldSchemaT } from '@/schemas';
 
+export default function PropertiesComponent({
+    elementInstance,
+}: {
+    elementInstance: FormElementInstance;
+}) {
+    const element = elementInstance as FieldInstance<'TextAreaField'>;
 
-export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as FieldInstance<"TextAreaField">
-
-    const { updateElement } = useDesignerActions()
-    const { label, helperText, placeholder, required, rows } = element.extraAttributes
+    const { updateElement } = useDesignerActions();
+    const { label, helperText, placeholder, required, rows } = element.extraAttributes;
 
     const form = useForm({
         resolver: zodResolver(textAreaFieldSchema),
-        mode: "onBlur",
+        mode: 'onBlur',
         defaultValues: {
             label,
             helperText,
             required,
             placeholder,
-            rows
-        }
-    })
+            rows,
+        },
+    });
 
     // updates the changes
     function applyChanges(values: TextAreaFieldSchemaT) {
-        const { label, helperText, placeholder, required, rows } = values
+        const { label, helperText, placeholder, required, rows } = values;
 
         updateElement(element.id, {
             ...element,
@@ -41,15 +52,14 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 helperText,
                 placeholder,
                 required,
-                rows
-            }
-        })
-
+                rows,
+            },
+        });
     }
 
     useEffect(() => {
-        form.reset(element.extraAttributes)
-    }, [element, form])
+        form.reset(element.extraAttributes);
+    }, [element, form]);
 
     return (
         <Form {...form}>
@@ -58,7 +68,6 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 className="space-y-6"
                 onSubmit={(e) => e.preventDefault()}
             >
-
                 <FormField
                     control={form.control}
                     name="label"
@@ -66,14 +75,16 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                         <FormItem>
                             <FormLabel>Label</FormLabel>
                             <FormControl>
-                                <Input {...field}
+                                <Input
+                                    {...field}
                                     onKeyDown={(e) => {
-                                        if (e.key === "Enter") e.currentTarget.blur()
+                                        if (e.key === 'Enter') e.currentTarget.blur();
                                     }}
                                 />
                             </FormControl>
                             <FormDescription>
-                                The label of the field. <br /> It will be displayed above the field
+                                The label of the field. <br /> It will be displayed above
+                                the field
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -86,9 +97,10 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                         <FormItem>
                             <FormLabel>Placeholder</FormLabel>
                             <FormControl>
-                                <Input {...field}
+                                <Input
+                                    {...field}
                                     onKeyDown={(e) => {
-                                        if (e.key === "Enter") e.currentTarget.blur()
+                                        if (e.key === 'Enter') e.currentTarget.blur();
                                     }}
                                 />
                             </FormControl>
@@ -106,14 +118,16 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                         <FormItem>
                             <FormLabel>Helper text</FormLabel>
                             <FormControl>
-                                <Input {...field}
+                                <Input
+                                    {...field}
                                     onKeyDown={(e) => {
-                                        if (e.key === "Enter") e.currentTarget.blur()
+                                        if (e.key === 'Enter') e.currentTarget.blur();
                                     }}
                                 />
                             </FormControl>
                             <FormDescription>
-                                The Helper text of the field. <br /> It will be displayed above the field
+                                The Helper text of the field. <br /> It will be displayed
+                                above the field
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -127,14 +141,12 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                             <FormLabel>Rows {field.value ?? 3}</FormLabel>
                             <FormControl>
                                 <Slider
-
                                     defaultValue={[field.value ?? 3]}
                                     min={1}
                                     max={20}
                                     step={1}
-                                    onValueChange={value => {
-
-                                        field.onChange(value[0])
+                                    onValueChange={(value) => {
+                                        field.onChange(value[0]);
                                     }}
                                 />
                             </FormControl>
@@ -146,14 +158,10 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                     control={form.control}
                     name="required"
                     render={({ field }) => (
-                        <FormItem
-                            className="flex items-center justify-between rounded-lg border p-4 shadow-sm"
-                        >
+                        <FormItem className="flex items-center justify-between rounded-lg border p-4 shadow-sm">
                             <div className="space-y-1">
                                 <FormLabel>Required</FormLabel>
-                                <FormDescription>
-                                    Marks field as required
-                                </FormDescription>
+                                <FormDescription>Marks field as required</FormDescription>
                             </div>
                             <FormControl>
                                 <Switch
@@ -167,5 +175,5 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 />
             </form>
         </Form>
-    )
+    );
 }

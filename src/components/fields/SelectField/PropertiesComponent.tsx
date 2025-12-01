@@ -1,33 +1,45 @@
-'use client'
+'use client';
 
-import { FieldInstance, FormElementInstance } from "@/types/form"
-import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import { useDesignerActions } from "@/hooks/use-designer"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Plus, X } from "lucide-react"
-import { useEffect } from "react"
-import { useForm } from "react-hook-form"
-import { toast } from "sonner"
-import { selectFieldSchema, SelectFieldSchemaT } from "@/schemas"
+import { FieldInstance, FormElementInstance } from '@/types/form';
+import { Button } from '@/components/ui/button';
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import { useDesignerActions } from '@/hooks/use-designer';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Plus, X } from 'lucide-react';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { selectFieldSchema, SelectFieldSchemaT } from '@/schemas';
 
-export default function PropertiesComponent({ elementInstance }: { elementInstance: FormElementInstance }) {
-    const element = elementInstance as FieldInstance<"SelectField">
-    const { updateElement, setSelectedElement } = useDesignerActions()
-    const { label, helperText, placeholder, required, options } = element.extraAttributes
+export default function PropertiesComponent({
+    elementInstance,
+}: {
+    elementInstance: FormElementInstance;
+}) {
+    const element = elementInstance as FieldInstance<'SelectField'>;
+    const { updateElement, setSelectedElement } = useDesignerActions();
+    const { label, helperText, placeholder, required, options } = element.extraAttributes;
 
     const form = useForm({
         resolver: zodResolver(selectFieldSchema),
-        mode: "onSubmit",
-        defaultValues: { label, helperText, placeholder, required, options }
-    })
+        mode: 'onSubmit',
+        defaultValues: { label, helperText, placeholder, required, options },
+    });
 
     // updates the changes
     function applyChanges(values: SelectFieldSchemaT) {
-        const { label, helperText, placeholder, required, options } = values
+        const { label, helperText, placeholder, required, options } = values;
 
         updateElement(element.id, {
             ...element,
@@ -36,29 +48,24 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                 helperText,
                 placeholder,
                 required,
-                options
-            }
-        })
+                options,
+            },
+        });
 
-        toast.success("Success", {
-            description: "Properties saved successfully!"
-        })
+        toast.success('Success', {
+            description: 'Properties saved successfully!',
+        });
 
-        setSelectedElement(null)
-
+        setSelectedElement(null);
     }
 
     useEffect(() => {
-        form.reset(element.extraAttributes)
-    }, [element, form])
+        form.reset(element.extraAttributes);
+    }, [element, form]);
 
     return (
         <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(applyChanges)}
-                className="space-y-6"
-            >
-
+            <form onSubmit={form.handleSubmit(applyChanges)} className="space-y-6">
                 <FormField
                     control={form.control}
                     name="label"
@@ -66,14 +73,16 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                         <FormItem>
                             <FormLabel>Label</FormLabel>
                             <FormControl>
-                                <Input {...field}
+                                <Input
+                                    {...field}
                                     onKeyDown={(e) => {
-                                        if (e.key === "Enter") e.currentTarget.blur()
+                                        if (e.key === 'Enter') e.currentTarget.blur();
                                     }}
                                 />
                             </FormControl>
                             <FormDescription>
-                                The label of the field. <br /> It will be displayed above the field
+                                The label of the field. <br /> It will be displayed above
+                                the field
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -86,9 +95,10 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                         <FormItem>
                             <FormLabel>Placeholder</FormLabel>
                             <FormControl>
-                                <Input {...field}
+                                <Input
+                                    {...field}
                                     onKeyDown={(e) => {
-                                        if (e.key === "Enter") e.currentTarget.blur()
+                                        if (e.key === 'Enter') e.currentTarget.blur();
                                     }}
                                 />
                             </FormControl>
@@ -106,14 +116,16 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                         <FormItem>
                             <FormLabel>Helper text</FormLabel>
                             <FormControl>
-                                <Input {...field}
+                                <Input
+                                    {...field}
                                     onKeyDown={(e) => {
-                                        if (e.key === "Enter") e.currentTarget.blur()
+                                        if (e.key === 'Enter') e.currentTarget.blur();
                                     }}
                                 />
                             </FormControl>
                             <FormDescription>
-                                The Helper text of the field. <br /> It will be displayed above the field
+                                The Helper text of the field. <br /> It will be displayed
+                                above the field
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -125,14 +137,17 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                     name="options"
                     render={({ field }) => (
                         <FormItem>
-                            <div className="flex justify-between items-center">
+                            <div className="flex items-center justify-between">
                                 <FormLabel>Options</FormLabel>
                                 <Button
-                                    variant={"outline"}
+                                    variant={'outline'}
                                     className="gap-2"
                                     onClick={(e) => {
-                                        e.preventDefault()
-                                        form.setValue("options", [...(field.value ?? []), "New option"])
+                                        e.preventDefault();
+                                        form.setValue('options', [
+                                            ...(field.value ?? []),
+                                            'New option',
+                                        ]);
                                     }}
                                 >
                                     <Plus />
@@ -141,34 +156,40 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                             </div>
                             <div className="flex flex-col gap-2">
                                 {(field.value ?? []).map((option, index) => (
-                                    <div key={index} className="flex items-center justify-between gap-1">
+                                    <div
+                                        key={index}
+                                        className="flex items-center justify-between gap-1"
+                                    >
                                         <Input
                                             placeholder=""
                                             value={option}
                                             onChange={(e) => {
-                                                const newOptions = [...(field.value ?? [])]
-                                                newOptions[index] = e.target.value
-                                                field.onChange(newOptions)
+                                                const newOptions = [
+                                                    ...(field.value ?? []),
+                                                ];
+                                                newOptions[index] = e.target.value;
+                                                field.onChange(newOptions);
                                             }}
                                         />
                                         <Button
-                                            variant={"ghost"}
-                                            size={"icon"}
+                                            variant={'ghost'}
+                                            size={'icon'}
                                             onClick={(e) => {
-                                                e.preventDefault()
-                                                const newOptions = (field.value ?? []).filter((_, i) => i != index)
-                                                field.onChange(newOptions)
+                                                e.preventDefault();
+                                                const newOptions = (
+                                                    field.value ?? []
+                                                ).filter((_, i) => i != index);
+                                                field.onChange(newOptions);
                                             }}
                                         >
                                             <X />
                                         </Button>
-
                                     </div>
                                 ))}
-
                             </div>
                             <FormDescription>
-                                The Helper text of the field. <br /> It will be displayed above the field
+                                The Helper text of the field. <br /> It will be displayed
+                                above the field
                             </FormDescription>
                             <FormMessage />
                         </FormItem>
@@ -179,14 +200,10 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                     control={form.control}
                     name="required"
                     render={({ field }) => (
-                        <FormItem
-                            className="flex items-center justify-between rounded-lg border p-4 shadow-sm"
-                        >
+                        <FormItem className="flex items-center justify-between rounded-lg border p-4 shadow-sm">
                             <div className="space-y-1">
                                 <FormLabel>Required</FormLabel>
-                                <FormDescription>
-                                    Marks field as required
-                                </FormDescription>
+                                <FormDescription>Marks field as required</FormDescription>
                             </div>
                             <FormControl>
                                 <Switch
@@ -199,13 +216,10 @@ export default function PropertiesComponent({ elementInstance }: { elementInstan
                     )}
                 />
                 <Separator />
-                <Button
-                    className="w-full"
-                    type="submit"
-                >
+                <Button className="w-full" type="submit">
                     Save
                 </Button>
             </form>
         </Form>
-    )
+    );
 }

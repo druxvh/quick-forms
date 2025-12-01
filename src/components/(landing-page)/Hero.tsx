@@ -1,36 +1,37 @@
-"use client"
+'use client';
 
-import { motion } from 'framer-motion'
-import { Button } from '../ui/button'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { motion } from 'framer-motion';
+import { Button } from '../ui/button';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import { Spotlight } from '../ui/spotlight-new';
 
 export default function Hero() {
-
     const { isSignedIn } = useUser();
 
     return (
-        <section className="relative min-h-screen flex items-center justify-center bg-background text-foreground overflow-hidden">
+        <section className="bg-background text-foreground relative flex min-h-screen items-center justify-center overflow-hidden">
             {/* Subtle grid pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] bg-size-[4rem_4rem]" />
 
             <Spotlight />
 
-            <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-                <div className="max-w-4xl mx-auto text-center">
+            <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
+                <div className="mx-auto max-w-4xl text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.1 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 relative group"
+                        className="group relative mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2"
                     >
                         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-400 via-blue-100 to-green-400 blur-sm" />
-                        <div className="absolute inset-px rounded-full bg-secondary" />
+                        <div className="bg-secondary absolute inset-px rounded-full" />
                         <div className="relative z-10 flex items-center gap-2">
-                            <Sparkles className="h-4 w-4 text-foreground" />
-                            <span className="text-sm font-medium text-foreground">Lightning-fast form creation</span>
+                            <Sparkles className="text-foreground h-4 w-4" />
+                            <span className="text-foreground text-sm font-medium">
+                                Lightning-fast form creation
+                            </span>
                         </div>
                     </motion.div>
 
@@ -38,34 +39,39 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="text-6xl md:text-8xl font-bold tracking-tight mb-6"
+                        className="mb-6 text-6xl font-bold tracking-tight md:text-8xl"
                     >
                         Build Forms in
                         <br />
-                        <span className="italic bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">Seconds</span>
+                        <span className="from-foreground to-foreground/60 bg-gradient-to-r bg-clip-text text-transparent italic">
+                            Seconds
+                        </span>
                     </motion.h1>
 
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
-                        className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl mx-auto"
+                        className="text-muted-foreground mx-auto mb-12 max-w-2xl text-xl md:text-2xl"
                     >
-                        Create stunning, Modern forms in seconds — without code.
-                        Collect responses, share instantly.
+                        Create stunning, Modern forms in seconds — without code. Collect
+                        responses, share instantly.
                     </motion.p>
 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.4 }}
-                        className="flex flex-col sm:flex-row items-center justify-center gap-4"
+                        className="flex flex-col items-center justify-center gap-4 sm:flex-row"
                     >
-                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
                             <Button
                                 asChild
                                 size="lg"
-                                className="bg-primary text-primary-foreground hover:bg-primary/70 text-lg px-8 shadow-lg hover:shadow-xl transition-all duration-300"
+                                className="bg-primary text-primary-foreground hover:bg-primary/70 px-8 text-lg shadow-lg transition-all duration-300 hover:shadow-xl"
                             >
                                 <Link href={isSignedIn ? '/dashboard' : '/sign-up'}>
                                     Get Started for Free
@@ -73,7 +79,7 @@ export default function Hero() {
                                 </Link>
                             </Button>
                         </motion.div>
-                        <span className='text-primary/80'>
+                        <span className="text-primary/80">
                             — no setup, just start building.
                         </span>
                     </motion.div>
@@ -82,16 +88,16 @@ export default function Hero() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.5 }}
-                        className="text-sm text-muted-foreground mt-8"
+                        className="text-muted-foreground mt-8 text-sm"
                     >
-                        <span className='hidden sm:inline'>No credit card required</span>
-                        {" · "}
+                        <span className="hidden sm:inline">No credit card required</span>
+                        {' · '}
                         <span>Instant form creation</span>
-                        {" · "}
+                        {' · '}
                         <span>Ready to share instantly</span>
                     </motion.p>
                 </div>
             </div>
-        </section >
-    )
+        </section>
+    );
 }
