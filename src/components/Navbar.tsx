@@ -1,9 +1,8 @@
 import { getCurrentUser } from '@/actions/user';
 import Logo from './Logo';
 import ThemeModeToggle from './ThemeModeToggle';
-import { SignedIn, SignedOut, SignUpButton, UserButton } from '@clerk/nextjs';
 import { ProBadge } from './ProBadge';
-import { Button } from './ui/button';
+import ClerkUserButton from './ClerkUserButton';
 
 export default async function Navbar() {
     const user = await getCurrentUser();
@@ -16,19 +15,7 @@ export default async function Navbar() {
             <div className="flex gap-2 sm:gap-4">
                 {isAuthed && <ProBadge variant={isPro ? 'pro' : 'cta'} />}
                 <ThemeModeToggle />
-                <SignedOut>
-                    <SignUpButton>
-                        <Button
-                            variant={'default'}
-                            className="cursor-pointer rounded-sm px-4 shadow-sm"
-                        >
-                            Sign Up
-                        </Button>
-                    </SignUpButton>
-                </SignedOut>
-                <SignedIn>
-                    <UserButton />
-                </SignedIn>
+                <ClerkUserButton />
             </div>
         </nav>
     );

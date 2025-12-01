@@ -26,7 +26,7 @@ export default async function Dashboard() {
         <div className="h-full w-full px-4">
             {/* Stats Section */}
             <Suspense fallback={<StatsCardsContainer loading />}>
-                <StatsSection userId={user.id} />
+                <StatsSection />
             </Suspense>
 
             <Separator className="my-4 sm:my-6" />
@@ -43,7 +43,7 @@ export default async function Dashboard() {
                         <FormCardSkeleton key={el} />
                     ))}
                 >
-                    <FormsGrid userId={user.id} />
+                    <FormsGrid />
                 </Suspense>
             </div>
         </div>
