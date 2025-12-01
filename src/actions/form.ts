@@ -4,6 +4,7 @@ import { Prisma } from '@/generated/prisma/client';
 import prisma from '@/lib/prisma';
 import { createFormSchema, createFormSchemaT } from '@/schemas';
 import { getCurrentUser } from './user';
+import { revalidatePath } from 'next/cache';
 
 class UserNotFoundErr extends Error {
     constructor() {
@@ -248,4 +249,32 @@ export async function getFormSubmissions(formId: string) {
             FormSubmission: true,
         },
     });
+}
+
+// delete form by formId
+export async function deleteFormById(formId: string) {
+    if (!formId) throw new Error('Form Id not available');
+
+    //auth check
+    const user = await getCurrentUser();
+    if (!user) throw new UserNotFoundErr();
+
+    // ensure form belongs to user
+    const dbUser = await prisma.user.findUnique({
+        where: {
+            id: user.id,
+        },
+    });
+
+    if (!dbUser) throw new Error('User not found');
+
+    // delete
+    await prisma.form.delete({
+        where: {
+            id: formId,
+            userId: user.id,
+        },
+    });
+
+    revalidatePath('/dashboard');
 }

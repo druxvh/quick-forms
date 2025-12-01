@@ -15,6 +15,7 @@ import { ArrowUpRight, Eye, SquarePen } from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { Form } from '@/generated/prisma/client';
+import { FormCardDropdownMenu } from './FormCardDropdownMenu';
 
 export function FormCardSkeleton() {
     return <Skeleton className="border-primary/20 h-52 w-full rounded-md border-2" />;
@@ -42,20 +43,24 @@ export function FormCard({ form }: { form: Form }) {
             <CardContent className="text-muted-foreground h-5 truncate text-sm">
                 {description || 'No description'}
             </CardContent>
-            <CardFooter>
-                {published ? (
-                    <Button asChild className="mt-2 w-full gap-2 text-sm">
-                        <Link href={`/forms/${id}`}>
-                            View submissions <ArrowUpRight />
-                        </Link>
+            <CardFooter className="flex gap-2">
+                <div className="w-full">
+                    <Button
+                        asChild
+                        className="w-full gap-2 truncate text-xs text-wrap sm:text-sm"
+                    >
+                        {published ? (
+                            <Link href={`/forms/${id}`}>
+                                View submissions <ArrowUpRight className="size-4" />
+                            </Link>
+                        ) : (
+                            <Link href={`/builder/${id}`}>
+                                Edit Form <SquarePen className="size-4" />
+                            </Link>
+                        )}
                     </Button>
-                ) : (
-                    <Button asChild className="mt-2 w-full gap-2 text-sm">
-                        <Link href={`/builder/${id}`}>
-                            Edit Form <SquarePen />
-                        </Link>
-                    </Button>
-                )}
+                </div>
+                <FormCardDropdownMenu formId={id} />
             </CardFooter>
         </Card>
     );
