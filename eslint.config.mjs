@@ -13,18 +13,24 @@ const compat = new FlatCompat({
 
 const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, ...compat.config({
   extends: ["prettier"]
-}), {
+}),
+// files to ignore
+{
   ignores: [
     "node_modules",
+    ".next",
     "prisma/**",
-    "migrations/**",
+    "prisma/migrations/**",
     ".next/**",
     "dist/**",
     "src/generated/**",
-    "src/components/ui",
+    "src/components/ui/**",
+    "**/*.config.*",
+    "**/*.d.ts",
     "**/*.wasm",
     "**/*.wasm.js",
   ],
-}];
+},
+];
 
 export default eslintConfig;

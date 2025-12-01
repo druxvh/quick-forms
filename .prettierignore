@@ -1,0 +1,30 @@
+# Dependencies & build output
+node_modules
+.next
+dist
+coverage
+
+# Prisma
+prisma/migrations
+prisma/generated
+
+# shadcn/ui (auto-generated, don’t touch)
+src/components/ui
+
+# Env & config files
+.env
+*.config.js
+*.config.mjs
+*.config.ts
+
+# Type generation
+globals.d.ts
+next-env.d.ts
+
+# Public assets (optional, but usually pointless to format)
+public
+
+# Lock files
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
