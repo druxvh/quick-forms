@@ -5,7 +5,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card'
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
-import { PRICING_PLANS } from '@/lib/shared/pricing';
+import { PRICING_PLANS } from '@/lib/pricing';
 
 export default function ProUserPricingConfirmationCard() {
     return (

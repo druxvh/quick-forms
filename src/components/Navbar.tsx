@@ -1,8 +1,8 @@
-import { getCurrentUser } from '@/actions/user';
 import Logo from './Logo';
 import ThemeModeToggle from './ThemeModeToggle';
 import { ProBadge } from './ProBadge';
 import ClerkUserButton from './ClerkUserButton';
+import { getCurrentUser } from '@/actions/auth';
 
 export default async function Navbar() {
     const user = await getCurrentUser();

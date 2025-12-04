@@ -21,7 +21,7 @@ import { onboardFormSchema, onboardFormSchemaT } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
 import { Form, FormControl, FormField, FormItem, FormLabel } from './ui/form';
-import { onboardUser } from '@/actions/user';
+import { onboardUserAction } from '@/actions/user';
 import { toast } from 'sonner';
 
 const ROLE_OPTIONS = [
@@ -64,12 +64,12 @@ const itemVariants = {
 };
 
 export default function OnboardingForm({
-    userId,
+    clerkId,
     fullName,
     email,
     imageUrl,
 }: {
-    userId: string;
+    clerkId: string;
     fullName: string;
     email: string;
     imageUrl: string;
@@ -105,7 +105,7 @@ export default function OnboardingForm({
     const handleSubmit = async (values: onboardFormSchemaT) => {
         setLoading(true);
         try {
-            await onboardUser(userId, values);
+            await onboardUserAction(clerkId, values);
             toast.success('Welcome!', {
                 description: 'You have successfully completed the onboarding.',
                 position: 'bottom-center',

@@ -35,7 +35,7 @@ export function ProBadge({ variant, className }: ProBadgeProps) {
                     )}
                 >
                     Get Pro
-                    <ArrowUpRight className="hidden size-4 transition-transform group-hover:translate-x-[1px] group-hover:-translate-y-[1px] sm:block" />
+                    <ArrowUpRight className="hidden size-4 transition-transform group-hover:translate-x-px group-hover:-translate-y-px sm:block" />
                 </span>
             )}
         </Link>

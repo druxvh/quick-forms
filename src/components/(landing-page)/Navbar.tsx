@@ -11,7 +11,7 @@ import Logo from '../Logo';
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
 
-    const { isSignedIn, isLoaded } = useUser();
+    const { isSignedIn } = useUser();
 
     // for conditionally adding border on scroll
     useEffect(() => {
@@ -71,7 +71,6 @@ export default function Navbar() {
                         >
                             Pricing
                         </a>
-                        {!isLoaded && <span>...</span>}
                         {!isSignedIn ? (
                             <motion.div
                                 whileHover={{ scale: 1.05 }}

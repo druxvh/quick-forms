@@ -16,8 +16,9 @@ import {
 } from './ui/alert-dialog';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { publishFormById } from '@/actions/form';
+// old import removed; use server action wrapper instead
 import { useDesignerElements } from '@/hooks/use-designer';
+import { publishFormByIdAction } from '@/actions/form';
 
 export default function PublishFormBtn({ id }: { id: string }) {
     const elements = useDesignerElements();
@@ -34,7 +35,7 @@ export default function PublishFormBtn({ id }: { id: string }) {
                 });
                 return;
             }
-            await publishFormById(id);
+            await publishFormByIdAction(id);
             toast.success('Published!', {
                 description: 'Your form is now available to the public.',
             });

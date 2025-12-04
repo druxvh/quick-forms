@@ -2,7 +2,7 @@
 
 import { Active, DragOverlay, DragStartEvent, useDndMonitor } from '@dnd-kit/core';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SidebarBtnElementDragOverlay } from './SidebarBtnElement';
 import { ElementsType, FormElements } from '@/types/form';
 import { useDesignerElements } from '@/hooks/use-designer';

@@ -1,4 +1,4 @@
-import { upsertUserFromClerk } from '@/actions/user';
+import { upsertUserFromClerkWebhookAction } from '@/actions/user';
 import { verifyWebhook } from '@clerk/nextjs/webhooks';
 import { NextRequest } from 'next/server';
 
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
         if (eventType === 'user.created' || eventType === 'user.updated') {
             const clerkUser = evt.data;
 
-            await upsertUserFromClerk(clerkUser);
+            await upsertUserFromClerkWebhookAction(clerkUser);
             return new Response('User upserted', { status: 200 });
         }
 

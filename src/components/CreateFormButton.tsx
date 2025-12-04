@@ -25,7 +25,7 @@ import { Textarea } from './ui/textarea';
 import { File, LoaderCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { createForm } from '@/actions/form';
+import { createFormAction } from '@/actions/form';
 import { createFormSchema, createFormSchemaT } from '@/schemas';
 
 export default function CreateFormButton() {
@@ -40,7 +40,7 @@ export default function CreateFormButton() {
 
     async function onSubmit(data: createFormSchemaT) {
         try {
-            const formId = await createForm(data);
+            const formId = await createFormAction(data);
             toast.success('Form created successfully!', {
                 position: 'bottom-center',
             });

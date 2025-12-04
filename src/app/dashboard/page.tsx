@@ -8,16 +8,14 @@ import { FormsGrid } from './components/FormsGrid';
 import DashboardHeader from './components/DashboardHeader';
 import { redirect } from 'next/navigation';
 import UpgradeFormLimitCard from '@/components/UpgradeFormLimitCard';
-import { getCurrentUser } from '@/actions/user';
-import { getForms } from '@/actions/form';
+import { getFormsAction } from '@/actions/form';
+import { loadUser } from '@/data/users';
 
 export default async function Dashboard() {
-    const user = await getCurrentUser();
-
-    if (!user) redirect('/sign-in');
+    const user = await loadUser();
     if (!user.hasOnboarded) redirect('/onboarding');
 
-    const forms = await getForms();
+    const forms = await getFormsAction();
     const formCount = forms.length;
 
     const canCreateMore = user.formLimit === -1 || formCount < user.formLimit;

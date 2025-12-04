@@ -8,7 +8,7 @@ import { Check, Mail } from 'lucide-react';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import PaymentButton from './PaymentButton';
-import { Plan, PRICING_PLANS } from '@/lib/shared/pricing';
+import { Plan, PRICING_PLANS } from '@/lib/pricing';
 
 export default function PricingGrid({ userId }: { userId: string }) {
     const [region, setRegion] = useState<'IN' | 'US' | 'global'>('global');

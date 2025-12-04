@@ -11,7 +11,7 @@ import {
 import { ReactNode } from 'react';
 import { Badge } from './ui/badge';
 import { Checkbox } from './ui/checkbox';
-import { getFormSubmissions } from '@/actions/form';
+import { getFormSubmissionsAction } from '@/actions/form';
 
 type Row = Record<string, string> & {
     id: string;
@@ -26,7 +26,7 @@ type Column = {
 };
 
 export default async function SubmissionsTable({ id }: { id: string }) {
-    const form = await getFormSubmissions(id);
+    const form = await getFormSubmissionsAction(id);
     if (!form) {
         throw new Error('Form not found!');
     }

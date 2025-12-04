@@ -1,7 +1,6 @@
-import { getFormById } from '@/actions/form';
+import { getFormByIdAction } from '@/actions/form';
 import FormBuilder from '@/components/FormBuilder';
-import prisma from '@/lib/prisma';
-import { auth } from '@clerk/nextjs/server';
+import { loadUser } from '@/data/users';
 import { redirect } from 'next/navigation';
 
 export default async function BuilderPage({
@@ -11,18 +10,11 @@ export default async function BuilderPage({
         id: string;
     };
 }) {
-    const { userId } = await auth();
-    if (!userId) redirect('/sign-in');
-
-    const user = await prisma.user.findUnique({
-        where: { clerkId: userId },
-        select: { hasOnboarded: true },
-    });
-
-    if (!user?.hasOnboarded) redirect('/onboarding');
+    const user = await loadUser();
+    if (!user.hasOnboarded) redirect('/onboarding');
 
     const { id } = await params;
-    const form = await getFormById(id);
+    const form = await getFormByIdAction(id);
 
     if (!form) throw new Error('Form not found');
 

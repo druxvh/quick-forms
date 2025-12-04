@@ -5,7 +5,7 @@ import { FormElementInstance, FormElements } from '@/types/form';
 import { Button } from './ui/button';
 import { toast } from 'sonner';
 import { LoaderCircle } from 'lucide-react';
-import { submitForm } from '@/actions/form';
+import { submitFormAction } from '@/actions/form';
 
 export default function FormSubmitComponent({
     formUrl,
@@ -67,7 +67,7 @@ export default function FormSubmitComponent({
             // const jsonContent = JSON.stringify(formData)
             // await submitForm(formUrl, jsonContent)
 
-            await submitForm(formUrl, formData);
+            await submitFormAction(formUrl, formData);
 
             setSubmitted(true);
         } catch (error) {

@@ -11,7 +11,7 @@ import { Button } from '../ui/button';
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import PaymentButton from '../PaymentButton';
-import { Plan, PRICING_PLANS } from '@/lib/shared/pricing';
+import { Plan, PRICING_PLANS } from '@/lib/pricing';
 
 export default function Pricing() {
     const [region, setRegion] = useState<'IN' | 'US' | 'global'>('global');

@@ -3,10 +3,9 @@ import FormLinkShare from '@/components/FormLinkShare';
 import { StatsCard } from '@/components/StatsCard';
 import { ChartNoAxesCombined, Eye, FileText, MousePointerClick } from 'lucide-react';
 import SubmissionsTable from '@/components/SubmissionsTable';
-import { getFormById } from '@/actions/form';
-import { auth } from '@clerk/nextjs/server';
+import { getFormByIdAction } from '@/actions/form';
 import { redirect } from 'next/navigation';
-import prisma from '@/lib/prisma';
+import { loadUser } from '@/data/users';
 
 export default async function FormPage({
     params,
@@ -15,18 +14,11 @@ export default async function FormPage({
         id: string;
     };
 }) {
-    const { userId } = await auth();
-    if (!userId) redirect('/sign-in');
-
-    const user = await prisma.user.findUnique({
-        where: { clerkId: userId },
-        select: { hasOnboarded: true },
-    });
-
-    if (!user?.hasOnboarded) redirect('/onboarding');
+    const user = await loadUser();
+    if (!user.hasOnboarded) redirect('/onboarding');
 
     const { id } = await params;
-    const form = await getFormById(id);
+    const form = await getFormByIdAction(id);
     if (!form) throw new Error('Form not found');
 
     const { name, shareURL, visits, submissions } = form;

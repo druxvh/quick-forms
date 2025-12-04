@@ -1,8 +1,8 @@
-import { getFormStats } from '@/actions/form';
+import { getFormStatsAction } from '@/actions/form';
 import { StatsCardsContainer } from '@/components/StatsCard';
 
 export async function StatsSection() {
-    const stats = await getFormStats();
+    const stats = await getFormStatsAction();
 
     return <StatsCardsContainer loading={false} data={stats} />;
 }

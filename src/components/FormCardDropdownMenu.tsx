@@ -10,7 +10,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { deleteFormById } from '@/actions/form';
+import { deleteFormByIdAction } from '@/actions/form';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { toast } from 'sonner';
@@ -22,7 +22,7 @@ export function FormCardDropdownMenu({ formId }: { formId: string }) {
     const handleDelete = () => {
         startTransition(async () => {
             try {
-                await deleteFormById(formId);
+                await deleteFormByIdAction(formId);
                 router.refresh();
                 toast.success('Form deleted');
             } catch (error) {

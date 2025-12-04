@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card'
 import { Skeleton } from './ui/skeleton';
 import { cn, formatStat } from '@/lib/utils';
 import { ChartNoAxesCombined, Eye, FileText, MousePointerClick } from 'lucide-react';
-import { getFormStats } from '@/actions/form';
+import { getFormStatsAction } from '@/actions/form';
 import React from 'react';
 
 interface StatsCardProps {
@@ -19,7 +19,7 @@ interface StatsCardProps {
 
 interface StatsCardsContainerProps {
     loading: boolean;
-    data?: Awaited<ReturnType<typeof getFormStats>>;
+    data?: Awaited<ReturnType<typeof getFormStatsAction>>;
 }
 
 export function StatsCard({
@@ -49,7 +49,7 @@ export function StatsCard({
                 ) : (
                     <Icon
                         className={cn(
-                            'flex-shrink-0 text-gray-700 dark:text-gray-300',
+                            'shrink-0 text-gray-700 dark:text-gray-300',
                             'size-4',
                         )}
                     />

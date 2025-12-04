@@ -6,7 +6,6 @@ import FormFields from '@/components/(landing-page)/FormFields';
 import Hero from '@/components/(landing-page)/Hero';
 import Navbar from '@/components/(landing-page)/Navbar';
 import Pricing from '@/components/(landing-page)/Pricing';
-import React from 'react';
 
 export default async function Home() {
     return (
