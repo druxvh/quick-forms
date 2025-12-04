@@ -24,7 +24,7 @@ export function FormCardSkeleton() {
 export function FormCard({ form }: { form: Form }) {
     const { id, name, published, createdAt, visits, description } = form;
     return (
-        <Card className="relative h-52 rounded-md">
+        <Card className="relative h-52 rounded-md shadow-sm transition hover:shadow-lg active:shadow-lg">
             <CardHeader>
                 <CardTitle className="flex items-center justify-between gap-2 truncate">
                     <span className="truncate font-semibold">{name}</span>

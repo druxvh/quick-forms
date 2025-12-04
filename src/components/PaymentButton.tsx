@@ -133,7 +133,7 @@ export default function PaymentButton({
             <Button
                 disabled={isLoading || isDisabled}
                 onClick={handlePayment}
-                className="w-full"
+                className="w-full cursor-pointer"
             >
                 {isLoading ? 'Processing...' : 'Upgrade Now'}
             </Button>

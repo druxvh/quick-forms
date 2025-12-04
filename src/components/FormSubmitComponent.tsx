@@ -41,10 +41,12 @@ export default function FormSubmitComponent({
     function submitValue(key: string, value: string) {
         setFormData((prev) => {
             const newData = { ...prev, [key]: value };
+
             // validate this specific field immediately
             const isValid = FormElements[
                 content.find((c) => c.id === key)!.type
             ].validate(content.find((c) => c.id === key)!, value);
+
             setFormErrors((prevErrors) => ({
                 ...prevErrors,
                 [key]: !isValid,
@@ -62,12 +64,9 @@ export default function FormSubmitComponent({
                 return;
             }
 
-            toast.success('Form submitted successfully!');
-
-            // const jsonContent = JSON.stringify(formData)
-            // await submitForm(formUrl, jsonContent)
-
             await submitFormAction(formUrl, formData);
+
+            toast.success('Form submitted successfully!');
 
             setSubmitted(true);
         } catch (error) {
@@ -91,8 +90,8 @@ export default function FormSubmitComponent({
     }
 
     return (
-        <div className="bg-background flex h-full w-full grow items-center justify-center p-4">
-            <div className="flex max-w-2xl grow flex-col gap-8 overflow-y-auto rounded-md border p-4">
+        <div className="flex h-full w-full grow items-center justify-center p-4">
+            <div className="flex max-w-2xl grow flex-col gap-8 overflow-y-auto p-4">
                 {content.map((element) => {
                     const FormComponent = FormElements[element.type].formComponent;
                     const isInvalid = formErrors[element.id];
@@ -101,7 +100,7 @@ export default function FormSubmitComponent({
                         <div
                             key={element.id}
                             className={
-                                isInvalid ? 'rounded border-2 border-red-500 p-2' : ''
+                                isInvalid ? 'rounded-md border-2 border-red-500 p-2' : ''
                             }
                         >
                             <FormComponent
@@ -119,7 +118,7 @@ export default function FormSubmitComponent({
                     );
                 })}
                 <Button
-                    className="mt-6"
+                    className="mt-6 cursor-pointer"
                     onClick={() => {
                         startTransition(handleSubmitForm);
                     }}

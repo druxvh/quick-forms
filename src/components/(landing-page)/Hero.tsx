@@ -6,15 +6,24 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
 import { Spotlight } from '../ui/spotlight-new';
+import { cn } from '@/lib/utils';
 
 export default function Hero() {
     const { isSignedIn } = useUser();
 
     return (
-        <section className="bg-background text-foreground relative flex min-h-screen items-center justify-center overflow-hidden">
+        <section className="text-foreground relative flex min-h-screen items-center justify-center overflow-hidden">
             {/* Subtle grid pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.04)_1px,transparent_1px)] mask-[radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] bg-size-[4rem_4rem]" />
-
+            <div
+                className={cn(
+                    'absolute inset-0',
+                    'bg-size-[50px_50px]',
+                    'bg-[linear-gradient(to_right,rgba(15,15,15,.07)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,15,15,.07)_1px,transparent_1px)]',
+                    'dark:bg-[linear-gradient(to_right,rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.04)_1px,transparent_1px)]',
+                )}
+            />
+            {/* Radial gradient for the container to give a faded look */}
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white mask-[radial-gradient(ellipse_at_center,transparent_10%,black)] dark:bg-black"></div>
             <Spotlight />
 
             <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">

@@ -323,7 +323,7 @@ function SortableDesignerElement({ element }: { element: FormElementInstance }) 
                     'text-foreground relative flex h-fit flex-col rounded-md transition-all select-none hover:cursor-pointer',
                     isSelected
                         ? 'ring-primary/50 ring-2'
-                        : 'hover:ring-border hover:ring-1',
+                        : 'hover:ring-border hover:ring-2',
                 )}
                 onClick={handleClick}
                 onTouchStart={handleTouchStart}
@@ -349,8 +349,8 @@ function SortableDesignerElement({ element }: { element: FormElementInstance }) 
                 {/* Rendered element */}
                 <div
                     className={cn(
-                        'bg-accent/40 pointer-events-none flex h-fit w-full items-center rounded-md p-4',
-                        isSelected && 'opacity-30',
+                        'bg-muted/50 pointer-events-none flex h-fit w-full items-center rounded-md p-4 shadow-sm transition hover:shadow-lg active:shadow-lg',
+                        isSelected && 'bg-gray-950/20 dark:bg-slate-100/10',
                     )}
                 >
                     <DesignerElement elementInstance={element} />

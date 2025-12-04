@@ -10,7 +10,6 @@ import { Check, Mail } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useUser } from '@clerk/nextjs';
 import Link from 'next/link';
-import PaymentButton from '../PaymentButton';
 import { Plan, PRICING_PLANS } from '@/lib/pricing';
 
 export default function Pricing() {
@@ -30,14 +29,6 @@ export default function Pricing() {
         if (region === 'US') return `$${plan.priceUSD ?? 0}`;
         return '—';
     };
-
-    const currencyForRegion = (r: typeof region) => {
-        if (r === 'IN') return 'INR';
-        if (r === 'US') return 'USD';
-        return 'INR';
-    };
-
-    const paymentDisable = !isSignedIn;
 
     return (
         <section id="pricing" className="bg-secondary/20 border-border/50 border-t py-24">
@@ -73,13 +64,6 @@ export default function Pricing() {
 
                         // price display and numeric major-unit amount for payment button
                         const displayPrice = priceForPlan(plan);
-                        const currency = currencyForRegion(region);
-
-                        // numeric amount (major unit) to send to PaymentButton (server converts to paise/cents)
-                        const numericAmount =
-                            region === 'IN'
-                                ? Number(plan.priceINR ?? 0)
-                                : Number(plan.priceUSD ?? plan.priceINR ?? 0);
 
                         return (
                             <Card
@@ -141,7 +125,10 @@ export default function Pricing() {
                                     {isSupported ? (
                                         // Free plan: start free -> signup or create first form
                                         plan.id === 'free' ? (
-                                            <Button asChild className="w-full">
+                                            <Button
+                                                asChild
+                                                className="w-full cursor-pointer"
+                                            >
                                                 <Link
                                                     href={
                                                         isSignedIn
@@ -153,18 +140,26 @@ export default function Pricing() {
                                                 </Link>
                                             </Button>
                                         ) : isPro ? (
-                                            // Paid plan: show payment button with per-plan amount & currency
-                                            <PaymentButton
-                                                planId={plan.id}
-                                                amount={numericAmount}
-                                                currency={currency as 'INR' | 'USD'}
-                                                isDisabled={paymentDisable}
-                                            />
+                                            // redirect to pricing page
+                                            <Button
+                                                asChild
+                                                className="w-full cursor-pointer"
+                                            >
+                                                <Link
+                                                    href={
+                                                        isSignedIn
+                                                            ? '/pricing'
+                                                            : '/sign-up'
+                                                    }
+                                                >
+                                                    {plan.cta}
+                                                </Link>
+                                            </Button>
                                         ) : (
                                             // Custom plan CTA
                                             <Button
                                                 variant="outline"
-                                                className="flex w-full items-center gap-2"
+                                                className="flex w-full cursor-pointer items-center gap-2"
                                                 onClick={() => {
                                                     // mailto or open contact modal
                                                     window.location.href =
@@ -178,7 +173,7 @@ export default function Pricing() {
                                     ) : (
                                         <Button
                                             variant="outline"
-                                            className="flex w-full items-center gap-2"
+                                            className="flex w-full cursor-pointer items-center gap-2"
                                             onClick={() => {
                                                 // mailto or open contact modal
                                                 window.location.href =

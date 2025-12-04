@@ -44,13 +44,9 @@ export default function Navbar() {
         >
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="flex h-14 items-center justify-between">
-                    <motion.div
-                        className="flex items-center gap-2"
-                        whileHover={{ scale: 1.02 }}
-                        transition={{ duration: 0.2 }}
-                    >
+                    <div className="flex items-center gap-2">
                         <Logo isAuthed={!!isSignedIn} />
-                    </motion.div>
+                    </div>
 
                     <div className="flex items-center gap-6">
                         <a
