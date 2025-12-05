@@ -1,9 +1,5 @@
 'use client';
 
-import PreviewDialogBtn from './PreviewDialogBtn';
-import SaveFormBtn from './SaveFormBtn';
-import PublishFormBtn from './PublishFormBtn';
-import Designer from './Designer';
 import {
     DndContext,
     KeyboardSensor,
@@ -12,10 +8,7 @@ import {
     useSensor,
     useSensors,
 } from '@dnd-kit/core';
-import DragOverlayWrapper from './DragOverlayWrapper';
 import { useEffect } from 'react';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
 import { toast } from 'sonner';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -24,6 +17,13 @@ import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { useDesignerActions } from '@/hooks/use-designer';
 import { FormElementInstance } from '@/types/form';
 import { Form } from '@/generated/prisma/client';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import PreviewDialogBtn from './PreviewDialogBtn';
+import SaveFormBtn from './SaveFormBtn';
+import PublishFormBtn from './PublishFormBtn';
+import Designer from './Designer';
+import DragOverlayWrapper from './DragOverlayWrapper';
 
 export default function FormBuilder({ form }: { form: Form }) {
     const { setElements, setSelectedElement } = useDesignerActions();

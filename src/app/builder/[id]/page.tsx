@@ -1,5 +1,5 @@
 import { getFormByIdAction } from '@/actions/form';
-import FormBuilder from '@/components/FormBuilder';
+import FormBuilder from '@/components/builder/FormBuilder';
 import { loadUser } from '@/data/users';
 import { redirect } from 'next/navigation';
 

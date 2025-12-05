@@ -1,11 +1,11 @@
-import CTA from '@/components/(landing-page)/CTA';
-import FAQ from '@/components/(landing-page)/FAQ';
-import Features from '@/components/(landing-page)/Features';
-import Footer from '@/components/(landing-page)/Footer';
-import FormFields from '@/components/(landing-page)/FormFields';
-import Hero from '@/components/(landing-page)/Hero';
-import Navbar from '@/components/(landing-page)/Navbar';
-import Pricing from '@/components/(landing-page)/Pricing';
+import CTA from '@/components/marketing/CTA';
+import FAQ from '@/components/marketing/FAQ';
+import Features from '@/components/marketing/Features';
+import Footer from '@/components/marketing/Footer';
+import FormFields from '@/components/marketing/FormFields';
+import Hero from '@/components/marketing/Hero';
+import Navbar from '@/components/marketing/Navbar';
+import Pricing from '@/components/marketing/Pricing';
 
 export default async function Home() {
     return (

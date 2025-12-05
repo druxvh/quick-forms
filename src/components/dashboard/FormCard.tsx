@@ -1,6 +1,6 @@
 'use client';
 
-import { Skeleton } from './ui/skeleton';
+import { Skeleton } from '../ui/skeleton';
 import {
     Card,
     CardContent,
@@ -8,11 +8,11 @@ import {
     CardFooter,
     CardHeader,
     CardTitle,
-} from './ui/card';
-import { Badge } from './ui/badge';
+} from '../ui/card';
+import { Badge } from '../ui/badge';
 import { formatDistance } from 'date-fns';
 import { ArrowUpRight, Eye, SquarePen } from 'lucide-react';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import Link from 'next/link';
 import { Form } from '@/generated/prisma/client';
 import { FormCardDropdownMenu } from './FormCardDropdownMenu';

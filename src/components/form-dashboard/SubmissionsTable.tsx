@@ -7,10 +7,10 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from './ui/table';
+} from '../ui/table';
 import { ReactNode } from 'react';
-import { Badge } from './ui/badge';
-import { Checkbox } from './ui/checkbox';
+import { Badge } from '../ui/badge';
+import { Checkbox } from '../ui/checkbox';
 import { getFormSubmissionsAction } from '@/actions/form';
 
 type Row = Record<string, string> & {

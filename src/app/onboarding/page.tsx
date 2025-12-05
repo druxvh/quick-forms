@@ -1,4 +1,4 @@
-import OnboardingForm from '@/components/OnboardingForm';
+import OnboardingForm from '@/components/onboarding/OnboardingForm';
 import { loadUser } from '@/data/users';
 import { redirect } from 'next/navigation';
 

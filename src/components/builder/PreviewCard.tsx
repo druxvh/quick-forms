@@ -1,11 +1,11 @@
 'use client';
 
 import { useDesignerElements } from '@/hooks/use-designer';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { FormElements } from '@/types/form';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
-import { Separator } from './ui/separator';
+import { Separator } from '../ui/separator';
 import { LaptopMinimal, Smartphone } from 'lucide-react';
 
 export default function PreviewCard() {

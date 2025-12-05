@@ -1,14 +1,14 @@
 'use client';
 
 import { useDesignerElements } from '@/hooks/use-designer';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import {
     Dialog,
     DialogContent,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from './ui/dialog';
+} from '../ui/dialog';
 import { FormElements } from '@/types/form';
 
 export default function PreviewDialogBtn() {

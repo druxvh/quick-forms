@@ -1,5 +1,5 @@
 import { getFormsAction } from '@/actions/form';
-import { FormCard } from '@/components/FormCard';
+import { FormCard } from '@/components/dashboard/FormCard';
 
 export async function FormsGrid() {
     const forms = await getFormsAction();

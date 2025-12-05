@@ -1,8 +1,8 @@
 'use client';
 
 import { useMemo } from 'react';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 import { Share2 } from 'lucide-react';
 import { toast } from 'sonner';
 

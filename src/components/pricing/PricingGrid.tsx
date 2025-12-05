@@ -2,10 +2,10 @@
 
 import { detectRegion } from '@/lib/region';
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { cn } from '@/lib/utils';
 import { Check, Mail } from 'lucide-react';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import Link from 'next/link';
 import PaymentButton from './PaymentButton';
 import { Plan, PRICING_PLANS } from '@/lib/pricing';

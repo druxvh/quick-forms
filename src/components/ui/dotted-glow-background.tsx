@@ -42,7 +42,7 @@ type DottedGlowBackgroundProps = {
  * - Each dot gets its own phase + speed producing organic shimmering.
  * - Handles high-DPI and resizes via ResizeObserver.
  */
-export function DottedGlowBackground({
+export default function DottedGlowBackground({
   className,
   gap = 12,
   radius = 2,
@@ -306,4 +306,4 @@ export function DottedGlowBackground({
   );
 }
 
-export default DottedGlowBackground;
+

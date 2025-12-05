@@ -1,7 +1,7 @@
 'use client';
 
 import { LoaderCircle } from 'lucide-react';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { useTransition } from 'react';
 import {
     AlertDialogHeader,
@@ -13,7 +13,7 @@ import {
     AlertDialogCancel,
     AlertDialogAction,
     AlertDialog,
-} from './ui/alert-dialog';
+} from '../ui/alert-dialog';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 // old import removed; use server action wrapper instead

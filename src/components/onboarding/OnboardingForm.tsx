@@ -20,7 +20,7 @@ import { useForm, useWatch } from 'react-hook-form';
 import { onboardFormSchema, onboardFormSchemaT } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Form, FormControl, FormField, FormItem, FormLabel } from './ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
 import { onboardUserAction } from '@/actions/user';
 import { toast } from 'sonner';
 

@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { UserButton, useUser } from '@clerk/nextjs';
 import Link from 'next/link';
-import Logo from '../Logo';
+import Logo from '../shared/Logo';
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);

@@ -1,15 +1,15 @@
 import { Suspense } from 'react';
 import { Separator } from '@/components/ui/separator';
-import CreateFormButton from '../../components/CreateFormButton';
-import { FormCardSkeleton } from '@/components/FormCard';
-import { StatsCardsContainer } from '@/components/StatsCard';
-import { StatsSection } from './components/StatsSection';
-import { FormsGrid } from './components/FormsGrid';
-import DashboardHeader from './components/DashboardHeader';
+import { FormCardSkeleton } from '@/components/dashboard/FormCard';
 import { redirect } from 'next/navigation';
-import UpgradeFormLimitCard from '@/components/UpgradeFormLimitCard';
 import { getFormsAction } from '@/actions/form';
 import { loadUser } from '@/data/users';
+import { DashboardStatsCardsContainer } from '@/components/shared/StatsCardsContainer';
+import { StatsSection } from '@/components/dashboard/StatsSection';
+import DashboardHeader from '@/components/dashboard/DashboardHeader';
+import CreateFormButton from '@/components/dashboard/CreateFormButton';
+import UpgradeFormLimitCard from '@/components/dashboard/UpgradeFormLimitCard';
+import { FormsGrid } from '@/components/dashboard/FormsGrid';
 
 export default async function Dashboard() {
     const user = await loadUser();
@@ -23,7 +23,7 @@ export default async function Dashboard() {
     return (
         <div className="h-full w-full px-4">
             {/* Stats Section */}
-            <Suspense fallback={<StatsCardsContainer loading />}>
+            <Suspense fallback={<DashboardStatsCardsContainer loading />}>
                 <StatsSection />
             </Suspense>
 

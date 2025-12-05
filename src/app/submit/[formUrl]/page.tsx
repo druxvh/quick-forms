@@ -1,6 +1,6 @@
 import { getFormContentByUrlAction } from '@/actions/form';
+import FormSubmitComponent from '@/components/submission/FormSubmitComponent';
 import { FormElementInstance } from '@/types/form';
-import FormSubmitComponent from '@/components/FormSubmitComponent';
 
 export default async function SubmitPage({
     params,

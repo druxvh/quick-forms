@@ -1,11 +1,11 @@
-import VisitBtn from '@/components/VisitBtn';
-import FormLinkShare from '@/components/FormLinkShare';
-import { StatsCard } from '@/components/StatsCard';
 import { ChartNoAxesCombined, Eye, FileText, MousePointerClick } from 'lucide-react';
-import SubmissionsTable from '@/components/SubmissionsTable';
 import { getFormByIdAction } from '@/actions/form';
 import { redirect } from 'next/navigation';
 import { loadUser } from '@/data/users';
+import VisitBtn from '@/components/form-dashboard/VisitBtn';
+import FormLinkShare from '@/components/form-dashboard/FormLinkShare';
+import { StatsCard } from '@/components/shared/StatsCard';
+import SubmissionsTable from '@/components/form-dashboard/SubmissionsTable';
 
 export default async function FormPage({
     params,

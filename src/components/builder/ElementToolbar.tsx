@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { ArrowDown, ArrowUp, SquarePen, Trash } from 'lucide-react';
 import { useDesignerMoveActions } from '@/hooks/use-designer';
 

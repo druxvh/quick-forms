@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Logo from '../Logo';
+import Logo from '../shared/Logo';
 import { useUser } from '@clerk/nextjs';
 
 export default function Footer() {

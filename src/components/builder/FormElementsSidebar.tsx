@@ -2,8 +2,8 @@
 
 import { SidebarBtnElement } from './SidebarBtnElement';
 import { FormElements } from '@/types/form';
-import { Button } from './ui/button';
-import { Separator } from './ui/separator';
+import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
 
 export default function FormElementsSidebar() {
     return (

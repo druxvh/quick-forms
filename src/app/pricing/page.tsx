@@ -1,5 +1,5 @@
-import PricingGrid from '@/components/PricingGrid';
-import ProUserPricingConfirmationCard from '@/components/ProUserPricingConfirmationCard';
+import PricingGrid from '@/components/pricing/PricingGrid';
+import ProUserPricingConfirmationCard from '@/components/pricing/ProUserPricingConfirmationCard';
 import { loadUser } from '@/data/users';
 
 export default async function PricingPage() {

@@ -1,9 +1,9 @@
 'use client';
 
 import { FormElements } from '@/types/form';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { X } from 'lucide-react';
-import { Separator } from './ui/separator';
+import { Separator } from '../ui/separator';
 import { useDesignerActions, useDesignerSelectedElement } from '@/hooks/use-designer';
 
 export default function FormPropertiesSidebar() {
