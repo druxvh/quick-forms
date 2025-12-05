@@ -12,7 +12,11 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, ...compat.config({
-  extends: ["prettier"]
+  extends: [
+    "prettier",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+  ]
 }),
 // files to ignore
 {
