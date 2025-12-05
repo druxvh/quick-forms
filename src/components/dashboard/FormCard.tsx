@@ -17,10 +17,6 @@ import Link from 'next/link';
 import { Form } from '@/generated/prisma/client';
 import { FormCardDropdownMenu } from './FormCardDropdownMenu';
 
-export function FormCardSkeleton() {
-    return <Skeleton className="border-primary/20 h-52 w-full rounded-md border-2" />;
-}
-
 export function FormCard({ form }: { form: Form }) {
     const { id, name, published, createdAt, visits, description } = form;
     return (
@@ -28,7 +24,11 @@ export function FormCard({ form }: { form: Form }) {
             <CardHeader>
                 <CardTitle className="flex items-center justify-between gap-2 truncate">
                     <span className="truncate font-semibold">{name}</span>
-                    {published ? <Badge>Published</Badge> : <Badge>Draft</Badge>}
+                    {published ? (
+                        <Badge className="bg-green-200 text-black">Published</Badge>
+                    ) : (
+                        <Badge className="bg-red-200 text-black">Draft</Badge>
+                    )}
                 </CardTitle>
                 <CardDescription className="text-muted-foreground flex items-center justify-between text-sm">
                     {formatDistance(createdAt, new Date(), { addSuffix: true })}
@@ -64,4 +64,8 @@ export function FormCard({ form }: { form: Form }) {
             </CardFooter>
         </Card>
     );
+}
+
+export function FormCardSkeleton() {
+    return <Skeleton className="border-primary/20 h-52 w-full rounded-md border-2" />;
 }

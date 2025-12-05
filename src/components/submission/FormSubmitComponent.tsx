@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { toast } from 'sonner';
 import { LoaderCircle } from 'lucide-react';
 import { submitFormAction } from '@/actions/form';
+import { cn } from '@/lib/utils';
 
 export default function FormSubmitComponent({
     formUrl,
@@ -18,6 +19,7 @@ export default function FormSubmitComponent({
     const [formErrors, setFormErrors] = useState<Record<string, boolean>>({});
     const [submitted, setSubmitted] = useState(false);
     const [isPending, startTransition] = useTransition();
+    const isEmptyFormData = Object.keys(formData).length === 0;
 
     const validateForm = useCallback(
         (data: Record<string, string> = formData) => {
@@ -56,6 +58,12 @@ export default function FormSubmitComponent({
     }
 
     const handleSubmitForm = async () => {
+        if (isEmptyFormData) {
+            toast.error(
+                "Can't submit an empty form. Please fill out at least one field.",
+            );
+            return;
+        }
         try {
             const isValid = validateForm();
 
@@ -118,11 +126,11 @@ export default function FormSubmitComponent({
                     );
                 })}
                 <Button
-                    className="mt-6 cursor-pointer"
+                    className={cn('mt-6', isEmptyFormData && 'cursor-not-allowed')}
                     onClick={() => {
                         startTransition(handleSubmitForm);
                     }}
-                    disabled={isPending}
+                    disabled={isPending || isEmptyFormData}
                 >
                     {isPending ? (
                         <LoaderCircle className="size-4 animate-spin" />
