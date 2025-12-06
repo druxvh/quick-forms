@@ -72,12 +72,12 @@ type FormElementsType = {
 };
 
 export const FormElements: FormElementsType = {
-    TextField: TextField,
     TitleField: TitleField,
     SubTitleField: SubTitleField,
     ParagraphField: ParagraphField,
     SeparatorField: SeparatorField,
     SpacerField: SpacerField,
+    TextField: TextField,
     NumberField: NumberField,
     TextAreaField: TextAreaField,
     DateField: DateField,
