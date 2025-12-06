@@ -159,7 +159,7 @@ export default function Designer() {
 
                     {isOver && elements.length === 0 && (
                         <div className="w-full p-4">
-                            <div className="bg-primary/10 border-primary/40 h-32 w-full rounded-md border-2 border-dashed" />
+                            <div className="bg-primary/10 border-primary/40 h-20 w-full rounded-md border-2 border-dashed md:h-[104px]" />
                         </div>
                     )}
 

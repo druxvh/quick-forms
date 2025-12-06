@@ -41,9 +41,9 @@ export function SidebarBtnElementDragOverlay({
     return (
         <Button
             variant={'outline'}
-            className="flex size-20 cursor-grab flex-col gap-2 md:size-32"
+            className="flex size-20 cursor-grab flex-col gap-2 md:size-26"
         >
-            <Icon className="text-primary size-5 cursor-grab md:size-8" />
+            <Icon className="text-primary size-5 cursor-grab md:size-7" />
             <p className="text-[10px] text-wrap md:text-xs">{label}</p>
         </Button>
     );

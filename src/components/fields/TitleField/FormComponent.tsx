@@ -9,5 +9,5 @@ export default function FormComponent({
 }) {
     const element = elementInstance as FieldInstance<'TitleField'>;
     const { title } = element.extraAttributes;
-    return <p className="text-xl">{title}</p>;
+    return <h1 className="text-2xl font-semibold">{title}</h1>;
 }

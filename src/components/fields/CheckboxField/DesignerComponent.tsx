@@ -13,10 +13,10 @@ export default function DesignerComponent({
     const { label, helperText, required } = element.extraAttributes;
     const id = `checkbox-${element.id}`;
     return (
-        <div className="flex items-start space-x-2">
+        <div className="flex items-start gap-4">
             <Checkbox id={id} />
-            <div className="grid gap-2 leading-none">
-                <Label htmlFor={id}>
+            <div className="flex w-full flex-col gap-2 leading-none">
+                <Label htmlFor={id} className="text-muted-foreground">
                     {label}
                     {required && '*'}
                 </Label>

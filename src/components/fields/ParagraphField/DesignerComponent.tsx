@@ -15,9 +15,9 @@ export default function DesignerComponent({
 
     const { text } = element.extraAttributes;
     return (
-        <div className="flex w-full flex-col gap-4">
+        <div className="flex w-full flex-col gap-2">
             <Label className="text-muted-foreground">Paragraph field</Label>
-            <p>{text}</p>
+            <p className="text-primary/90">{text}</p>
         </div>
     );
 }

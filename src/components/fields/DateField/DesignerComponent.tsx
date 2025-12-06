@@ -13,13 +13,14 @@ export default function DesignerComponent({
     const element = elementInstance as FieldInstance<'DateField'>;
     const { label, helperText, required } = element.extraAttributes;
     return (
-        <div className="flex w-full flex-col gap-4">
-            <Label>
+        <div className="flex w-full flex-col gap-2">
+            <Label className="text-muted-foreground">
                 {label}
                 {required && '*'}
             </Label>
             <Button
-                className="w-full justify-start text-left font-normal"
+                disabled
+                className="w-full items-center justify-start text-left"
                 variant={'outline'}
             >
                 <Calendar1 className="mr-2 size-4" />

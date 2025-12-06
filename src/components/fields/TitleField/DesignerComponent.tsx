@@ -12,9 +12,9 @@ export default function DesignerComponent({
 
     const { title } = element.extraAttributes;
     return (
-        <div className="flex w-full flex-col gap-4">
+        <div className="flex w-full flex-col gap-2">
             <Label className="text-muted-foreground">Title field</Label>
-            <p className="text-xl">{title}</p>
+            <p className="text-primary/90">{title}</p>
         </div>
     );
 }

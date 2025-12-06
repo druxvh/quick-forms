@@ -12,8 +12,8 @@ export default function DesignerComponent({
     const element = elementInstance as FieldInstance<'TextField'>;
     const { label, helperText, placeholder, required } = element.extraAttributes;
     return (
-        <div className="flex w-full flex-col gap-4">
-            <Label>
+        <div className="flex w-full flex-col gap-2">
+            <Label className="text-muted-foreground">
                 {label}
                 {required && '*'}
             </Label>

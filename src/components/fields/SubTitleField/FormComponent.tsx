@@ -9,5 +9,5 @@ export default function FormComponent({
 }) {
     const element = elementInstance as FieldInstance<'SubTitleField'>;
     const { subTitle } = element.extraAttributes;
-    return <p className="text-md">{subTitle}</p>;
+    return <h2 className="text-lg">{subTitle}</h2>;
 }

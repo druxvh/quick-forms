@@ -12,9 +12,9 @@ export default function DesignerComponent({
     const element = elementInstance as FieldInstance<'SpacerField'>;
     const { height } = element.extraAttributes;
     return (
-        <div className="flex w-full flex-col items-center gap-4">
+        <div className="text-muted-foreground flex w-full items-center gap-4">
             <Label>Spacer field: {height}px</Label>
-            <SeparatorHorizontal className="size-8" />
+            <SeparatorHorizontal className="size-6" />
         </div>
     );
 }

@@ -12,5 +12,5 @@ export default function FormComponent({
         { type: 'ParagraphField' }
     >;
     const { text } = element.extraAttributes;
-    return <p>{text}</p>;
+    return <p className="text-base">{text}</p>;
 }

@@ -37,7 +37,7 @@ export default function FormComponent({
                     <Button
                         variant={'outline'}
                         className={cn(
-                            'w-full justify-start text-left font-normal',
+                            'w-full justify-start text-left',
                             !date && 'text-muted-foreground',
                             isInvalid && 'border-red-500',
                         )}

@@ -2,7 +2,7 @@
 
 import { FieldInstance, FormElementInstance } from '@/types/form';
 import { Label } from '@/components/ui/label';
-import { Select, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
 
 export default function DesignerComponent({
     elementInstance,
@@ -12,16 +12,18 @@ export default function DesignerComponent({
     const element = elementInstance as FieldInstance<'SelectField'>;
     const { label, helperText, placeholder, required } = element.extraAttributes;
     return (
-        <div className="flex w-full flex-col gap-4">
-            <Label>
+        <div className="flex w-full flex-col gap-2">
+            <Label className="text-muted-foreground">
                 {label}
                 {required && '*'}
             </Label>
-            <Select>
-                <SelectTrigger className="w-full">
-                    <SelectValue placeholder={placeholder} />
-                </SelectTrigger>
-            </Select>
+            <Button
+                disabled
+                className="w-full items-center justify-start text-left"
+                variant={'outline'}
+            >
+                <span>{placeholder}</span>
+            </Button>
             {helperText && (
                 <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
             )}

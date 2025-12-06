@@ -11,9 +11,9 @@ export default function DesignerComponent({
     const element = elementInstance as FieldInstance<'SubTitleField'>;
     const { subTitle } = element.extraAttributes;
     return (
-        <div className="flex w-full flex-col gap-4">
+        <div className="flex w-full flex-col gap-2">
             <Label className="text-muted-foreground">SubTitle field</Label>
-            <p className="text-md">{subTitle}</p>
+            <p className="text-primary/90">{subTitle}</p>
         </div>
     );
 }

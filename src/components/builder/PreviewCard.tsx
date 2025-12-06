@@ -14,12 +14,12 @@ export default function PreviewCard() {
 
     return (
         <div className="relative hidden h-full w-fit flex-col rounded-md border lg:flex">
-            {/* Left: Live Preview (only visible on md+) */}
+            {/* Left: Live Preview (only visible on lg+) */}
             <div className="flex items-center justify-between p-4">
                 <h2 className="text-base font-semibold">Live Preview</h2>
 
                 {/* Device toggle */}
-                <div className="hidden gap-1 lg:flex">
+                <div className="hidden gap-1 xl:flex">
                     <Button
                         variant={'ghost'}
                         size={'icon'}

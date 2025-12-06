@@ -22,6 +22,19 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { selectFieldSchema, SelectFieldSchemaT } from '@/schemas';
 
+// Helper function to check for duplicate options
+function hasDuplicateOptions(options: string[]): boolean {
+    if (!options || options.length === 0) return false;
+
+    const cleanedOptions = options
+        .map((option) => option.trim().toLowerCase())
+        .filter((option) => option !== '');
+
+    const uniqueSet = new Set(cleanedOptions);
+
+    return uniqueSet.size !== cleanedOptions.length;
+}
+
 export default function PropertiesComponent({
     elementInstance,
 }: {
@@ -41,6 +54,21 @@ export default function PropertiesComponent({
     function applyChanges(values: SelectFieldSchemaT) {
         const { label, helperText, placeholder, required, options } = values;
 
+        if (hasDuplicateOptions(options)) {
+            toast.error('Error', {
+                description: 'Options must be unique.',
+                style: {
+                    '--normal-bg':
+                        'color-mix(in oklab, light-dark(var(--color-amber-600), var(--color-amber-400)) 10%, var(--background))',
+                    '--normal-text':
+                        'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                    '--normal-border':
+                        'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                } as React.CSSProperties,
+            });
+            return;
+        }
+
         updateElement(element.id, {
             ...element,
             extraAttributes: {
@@ -54,6 +82,14 @@ export default function PropertiesComponent({
 
         toast.success('Success', {
             description: 'Properties saved successfully!',
+            style: {
+                '--normal-bg':
+                    'color-mix(in oklab, light-dark(var(--color-green-600), var(--color-green-400)) 10%, var(--background))',
+                '--normal-text':
+                    'light-dark(var(--color-green-600), var(--color-green-400))',
+                '--normal-border':
+                    'light-dark(var(--color-green-600), var(--color-green-400))',
+            } as React.CSSProperties,
         });
 
         setSelectedElement(null);

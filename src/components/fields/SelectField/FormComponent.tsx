@@ -45,8 +45,8 @@ export default function FormComponent({
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent>
-                    {options.map((option) => (
-                        <SelectItem key={option} value={option}>
+                    {options.map((option, idx) => (
+                        <SelectItem key={option + idx} value={option}>
                             {option}
                         </SelectItem>
                     ))}
