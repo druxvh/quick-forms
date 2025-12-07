@@ -61,6 +61,16 @@ export default function FormSubmitComponent({
         if (isEmptyFormData) {
             toast.error(
                 "Can't submit an empty form. Please fill out at least one field.",
+                {
+                    style: {
+                        '--normal-bg':
+                            'color-mix(in oklab, light-dark(var(--color-amber-600), var(--color-amber-400)) 10%, var(--background))',
+                        '--normal-text':
+                            'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                        '--normal-border':
+                            'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                    } as React.CSSProperties,
+                },
             );
             return;
         }
@@ -68,17 +78,42 @@ export default function FormSubmitComponent({
             const isValid = validateForm();
 
             if (!isValid) {
-                toast.error('Please fill all required fields correctly.');
+                toast.error('Please fill all required fields correctly.', {
+                    style: {
+                        '--normal-bg':
+                            'color-mix(in oklab, light-dark(var(--color-amber-600), var(--color-amber-400)) 10%, var(--background))',
+                        '--normal-text':
+                            'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                        '--normal-border':
+                            'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                    } as React.CSSProperties,
+                });
                 return;
             }
 
             await submitFormAction(formUrl, formData);
 
-            toast.success('Form submitted successfully!');
+            toast.success('Form submitted successfully!', {
+                style: {
+                    '--normal-bg':
+                        'color-mix(in oklab, light-dark(var(--color-green-600), var(--color-green-400)) 10%, var(--background))',
+                    '--normal-text':
+                        'light-dark(var(--color-green-600), var(--color-green-400))',
+                    '--normal-border':
+                        'light-dark(var(--color-green-600), var(--color-green-400))',
+                } as React.CSSProperties,
+            });
 
             setSubmitted(true);
         } catch (error) {
-            toast.error('Something went wrong.');
+            toast.error('Something went wrong.', {
+                style: {
+                    '--normal-bg':
+                        'color-mix(in oklab, var(--destructive) 10%, var(--background))',
+                    '--normal-text': 'var(--destructive)',
+                    '--normal-border': 'var(--destructive)',
+                } as React.CSSProperties,
+            });
             console.error('submit form error: ', error);
         }
     };

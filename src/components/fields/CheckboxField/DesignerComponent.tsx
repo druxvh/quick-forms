@@ -3,6 +3,7 @@
 import { FieldInstance, FormElementInstance } from '@/types/form';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import RequiredAsterisk from '@/components/shared/RequiredAsterisk';
 
 export default function DesignerComponent({
     elementInstance,
@@ -18,7 +19,7 @@ export default function DesignerComponent({
             <div className="flex w-full flex-col gap-2 leading-none">
                 <Label htmlFor={id} className="text-muted-foreground">
                     {label}
-                    {required && '*'}
+                    {required && <RequiredAsterisk />}
                 </Label>
 
                 {helperText && (

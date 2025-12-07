@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { Calendar1 } from 'lucide-react';
 import { useState } from 'react';
+import RequiredAsterisk from '@/components/shared/RequiredAsterisk';
 
 export default function FormComponent({
     elementInstance,
@@ -29,7 +30,7 @@ export default function FormComponent({
         <div className="flex w-full flex-col gap-4">
             <Label className={cn(isInvalid && 'text-red-500')}>
                 {label}
-                {required && '*'}
+                {required && <RequiredAsterisk />}
             </Label>
 
             <Popover>

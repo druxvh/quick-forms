@@ -85,6 +85,14 @@ export default function FormBuilder({ form }: { form: Form }) {
                                     navigator.clipboard.writeText(shareUrl);
                                     toast.success('Copied', {
                                         description: 'Link copied to clipboard',
+                                        style: {
+                                            '--normal-bg':
+                                                'color-mix(in oklab, light-dark(var(--color-green-600), var(--color-green-400)) 10%, var(--background))',
+                                            '--normal-text':
+                                                'light-dark(var(--color-green-600), var(--color-green-400))',
+                                            '--normal-border':
+                                                'light-dark(var(--color-green-600), var(--color-green-400))',
+                                        } as React.CSSProperties,
                                     });
                                 }}
                             >

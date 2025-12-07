@@ -35,7 +35,16 @@ export default function PaymentButton({
 
     async function handlePayment() {
         if (!scriptLoaded) {
-            toast.error('Payment SDK still loading — try again in a moment.');
+            toast.error('Payment SDK still loading — try again in a moment.', {
+                style: {
+                    '--normal-bg':
+                        'color-mix(in oklab, light-dark(var(--color-amber-600), var(--color-amber-400)) 10%, var(--background))',
+                    '--normal-text':
+                        'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                    '--normal-border':
+                        'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                } as React.CSSProperties,
+            });
             return;
         }
 
@@ -87,15 +96,38 @@ export default function PaymentButton({
                         if (!verifyRes.ok) {
                             const body = await verifyRes.json().catch(() => null);
                             console.error('verify failed', body);
-                            toast.error('Payment verification failed. Contact support.');
+                            toast.error('Payment verification failed. Contact support.', {
+                                style: {
+                                    '--normal-bg':
+                                        'color-mix(in oklab, var(--destructive) 10%, var(--background))',
+                                    '--normal-text': 'var(--destructive)',
+                                    '--normal-border': 'var(--destructive)',
+                                } as React.CSSProperties,
+                            });
                             return;
                         }
 
-                        toast.success('Payment completed — Pro unlocked! 🎉');
+                        toast.success('Payment completed — Pro unlocked! 🎉', {
+                            style: {
+                                '--normal-bg':
+                                    'color-mix(in oklab, light-dark(var(--color-green-600), var(--color-green-400)) 10%, var(--background))',
+                                '--normal-text':
+                                    'light-dark(var(--color-green-600), var(--color-green-400))',
+                                '--normal-border':
+                                    'light-dark(var(--color-green-600), var(--color-green-400))',
+                            } as React.CSSProperties,
+                        });
                         // Optionally refresh user session / redirect / refetch user data
                     } catch (err) {
                         console.error('verify handler error', err);
-                        toast.error('Verification error. Contact support.');
+                        toast.error('Verification error. Contact support.', {
+                            style: {
+                                '--normal-bg':
+                                    'color-mix(in oklab, var(--destructive) 10%, var(--background))',
+                                '--normal-text': 'var(--destructive)',
+                                '--normal-border': 'var(--destructive)',
+                            } as React.CSSProperties,
+                        });
                     }
                 },
                 prefill: {
@@ -114,7 +146,14 @@ export default function PaymentButton({
             rzp.open();
         } catch (err: any) {
             console.error('Payment failed:', err);
-            toast.error(err?.message || 'Payment failed');
+            toast.error(err?.message || 'Payment failed', {
+                style: {
+                    '--normal-bg':
+                        'color-mix(in oklab, var(--destructive) 10%, var(--background))',
+                    '--normal-text': 'var(--destructive)',
+                    '--normal-border': 'var(--destructive)',
+                } as React.CSSProperties,
+            });
         } finally {
             setIsLoading(false);
         }

@@ -5,6 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import RequiredAsterisk from '@/components/shared/RequiredAsterisk';
 
 export default function FormComponent({
     elementInstance,
@@ -41,7 +42,7 @@ export default function FormComponent({
             <div className="grid gap-2 leading-none">
                 <Label htmlFor={id} className={cn(isInvalid && 'text-red-500')}>
                     {label}
-                    {required && '*'}
+                    {required && <RequiredAsterisk />}
                 </Label>
 
                 {helperText && (

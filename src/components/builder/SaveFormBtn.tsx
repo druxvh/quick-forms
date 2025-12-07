@@ -16,6 +16,14 @@ export default function SaveFormBtn({ id }: { id: string }) {
             if (!elements || elements.length === 0) {
                 toast.error('Cannot save empty form', {
                     description: 'Add at least one field before saving.',
+                    style: {
+                        '--normal-bg':
+                            'color-mix(in oklab, light-dark(var(--color-amber-600), var(--color-amber-400)) 10%, var(--background))',
+                        '--normal-text':
+                            'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                        '--normal-border':
+                            'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                    } as React.CSSProperties,
                 });
                 return;
             }
@@ -26,10 +34,24 @@ export default function SaveFormBtn({ id }: { id: string }) {
 
             toast.success('Saved', {
                 description: 'Your form has been saved successfully.',
+                style: {
+                    '--normal-bg':
+                        'color-mix(in oklab, light-dark(var(--color-green-600), var(--color-green-400)) 10%, var(--background))',
+                    '--normal-text':
+                        'light-dark(var(--color-green-600), var(--color-green-400))',
+                    '--normal-border':
+                        'light-dark(var(--color-green-600), var(--color-green-400))',
+                } as React.CSSProperties,
             });
         } catch (error) {
             toast.error('Error', {
                 description: 'Something went wrong while saving',
+                style: {
+                    '--normal-bg':
+                        'color-mix(in oklab, var(--destructive) 10%, var(--background))',
+                    '--normal-text': 'var(--destructive)',
+                    '--normal-border': 'var(--destructive)',
+                } as React.CSSProperties,
             });
             console.error(error);
         }

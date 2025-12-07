@@ -32,17 +32,39 @@ export default function PublishFormBtn({ id }: { id: string }) {
             if (isFormEmpty) {
                 toast.error('Cannot publish empty form', {
                     description: 'Add at least one field and save it before publishing.',
+                    style: {
+                        '--normal-bg':
+                            'color-mix(in oklab, light-dark(var(--color-amber-600), var(--color-amber-400)) 10%, var(--background))',
+                        '--normal-text':
+                            'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                        '--normal-border':
+                            'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                    } as React.CSSProperties,
                 });
                 return;
             }
             await publishFormByIdAction(id);
             toast.success('Published!', {
                 description: 'Your form is now available to the public.',
+                style: {
+                    '--normal-bg':
+                        'color-mix(in oklab, light-dark(var(--color-green-600), var(--color-green-400)) 10%, var(--background))',
+                    '--normal-text':
+                        'light-dark(var(--color-green-600), var(--color-green-400))',
+                    '--normal-border':
+                        'light-dark(var(--color-green-600), var(--color-green-400))',
+                } as React.CSSProperties,
             });
             refresh();
         } catch (error) {
             toast.error('Publish failed', {
                 description: 'Something went wrong while publishing.',
+                style: {
+                    '--normal-bg':
+                        'color-mix(in oklab, var(--destructive) 10%, var(--background))',
+                    '--normal-text': 'var(--destructive)',
+                    '--normal-border': 'var(--destructive)',
+                } as React.CSSProperties,
             });
             console.error('Publish form btn Err: ', error);
         }

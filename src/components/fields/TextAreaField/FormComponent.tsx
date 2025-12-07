@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import RequiredAsterisk from '@/components/shared/RequiredAsterisk';
 
 export default function FormComponent({
     elementInstance,
@@ -25,7 +26,7 @@ export default function FormComponent({
         <div className="flex w-full flex-col gap-4">
             <Label className={cn(isInvalid && 'text-red-500')}>
                 {label}
-                {required && '*'}
+                {required && <RequiredAsterisk />}
             </Label>
             <Textarea
                 className={cn(isInvalid && 'text-red-500')}

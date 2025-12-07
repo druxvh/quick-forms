@@ -4,6 +4,7 @@ import { FieldInstance, FormElementInstance } from '@/types/form';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Calendar1 } from 'lucide-react';
+import RequiredAsterisk from '@/components/shared/RequiredAsterisk';
 
 export default function DesignerComponent({
     elementInstance,
@@ -16,7 +17,7 @@ export default function DesignerComponent({
         <div className="flex w-full flex-col gap-2">
             <Label className="text-muted-foreground">
                 {label}
-                {required && '*'}
+                {required && <RequiredAsterisk />}
             </Label>
             <Button
                 disabled

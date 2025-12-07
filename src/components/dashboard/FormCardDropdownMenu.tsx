@@ -24,10 +24,26 @@ export function FormCardDropdownMenu({ formId }: { formId: string }) {
             try {
                 await deleteFormByIdAction(formId);
                 router.refresh();
-                toast.success('Form deleted');
+                toast.success('Form deleted', {
+                    style: {
+                        '--normal-bg':
+                            'color-mix(in oklab, light-dark(var(--color-green-600), var(--color-green-400)) 10%, var(--background))',
+                        '--normal-text':
+                            'light-dark(var(--color-green-600), var(--color-green-400))',
+                        '--normal-border':
+                            'light-dark(var(--color-green-600), var(--color-green-400))',
+                    } as React.CSSProperties,
+                });
             } catch (error) {
                 console.error(error);
-                toast.error('Failed to delete form');
+                toast.error('Failed to delete form', {
+                    style: {
+                        '--normal-bg':
+                            'color-mix(in oklab, var(--destructive) 10%, var(--background))',
+                        '--normal-text': 'var(--destructive)',
+                        '--normal-border': 'var(--destructive)',
+                    } as React.CSSProperties,
+                });
             }
         });
     };

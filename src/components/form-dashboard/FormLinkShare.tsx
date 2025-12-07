@@ -19,7 +19,16 @@ export default function FormLinkShare({ shareUrl }: { shareUrl: string }) {
                 className="w-30 sm:w-[200px]"
                 onClick={() => {
                     navigator.clipboard.writeText(shareLink);
-                    toast.success('Link copied to your clipboard.');
+                    toast.success('Link copied to your clipboard.', {
+                        style: {
+                            '--normal-bg':
+                                'color-mix(in oklab, light-dark(var(--color-green-600), var(--color-green-400)) 10%, var(--background))',
+                            '--normal-text':
+                                'light-dark(var(--color-green-600), var(--color-green-400))',
+                            '--normal-border':
+                                'light-dark(var(--color-green-600), var(--color-green-400))',
+                        } as React.CSSProperties,
+                    });
                 }}
             >
                 <Share2 className="mr-4 size-4" />
