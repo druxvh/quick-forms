@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import Confetti from 'react-confetti';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
-import { useDesignerActions } from '@/hooks/use-designer';
+import { useDesignerActions, useDesignerElements } from '@/hooks/use-designer';
 import { FormElementInstance } from '@/types/form';
 import { Form } from '@/generated/prisma/client';
 import { Input } from '@/components/ui/input';
@@ -24,9 +24,11 @@ import SaveFormBtn from './SaveFormBtn';
 import PublishFormBtn from './PublishFormBtn';
 import Designer from './Designer';
 import DragOverlayWrapper from './DragOverlayWrapper';
+import DeleteElementsButton from './DeleteElementsButton';
 
 export default function FormBuilder({ form }: { form: Form }) {
     const { setElements, setSelectedElement } = useDesignerActions();
+    const elements = useDesignerElements();
 
     // during drag, btn click does'nt work so to prevent it, add activation constraint to the elements
     // activates element drag after 10px
@@ -56,6 +58,13 @@ export default function FormBuilder({ form }: { form: Form }) {
         setElements(elements);
         setSelectedElement(null);
     }, [form, setElements, setSelectedElement]);
+
+    // handle delete elements
+    function handleDeleteElement() {
+        setElements([]);
+        setSelectedElement(null);
+        return;
+    }
 
     if (form.published) {
         const shareUrl = `${window.location.origin}/submit/${form.shareURL}`;
@@ -133,6 +142,10 @@ export default function FormBuilder({ form }: { form: Form }) {
                             <div className="lg:hidden">
                                 <PreviewDialogBtn />
                             </div>
+                            <DeleteElementsButton
+                                handleAction={handleDeleteElement}
+                                disabled={elements.length === 0}
+                            />
                             <SaveFormBtn id={form.id} />
                             <PublishFormBtn id={form.id} />
                         </>

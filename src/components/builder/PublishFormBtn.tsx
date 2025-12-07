@@ -104,8 +104,7 @@ export default function PublishFormBtn({ id }: { id: string }) {
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction
                         disabled={isPending || isFormEmpty}
-                        onClick={(e) => {
-                            e.preventDefault();
+                        onClick={() => {
                             startTransition(publishForm);
                         }}
                     >
