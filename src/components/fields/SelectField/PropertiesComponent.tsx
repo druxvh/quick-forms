@@ -101,7 +101,7 @@ export default function PropertiesComponent({
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(applyChanges)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(applyChanges)} className="space-y-6 pb-10">
                 <FormField
                     control={form.control}
                     name="label"
