@@ -22,7 +22,6 @@ export default function Hero() {
                     'dark:bg-[linear-gradient(to_right,rgba(255,255,255,.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,.04)_1px,transparent_1px)]',
                 )}
             />
-            {/* Radial gradient for the container to give a faded look */}
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white mask-[radial-gradient(ellipse_at_center,transparent_10%,black)] dark:bg-black"></div>
             <Spotlight />
 
@@ -34,8 +33,12 @@ export default function Hero() {
                         transition={{ duration: 0.5, delay: 0.1 }}
                         className="group relative mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2"
                     >
-                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-orange-400 via-blue-100 to-green-400 blur-sm" />
+                        <div className="absolute inset-0 rounded-full blur-sm">
+                            <div className="absolute inset-0 bg-linear-to-r from-orange-500 via-blue-500 to-green-500 dark:via-white" />
+                        </div>
+
                         <div className="bg-secondary absolute inset-px rounded-full" />
+
                         <div className="relative z-10 flex items-center gap-2">
                             <Sparkles className="text-foreground h-4 w-4" />
                             <span className="text-foreground text-sm font-medium">
@@ -48,13 +51,11 @@ export default function Hero() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        className="mb-6 text-6xl font-bold tracking-tight md:text-8xl"
+                        className="from-foreground to-foreground/70 mb-6 bg-gradient-to-br bg-clip-text text-5xl font-semibold text-balance text-transparent sm:text-6xl md:text-8xl"
                     >
                         Build Forms in
                         <br />
-                        <span className="from-foreground to-foreground/60 bg-gradient-to-r bg-clip-text text-transparent italic">
-                            Seconds
-                        </span>
+                        <span className="font-serif font-light italic">Seconds</span>
                     </motion.h1>
 
                     <motion.p
@@ -89,7 +90,7 @@ export default function Hero() {
                             </Button>
                         </motion.div>
                         <span className="text-primary/80">
-                            — no setup, just start building.
+                            — just sign up and start building.
                         </span>
                     </motion.div>
 
