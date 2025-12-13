@@ -8,8 +8,9 @@ export async function upsertUserFromClerk(
     name: string,
     imageUrl: string,
 ) {
+
     return await prisma.user.upsert({
-        where: { clerkId },
+        where: { email },
         create: {
             clerkId,
             email,
@@ -17,7 +18,8 @@ export async function upsertUserFromClerk(
             imageUrl,
         },
         update: {
-            email,
+            clerkId,
+            // email,
             name,
             imageUrl,
         },
