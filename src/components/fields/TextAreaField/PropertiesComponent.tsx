@@ -1,23 +1,21 @@
 'use client';
 
 import { FieldInstance, FormElementInstance } from '@/types/form';
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useDesignerActions } from '@/hooks/use-designer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { textAreaFieldSchema, TextAreaFieldSchemaT } from '@/schemas';
+import {
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+} from '@/components/ui/field';
 
 export default function PropertiesComponent({
     elementInstance,
@@ -62,118 +60,128 @@ export default function PropertiesComponent({
     }, [element, form]);
 
     return (
-        <Form {...form}>
-            <form
-                onBlur={form.handleSubmit(applyChanges)}
-                className="space-y-6"
-                onSubmit={(e) => e.preventDefault()}
-            >
-                <FormField
+        <form
+            onBlur={form.handleSubmit(applyChanges)}
+            className="space-y-6"
+            onSubmit={(e) => e.preventDefault()}
+        >
+            <FieldGroup>
+                {/* Label */}
+                <Controller
                     control={form.control}
                     name="label"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Label</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') e.currentTarget.blur();
-                                    }}
-                                />
-                            </FormControl>
-                            <FormDescription>
-                                The label of the field. <br /> It will be displayed above
-                                the field
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="taf-label">Label</FieldLabel>
+                            <Input
+                                {...field}
+                                id="taf-label"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') e.currentTarget.blur();
+                                }}
+                            />
+                            <FieldDescription>
+                                The label of the field. <br /> Displayed above the input.
+                            </FieldDescription>
+                            {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
                     )}
                 />
-                <FormField
+                {/* Placeholder */}
+                <Controller
                     control={form.control}
                     name="placeholder"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Placeholder</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') e.currentTarget.blur();
-                                    }}
-                                />
-                            </FormControl>
-                            <FormDescription>
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="taf-placeholder">Placeholder</FieldLabel>
+                            <Input
+                                {...field}
+                                id="taf-placeholder"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') e.currentTarget.blur();
+                                }}
+                            />
+                            <FieldDescription>
                                 The placeholder of the field.
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
+                            </FieldDescription>
+                            {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
                     )}
                 />
-                <FormField
+                {/* Helper Text */}
+                <Controller
                     control={form.control}
                     name="helperText"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Helper text</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') e.currentTarget.blur();
-                                    }}
-                                />
-                            </FormControl>
-                            <FormDescription>
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="taf-helper-text">Helper Text</FieldLabel>
+                            <Input
+                                {...field}
+                                id="taf-helper-text"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') e.currentTarget.blur();
+                                }}
+                            />
+                            <FieldDescription>
                                 The Helper text of the field. <br /> It will be displayed
-                                above the field
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
+                                below the field
+                            </FieldDescription>
+                            {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
                     )}
                 />
-                <FormField
+                {/* Rows */}
+                <Controller
                     control={form.control}
                     name="rows"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Rows {field.value ?? 3}</FormLabel>
-                            <FormControl>
-                                <Slider
-                                    defaultValue={[field.value ?? 3]}
-                                    min={1}
-                                    max={20}
-                                    step={1}
-                                    onValueChange={(value) => {
-                                        field.onChange(value[0]);
-                                    }}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel>Rows {field.value ?? 3}</FieldLabel>
+                            <Slider
+                                defaultValue={[field.value ?? 3]}
+                                min={1}
+                                max={20}
+                                step={1}
+                                onValueChange={(value) => {
+                                    field.onChange(value[0]);
+                                }}
+                            />
+                            {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
                     )}
                 />
-                <FormField
+                {/* Required */}
+                <Controller
                     control={form.control}
                     name="required"
                     render={({ field }) => (
-                        <FormItem className="flex items-center justify-between rounded-lg border p-4 shadow-sm">
+                        <Field
+                            orientation="horizontal"
+                            className="flex items-center justify-between rounded-lg border p-4 shadow-sm"
+                        >
                             <div className="space-y-1">
-                                <FormLabel>Required</FormLabel>
-                                <FormDescription>Marks field as required</FormDescription>
+                                <FieldLabel htmlFor="taf-required">Required</FieldLabel>
+                                <FieldDescription>
+                                    Marks this field as mandatory
+                                </FieldDescription>
                             </div>
-                            <FormControl>
-                                <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
+                            <Switch
+                                id="taf-required"
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                            />
+                        </Field>
                     )}
                 />
-            </form>
-        </Form>
+            </FieldGroup>
+        </form>
     );
 }

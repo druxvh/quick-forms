@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import {
     Dialog,
@@ -12,14 +12,6 @@ import {
     DialogTrigger,
 } from '../ui/dialog';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '../ui/form';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { File, LoaderCircle } from 'lucide-react';
@@ -27,6 +19,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { createFormAction } from '@/actions/form';
 import { createFormSchema, createFormSchemaT } from '@/schemas';
+import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
 
 export default function CreateFormButton() {
     const router = useRouter();
@@ -87,46 +80,51 @@ export default function CreateFormButton() {
                         Create a new form to start collecting responses
                     </DialogDescription>
                 </DialogHeader>
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                        <FormField
+                <form id="create-form" onSubmit={form.handleSubmit(onSubmit)}>
+                    <FieldGroup>
+                        {/* Name Field */}
+                        <Controller
                             control={form.control}
                             name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="What you wanna name this form?"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel>Name</FieldLabel>
+                                    <Input
+                                        {...field}
+                                        placeholder="What you wanna name this form?"
+                                        aria-invalid={fieldState.invalid}
+                                    />
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+                                </Field>
                             )}
                         />
-                        <FormField
+                        {/* Desc Field */}
+                        <Controller
                             control={form.control}
                             name="description"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Description</FormLabel>
-                                    <FormControl>
-                                        <Textarea
-                                            placeholder="Describe what the form is about?"
-                                            rows={5}
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                    <FieldLabel>Description</FieldLabel>
+                                    <Textarea
+                                        {...field}
+                                        placeholder="Describe what the form is about?"
+                                        rows={3}
+                                        aria-invalid={fieldState.invalid}
+                                    />
+                                    {fieldState.invalid && (
+                                        <FieldError errors={[fieldState.error]} />
+                                    )}
+                                </Field>
                             )}
                         />
-                    </form>
-                </Form>
+                    </FieldGroup>
+                </form>
                 <DialogFooter>
                     <Button
-                        onClick={form.handleSubmit(onSubmit)}
+                        type="submit"
+                        form="create-form"
                         disabled={form.formState.isSubmitting}
                         className="mt-4 w-full"
                     >

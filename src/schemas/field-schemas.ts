@@ -103,14 +103,15 @@ export const titleFieldSchema = z.object({
 export const subTitleFieldSchema = z.object({
     subTitle: z
         .string()
-        .min(1, 'Title is required')
-        .max(100, 'Title cannot exceed 100 characters'),
+        .min(1, 'Subtitle is required')
+        .max(100, 'Subtitle cannot exceed 100 characters'),
 });
 
 // Paragraph Field
 export const paragraphFieldSchema = z.object({
     text: z
         .string()
+        .trim()
         .min(1, 'Text content is required')
         .max(1000, 'Text cannot exceed 1000 characters'),
 });

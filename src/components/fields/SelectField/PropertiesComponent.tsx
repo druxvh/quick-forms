@@ -2,15 +2,6 @@
 
 import { FieldInstance, FormElementInstance } from '@/types/form';
 import { Button } from '@/components/ui/button';
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
@@ -18,9 +9,17 @@ import { useDesignerActions } from '@/hooks/use-designer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, X } from 'lucide-react';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { selectFieldSchema, SelectFieldSchemaT } from '@/schemas';
+import {
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+    FieldSeparator,
+} from '@/components/ui/field';
 
 // Helper function to check for duplicate options
 function hasDuplicateOptions(options: string[]): boolean {
@@ -100,81 +99,91 @@ export default function PropertiesComponent({
     }, [element, form]);
 
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(applyChanges)} className="space-y-6 pb-10">
-                <FormField
+        <form
+            id="sf-form"
+            onSubmit={form.handleSubmit(applyChanges)}
+            className="space-y-6 pb-10"
+        >
+            <FieldGroup>
+                {/* Label */}
+                <Controller
                     control={form.control}
                     name="label"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Label</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') e.currentTarget.blur();
-                                    }}
-                                />
-                            </FormControl>
-                            <FormDescription>
-                                The label of the field. <br /> It will be displayed above
-                                the field
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="sf-label">Label</FieldLabel>
+                            <Input
+                                {...field}
+                                id="sf-label"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') e.currentTarget.blur();
+                                }}
+                            />
+                            <FieldDescription>
+                                The label of the field. <br /> Displayed above the input.
+                            </FieldDescription>
+                            {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
                     )}
                 />
-                <FormField
+                {/* Placeholder */}
+                <Controller
                     control={form.control}
                     name="placeholder"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Placeholder</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') e.currentTarget.blur();
-                                    }}
-                                />
-                            </FormControl>
-                            <FormDescription>
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="sf-placeholder">Placeholder</FieldLabel>
+                            <Input
+                                {...field}
+                                id="sf-placeholder"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') e.currentTarget.blur();
+                                }}
+                            />
+                            <FieldDescription>
                                 The placeholder of the field.
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
+                            </FieldDescription>
+                            {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
                     )}
                 />
-                <FormField
+                {/* Helper Text */}
+                <Controller
                     control={form.control}
                     name="helperText"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Helper text</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') e.currentTarget.blur();
-                                    }}
-                                />
-                            </FormControl>
-                            <FormDescription>
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="sf-helper-text">Helper Text</FieldLabel>
+                            <Input
+                                {...field}
+                                id="sf-helper-text"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') e.currentTarget.blur();
+                                }}
+                            />
+                            <FieldDescription>
                                 The Helper text of the field. <br /> It will be displayed
-                                above the field
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
+                                below the field
+                            </FieldDescription>
+                            {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
                     )}
                 />
-                <Separator />
-                <FormField
+                <FieldSeparator />
+                {/* Options */}
+                <Controller
                     control={form.control}
                     name="options"
-                    render={({ field }) => (
-                        <FormItem>
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
                             <div className="flex items-center justify-between">
-                                <FormLabel>Options</FormLabel>
+                                <FieldLabel>Options</FieldLabel>
                                 <Button
                                     variant={'outline'}
                                     className="gap-2"
@@ -223,39 +232,45 @@ export default function PropertiesComponent({
                                     </div>
                                 ))}
                             </div>
-                            <FormDescription>
-                                The Helper text of the field. <br /> It will be displayed
-                                above the field
-                            </FormDescription>
-                            <FormMessage />
-                        </FormItem>
+                            <FieldDescription>
+                                The options users can select from.
+                            </FieldDescription>
+                            {fieldState.error && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
                     )}
                 />
-                <Separator />
-                <FormField
+                <FieldSeparator />
+
+                {/* Required */}
+                <Controller
                     control={form.control}
                     name="required"
                     render={({ field }) => (
-                        <FormItem className="flex items-center justify-between rounded-lg border p-4 shadow-sm">
+                        <Field
+                            orientation="horizontal"
+                            className="flex items-center justify-between rounded-lg border p-4 shadow-sm"
+                        >
                             <div className="space-y-1">
-                                <FormLabel>Required</FormLabel>
-                                <FormDescription>Marks field as required</FormDescription>
+                                <FieldLabel htmlFor="sf-required">Required</FieldLabel>
+                                <FieldDescription>
+                                    Marks this field as mandatory
+                                </FieldDescription>
                             </div>
-                            <FormControl>
-                                <Switch
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
+                            <Switch
+                                id="sf-required"
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                            />
+                        </Field>
                     )}
                 />
-                <Separator />
-                <Button className="w-full" type="submit">
-                    Save
-                </Button>
-            </form>
-        </Form>
+            </FieldGroup>
+            <Separator />
+            <Button className="w-full" type="submit" form="sf-form">
+                Save
+            </Button>
+        </form>
     );
 }

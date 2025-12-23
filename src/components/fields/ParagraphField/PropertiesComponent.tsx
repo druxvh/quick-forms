@@ -1,20 +1,13 @@
 'use client';
 
 import { FormElementInstance } from '@/types/form';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { useDesignerActions } from '@/hooks/use-designer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { paragraphFieldSchema, ParagraphFieldSchemaT } from '@/schemas';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 
 export default function PropertiesComponent({
     elementInstance,
@@ -54,32 +47,34 @@ export default function PropertiesComponent({
     }, [element, form]);
 
     return (
-        <Form {...form}>
-            <form
-                onBlur={form.handleSubmit(applyChanges)}
-                className="space-y-6"
-                onSubmit={(e) => e.preventDefault()}
-            >
-                <FormField
+        <form
+            onBlur={form.handleSubmit(applyChanges)}
+            className="space-y-6"
+            onSubmit={(e) => e.preventDefault()}
+        >
+            <FieldGroup>
+                <Controller
                     control={form.control}
                     name="text"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Text</FormLabel>
-                            <FormControl>
-                                <Textarea
-                                    rows={5}
-                                    {...field}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') e.currentTarget.blur();
-                                    }}
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="paragraph">Paragraph</FieldLabel>
+                            <Textarea
+                                {...field}
+                                id="paragraph"
+                                rows={3}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') e.currentTarget.blur();
+                                }}
+                            />
+
+                            {fieldState.invalid && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
                     )}
                 />
-            </form>
-        </Form>
+            </FieldGroup>
+        </form>
     );
 }

@@ -1,20 +1,13 @@
 'use client';
 
 import { FieldInstance, FormElementInstance } from '@/types/form';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
 import { Slider } from '@/components/ui/slider';
 import { useDesignerActions } from '@/hooks/use-designer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { spacerFieldSchema, SpacerFieldSchemaT } from '@/schemas';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 
 export default function PropertiesComponent({
     elementInstance,
@@ -50,35 +43,34 @@ export default function PropertiesComponent({
     }, [element, form]);
 
     return (
-        <Form {...form}>
-            <form
-                onBlur={form.handleSubmit(applyChanges)}
-                className="space-y-6"
-                onSubmit={(e) => e.preventDefault()}
-            >
-                <FormField
+        <form
+            onBlur={form.handleSubmit(applyChanges)}
+            onSubmit={(e) => e.preventDefault()}
+            className="space-y-6"
+        >
+            <FieldGroup>
+                <Controller
                     control={form.control}
                     name="height"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Height (px): {field.value ?? 20}</FormLabel>
-                            <FormControl className="p-2">
-                                <Slider
-                                    defaultValue={[field.value ?? 20]}
-                                    min={5}
-                                    max={200}
-                                    step={5}
-                                    onValueChange={(value) => {
-                                        field.onChange(value[0]);
-                                    }}
-                                />
-                            </FormControl>
-
-                            <FormMessage />
-                        </FormItem>
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel>Height (px): {field.value ?? 20}</FieldLabel>
+                            <Slider
+                                defaultValue={[field.value ?? 20]}
+                                min={5}
+                                max={200}
+                                step={5}
+                                onValueChange={(value) => {
+                                    field.onChange(value[0]);
+                                }}
+                            />
+                            {fieldState.invalid && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
                     )}
                 />
-            </form>
-        </Form>
+            </FieldGroup>
+        </form>
     );
 }

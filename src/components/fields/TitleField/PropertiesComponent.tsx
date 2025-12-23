@@ -1,20 +1,13 @@
 'use client';
 
 import { FieldInstance, FormElementInstance } from '@/types/form';
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useDesignerActions } from '@/hooks/use-designer';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { titleFieldSchema, TitleFieldSchemaT } from '@/schemas';
+import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field';
 
 export default function PropertiesComponent({
     elementInstance,
@@ -50,32 +43,34 @@ export default function PropertiesComponent({
     }, [element, form]);
 
     return (
-        <Form {...form}>
-            <form
-                onBlur={form.handleSubmit(applyChanges)}
-                className="space-y-6"
-                onSubmit={(e) => e.preventDefault()}
-            >
-                <FormField
+        <form
+            onBlur={form.handleSubmit(applyChanges)}
+            onSubmit={(e) => e.preventDefault()}
+            className="space-y-6"
+        >
+            <FieldGroup>
+                <Controller
                     control={form.control}
                     name="title"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Title</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') e.currentTarget.blur();
-                                    }}
-                                />
-                            </FormControl>
+                    render={({ field, fieldState }) => (
+                        <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="title">Title</FieldLabel>
+                            <Input
+                                {...field}
+                                id="title"
+                                aria-invalid={fieldState.invalid}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') e.currentTarget.blur();
+                                }}
+                            />
 
-                            <FormMessage />
-                        </FormItem>
+                            {fieldState.invalid && (
+                                <FieldError errors={[fieldState.error]} />
+                            )}
+                        </Field>
                     )}
                 />
-            </form>
-        </Form>
+            </FieldGroup>
+        </form>
     );
 }
