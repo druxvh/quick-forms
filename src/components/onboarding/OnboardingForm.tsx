@@ -16,13 +16,13 @@ import {
     MessageSquare,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useForm, useWatch } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { onboardFormSchema, onboardFormSchemaT } from '@/schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form';
 import { onboardUserAction } from '@/actions/user';
 import { toast } from 'sonner';
+import { Field, FieldError, FieldGroup, FieldLabel } from '../ui/field';
 
 const ROLE_OPTIONS = [
     { id: 'INDIVIDUAL', label: 'Individual / Creator', icon: User },
@@ -162,7 +162,7 @@ export default function OnboardingForm({
     };
 
     return (
-        <Card className="w-full max-w-2xl border-none bg-transparent p-0 shadow-none outline-none">
+        <Card className="w-full max-w-2xl border-none bg-transparent p-0 pb-8 shadow-none outline-none">
             <motion.div variants={containerVariants} initial="hidden" animate="visible">
                 <CardContent className="space-y-8 p-0 sm:p-8">
                     {/* Welcome */}
@@ -175,131 +175,129 @@ export default function OnboardingForm({
                         </p>
                     </motion.div>
 
-                    <Form {...form}>
-                        <form
-                            onSubmit={formHandleSubmit(handleSubmit)}
-                            className="space-y-4"
-                        >
+                    <form onSubmit={formHandleSubmit(handleSubmit)}>
+                        <FieldGroup>
                             {/* Name & Email */}
                             <motion.div variants={itemVariants} className="space-y-4">
-                                <FormField
-                                    control={control}
+                                <Controller
+                                    control={form.control}
                                     name="name"
-                                    render={({ field }) => (
-                                        <FormItem className="gap-2">
-                                            <FormLabel className="text-sm font-medium">
+                                    render={({ field, fieldState }) => (
+                                        <Field data-invalid={fieldState.invalid}>
+                                            <FieldLabel
+                                                htmlFor="onboard-name"
+                                                className="text-sm font-medium"
+                                            >
                                                 Your Name
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    // value={name}
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                        </FormItem>
-                                    )}
-                                ></FormField>
+                                            </FieldLabel>
 
-                                <FormField
-                                    control={control}
-                                    name="email"
-                                    render={({ field }) => (
-                                        <FormItem className="gap-2">
-                                            <FormLabel className="text-sm font-medium">
-                                                Email
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={!!email}
-                                                    className="opacity-70"
-                                                    // value={name}
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                        </FormItem>
+                                            <Input
+                                                {...field}
+                                                id="onboard-name"
+                                                aria-invalid={fieldState.invalid}
+                                            />
+
+                                            {fieldState.error && (
+                                                <FieldError errors={[fieldState.error]} />
+                                            )}
+                                        </Field>
                                     )}
-                                ></FormField>
+                                />
+                                <Controller
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field, fieldState }) => (
+                                        <Field data-invalid={fieldState.invalid}>
+                                            <FieldLabel
+                                                htmlFor="onboard-email"
+                                                className="text-sm font-medium"
+                                            >
+                                                Email
+                                            </FieldLabel>
+
+                                            <Input
+                                                {...field}
+                                                id="onboard-email"
+                                                aria-invalid={fieldState.invalid}
+                                                disabled={!!email}
+                                                className="opacity-70"
+                                            />
+
+                                            {fieldState.error && (
+                                                <FieldError errors={[fieldState.error]} />
+                                            )}
+                                        </Field>
+                                    )}
+                                />
                             </motion.div>
 
                             {/* Role selection */}
                             <motion.div variants={itemVariants}>
-                                <FormField
+                                <Controller
                                     control={control}
                                     name="role"
                                     render={() => (
-                                        <FormItem className="gap-2">
-                                            <FormLabel className="text-sm font-medium">
-                                                Your Role
-                                            </FormLabel>
-                                            <FormControl>
-                                                <div className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2">
-                                                    {ROLE_OPTIONS.map((role) => (
-                                                        <SelectionCard
-                                                            key={role.id}
-                                                            option={role}
-                                                            selected={
-                                                                selectedRole === role.id
-                                                            }
-                                                            onSelect={() =>
-                                                                handleSelect(
-                                                                    'role',
-                                                                    role.id,
-                                                                )
-                                                            }
-                                                        />
-                                                    ))}
-                                                </div>
-                                            </FormControl>
-                                        </FormItem>
+                                        <Field>
+                                            <FieldLabel>Your Role</FieldLabel>
+
+                                            <div className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2">
+                                                {ROLE_OPTIONS.map((role) => (
+                                                    <SelectionCard
+                                                        key={role.id}
+                                                        option={role}
+                                                        selected={
+                                                            selectedRole === role.id
+                                                        }
+                                                        onSelect={() =>
+                                                            handleSelect('role', role.id)
+                                                        }
+                                                    />
+                                                ))}
+                                            </div>
+                                        </Field>
                                     )}
-                                ></FormField>
+                                />
                             </motion.div>
 
                             {/* Usage selection */}
                             <motion.div variants={itemVariants}>
-                                <FormField
+                                <Controller
                                     control={control}
-                                    name="role"
+                                    name="goal"
                                     render={() => (
-                                        <FormItem className="gap-2">
-                                            <FormLabel className="text-sm font-medium">
-                                                Your Primary Goal
-                                            </FormLabel>
-                                            <FormControl>
-                                                <div className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2">
-                                                    {GOAL_OPTIONS.map((goal) => (
-                                                        <SelectionCard
-                                                            key={goal.id}
-                                                            option={goal}
-                                                            selected={
-                                                                selectedGoal === goal.id
-                                                            }
-                                                            onSelect={() =>
-                                                                handleSelect(
-                                                                    'goal',
-                                                                    goal.id,
-                                                                )
-                                                            }
-                                                        />
-                                                    ))}
-                                                </div>
-                                            </FormControl>
-                                        </FormItem>
+                                        <Field>
+                                            <FieldLabel>Your Primary Goal</FieldLabel>
+
+                                            <div className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2">
+                                                {GOAL_OPTIONS.map((goal) => (
+                                                    <SelectionCard
+                                                        key={goal.id}
+                                                        option={goal}
+                                                        selected={
+                                                            selectedGoal === goal.id
+                                                        }
+                                                        onSelect={() =>
+                                                            handleSelect('goal', goal.id)
+                                                        }
+                                                    />
+                                                ))}
+                                            </div>
+                                        </Field>
                                     )}
-                                ></FormField>
+                                />
                             </motion.div>
 
                             <motion.div variants={itemVariants}>
                                 <Button
                                     type="submit"
                                     disabled={!selectedGoal || !selectedRole || loading}
-                                    className="mt-5 w-full py-5 text-base"
+                                    className="mb-4 w-full text-base"
                                 >
                                     {loading ? 'Saving...' : 'Finish Onboarding'}
                                 </Button>
                             </motion.div>
-                        </form>
-                    </Form>
+                        </FieldGroup>
+                    </form>
                 </CardContent>
             </motion.div>
         </Card>

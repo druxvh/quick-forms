@@ -10,7 +10,7 @@ type ProBadgeProps = {
     className?: string;
 };
 
-export function ProBadge({ variant, className }: ProBadgeProps) {
+export function ProBadge({ variant }: ProBadgeProps) {
     return (
         <Link href="/pricing">
             {variant === 'pro' ? (
