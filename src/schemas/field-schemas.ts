@@ -5,7 +5,7 @@ export const textFieldSchema = z.object({
     label: z
         .string()
         .min(2, 'Label must be at least 2 characters')
-        .max(50, 'Label cannot exceed 50 characters'),
+        .max(100, 'Label cannot exceed 100 characters'),
     helperText: z
         .string()
         .max(200, 'Helper text cannot exceed 200 characters')
@@ -19,7 +19,7 @@ export const numberFieldSchema = z.object({
     label: z
         .string()
         .min(2, 'Label must be at least 2 characters')
-        .max(50, 'Label cannot exceed 50 characters'),
+        .max(100, 'Label cannot exceed 100 characters'),
     helperText: z
         .string()
         .max(200, 'Helper text cannot exceed 200 characters')
@@ -33,7 +33,7 @@ export const textAreaFieldSchema = z.object({
     label: z
         .string()
         .min(2, 'Label must be at least 2 characters')
-        .max(50, 'Label cannot exceed 50 characters'),
+        .max(100, 'Label cannot exceed 100 characters'),
     helperText: z
         .string()
         .max(200, 'Helper text cannot exceed 200 characters')
@@ -52,7 +52,7 @@ export const dateFieldSchema = z.object({
     label: z
         .string()
         .min(2, 'Label must be at least 2 characters')
-        .max(50, 'Label cannot exceed 50 characters'),
+        .max(100, 'Label cannot exceed 100 characters'),
     helperText: z
         .string()
         .max(200, 'Helper text cannot exceed 200 characters')
@@ -65,7 +65,7 @@ export const selectFieldSchema = z.object({
     label: z
         .string()
         .min(2, 'Label must be at least 2 characters')
-        .max(50, 'Label cannot exceed 50 characters'),
+        .max(100, 'Label cannot exceed 100 characters'),
     helperText: z
         .string()
         .max(200, 'Helper text cannot exceed 200 characters')
@@ -83,7 +83,7 @@ export const checkboxFieldSchema = z.object({
     label: z
         .string()
         .min(2, 'Label must be at least 2 characters')
-        .max(50, 'Label cannot exceed 50 characters'),
+        .max(100, 'Label cannot exceed 100 characters'),
     helperText: z
         .string()
         .max(200, 'Helper text cannot exceed 200 characters')

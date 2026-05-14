@@ -8,15 +8,15 @@ import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
     title: {
-        default: 'QForms | Drag & Drop Form Builder',
+        default: 'QForms | Modern AI Form Builder',
         template: '%s | QForms',
     },
     description:
-        'Build beautiful, powerful forms in seconds. QForms is a fully drag-and-drop form builder with support for 10+ field types, designed for easy form building, and seamless data collection.',
+        'Build AI powered beautiful, powerful forms in seconds. QForms is a simple form builder with support for 10+ field types, designed for easy form building, and seamless data collection.',
 
     keywords: [
         'form builder',
-        'drag and drop forms',
+        'ai form builder',
         'online form creator',
         'data collection tool',
         'Next.js form app',
@@ -29,9 +29,8 @@ export const metadata: Metadata = {
     },
 
     openGraph: {
-        title: 'QForms: The Intuitive Drag & Drop Form Builder',
-        description:
-            'Create advanced, 10+ field forms with zero code. Simply drag, drop, and deploy.',
+        title: 'QForms: The Intuitive AI Form Builder',
+        description: 'Create advanced, 10+ field forms with zero code.',
         url: 'https://www.tryqforms.vercel.app',
         siteName: 'QForms',
         images: [
@@ -39,7 +38,7 @@ export const metadata: Metadata = {
                 url: '/og-image.png',
                 width: 1200,
                 height: 630,
-                alt: 'QForms Drag and Drop Form Builder Interface',
+                alt: 'QForms AI Form Builder Interface',
             },
         ],
         locale: 'en_US',
@@ -48,9 +47,9 @@ export const metadata: Metadata = {
 
     twitter: {
         card: 'summary_large_image',
-        title: 'QForms | Fast, Powerful D&D Form Builder',
+        title: 'QForms | Fast, Powerful AI Form Builder',
         description:
-            '10+ fields, no code, just drag and drop. Start building better forms today.',
+            '10+ fields, no code, for creators & startups. Start building better forms today.',
         creator: '@druxvh',
         images: ['/og-image.png'],
     },
@@ -69,7 +68,6 @@ export default function RootLayout({
                     <ThemeProvider
                         attribute="class"
                         defaultTheme="light"
-                        enableSystem
                         disableTransitionOnChange
                     >
                         {children}
