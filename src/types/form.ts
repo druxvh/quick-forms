@@ -29,6 +29,8 @@ export type FieldAttributesMap = {
     [K in ElementsType]: z.infer<(typeof fieldSchemas)[K]>;
 };
 
+export type fieldAttr<T extends ElementsType> = z.infer<(typeof fieldSchemas)[T]>;
+
 /**
  * Discriminated union of element instances
  */
@@ -41,6 +43,12 @@ export type FormElementInstanceMap = {
 };
 
 export type FormElementInstance = FormElementInstanceMap[ElementsType];
+
+export type FormElementInstanceV2<T extends ElementsType = ElementsType> = {
+    id: string;
+    type: T;
+    extraAttributes: fieldAttr<T>;
+};
 
 /** Narrowed instance type for a specific field */
 export type FieldInstance<T extends ElementsType> = Extract<

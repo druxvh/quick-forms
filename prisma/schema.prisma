@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -11,6 +5,102 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id            String         @id @default(uuid())
+  clerkId       String?        @unique
+  email         String?        @unique
+  name          String?
+  plan          Plan           @default(FREE)
+  planStartedAt DateTime?
+  planEndsAt    DateTime?
+  imageUrl      String?
+  role          Role           @default(INDIVIDUAL)
+  goal          Goal?
+  formLimit     Int?
+  hasOnboarded  Boolean        @default(false)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  forms         Form[]
+  payments      Payment[]
+  subscriptions Subscription[]
+
+  @@index([plan])
+  @@map("users")
+}
+
+model Form {
+  id             String           @id @default(uuid())
+  userId         String
+  name           String
+  description    String           @default("")
+  content        Json             @default("[]")
+  style          Json             @default("{}")
+  published      Boolean          @default(false)
+  visits         Int              @default(0)
+  submissions    Int              @default(0)
+  shareURL       String           @unique @default(nanoid())
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  FormSubmission FormSubmission[]
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@index([published])
+  @@index([createdAt])
+  @@map("forms")
+}
+
+model FormSubmission {
+  id        String   @id @default(uuid())
+  formId    String
+  content   Json
+  createdAt DateTime @default(now())
+  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
+
+  @@index([formId])
+  @@map("form_submissions")
+}
+
+model Payment {
+  id                String        @id @default(uuid())
+  userId            String
+  plan              Plan
+  amount            Int
+  currency          String
+  razorpayOrderId   String?       @unique
+  razorpayPaymentId String?       @unique
+  razorpaySignature String?
+  status            PaymentStatus @default(PENDING)
+  meta              Json?
+  verifiedAt        DateTime?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@map("payments")
+}
+
+model Subscription {
+  id          String             @id @default(uuid())
+  userId      String
+  plan        Plan
+  status      SubscriptionStatus @default(ACTIVE)
+  startsAt    DateTime           @default(now())
+  endsAt      DateTime?
+  active      Boolean            @default(true)
+  billingMeta Json?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([plan])
+  @@map("subscriptions")
 }
 
 enum Plan {
@@ -46,99 +136,4 @@ enum Goal {
   COLLECT_FEEDBACK
   BUILD_WEBSITES
   OTHER
-}
-
-model User {
-  id            String         @id @default(uuid())
-  clerkId       String?        @unique
-  email         String?        @unique
-  name          String?
-  plan          Plan           @default(FREE)
-  planStartedAt DateTime?
-  planEndsAt    DateTime?
-  imageUrl      String?
-  role          Role           @default(INDIVIDUAL)
-  goal          Goal?
-  formLimit     Int?
-  hasOnboarded  Boolean        @default(false)
-  forms         Form[]
-  payments      Payment[]
-  subscriptions Subscription[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-
-  @@index([plan])
-  @@map("users")
-}
-
-model Form {
-  id             String           @id @default(uuid())
-  userId         String
-  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name           String
-  description    String           @default("")
-  content        Json             @default("[]")
-  published      Boolean          @default(false)
-  visits         Int              @default(0)
-  submissions    Int              @default(0)
-  shareURL       String           @unique @default(nanoid())
-  FormSubmission FormSubmission[]
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-
-  @@unique([userId, name])
-  @@index([userId])
-  @@index([published])
-  @@index([createdAt])
-  @@map("forms")
-}
-
-model FormSubmission {
-  id        String   @id @default(uuid())
-  formId    String
-  form      Form     @relation(fields: [formId], references: [id], onDelete: Cascade)
-  content   Json
-  createdAt DateTime @default(now())
-
-  @@index([formId])
-  @@map("form_submissions")
-}
-
-model Payment {
-  id                String        @id @default(uuid())
-  userId            String
-  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plan              Plan
-  amount            Int
-  currency          String
-  razorpayOrderId   String?       @unique
-  razorpayPaymentId String?       @unique
-  razorpaySignature String?
-  status            PaymentStatus @default(PENDING)
-  meta              Json?
-  verifiedAt        DateTime?
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
-
-  @@index([userId])
-  @@index([status])
-  @@map("payments")
-}
-
-model Subscription {
-  id          String             @id @default(uuid())
-  userId      String
-  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
-  plan        Plan
-  status      SubscriptionStatus @default(ACTIVE)
-  startsAt    DateTime           @default(now())
-  endsAt      DateTime?
-  active      Boolean            @default(true)
-  billingMeta Json?
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-
-  @@index([userId])
-  @@index([plan])
-  @@map("subscriptions")
 }

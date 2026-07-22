@@ -22,7 +22,8 @@ export default function AISidebar() {
         setLoading(true);
 
         try {
-            const res = await fetch('/api/ai/generate', {
+            // const res = await fetch('/api/ai/generate', {
+            const res = await fetch('/api/ai/gemini', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,6 +42,7 @@ export default function AISidebar() {
             });
 
             const data = await res.json();
+            console.log(data);
 
             if (!res.ok) {
                 toast.error('Error', {
@@ -54,10 +56,43 @@ export default function AISidebar() {
                             'light-dark(var(--color-amber-600), var(--color-amber-400))',
                     } as React.CSSProperties,
                 });
+                return;
             }
 
+            const newFields = data.fields.data as FormElementInstance[];
+            console.log(newFields);
+
+            if (!Array.isArray(newFields)) {
+                toast.error('Error', {
+                    description: 'AI returned invalid format',
+                    style: {
+                        '--normal-bg':
+                            'color-mix(in oklab, light-dark(var(--color-amber-600), var(--color-amber-400)) 10%, var(--background))',
+                        '--normal-text':
+                            'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                        '--normal-border':
+                            'light-dark(var(--color-amber-600), var(--color-amber-400))',
+                    } as React.CSSProperties,
+                });
+                return;
+            }
+
+            // // Validate each field has required properties
+            // const validFields = newFields.every(
+            //     (field) => field && typeof field === 'object' && field.id && field.type,
+            // );
+
+            // if (!validFields) {
+            //     console.error('Invalid field structure:', newFields);
+            //     toast.error('Error', {
+            //         description: 'AI generated invalid fields. Please try again.',
+            //     });
+            //     return;
+            // }
+
+            setElements(newFields as FormElementInstance[]);
+            console.log(elements);
             setPrompt('');
-            setElements(data.fields as FormElementInstance[]);
 
             toast.success('Success!', {
                 description: 'AI Form Generated Successfully',
@@ -85,7 +120,6 @@ export default function AISidebar() {
 
             console.error('AI Builder Error:', error);
         } finally {
-            setPrompt('');
             setLoading(false);
         }
     };
